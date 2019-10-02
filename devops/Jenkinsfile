@@ -1,0 +1,70 @@
+pipeline {
+    agent { node { label 'linux && jdk11' } }
+
+    environment {
+        DEPLOY_PASS = credentials('deploy_pass')
+        DEPLOY_USER = credentials('deploy_user')
+        AZURE_SUBSCRIPTION_ID = credentials('azureSubscriptionId')
+        AZURE_TENANT_ID = credentials('azureTenantId')
+        AZURE_APP_ID = credentials('azureAppId')
+        AZURE_APP_PASS = credentials('azureAppPass')
+        SONAR_TOKEN = credentials('sonar_token')
+        SONAR_URL = credentials('sonar_url')
+        NEXUS_BASE_URL = credentials('nexus_base_url')
+        NEXUS_USER = credentials('nexus_user')
+        NEXUS_PASS = credentials('nexus_pass')
+        DOCKER_REPOSITORY = credentials('DOCKER_REPOSITORY ')
+        DOCKER_USER_LOGIN = credentials('DOCKER_USER_LOGIN ')
+        DOCKER_USER_PASS = credentials('DOCKER_USER_PASS ')
+        KUBECONFIG_DEV = credentials('kubeconfig_dev')
+        KUBECONFIG_HML = credentials('kubeconfig_hml')
+        KUBECONFIG_PRD01 = credentials('kubeconfig_prd01')
+        KUBECONFIG_PRD02 = credentials('kubeconfig_prd02')
+    }
+
+    stages {
+
+        stage('DevOps-Tools') {
+            steps {
+                sh 'rm -rf check.status'
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'devops-tools']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@bitbucket.org:dasa_desenv_middleware/devops-tools.git']]])
+            }
+        }
+
+
+        stage('Tagging') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/tagging.sh'
+            }
+        }
+
+
+        stage('Build App') {
+            steps {
+                sh 'mvn package'
+                sh 'devops-tools/pipeline-shared-librares/build-package.sh'
+            }
+        }
+
+
+
+        stage('Upload Artifact') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/nexus-upload.sh'
+            }
+        }
+
+
+
+        stage('Deploy Dev') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
+            }
+        }
+
+
+
+    }
+}
