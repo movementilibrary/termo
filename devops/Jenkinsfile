@@ -1,5 +1,5 @@
 pipeline {
-    agent { node { label 'linux && openjdk:12-jdk' } }
+    agent { node { label 'linux && jdk11' } }
 
     environment {
         DEPLOY_PASS = credentials('deploy_pass')
