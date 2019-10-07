@@ -10,7 +10,7 @@
     </parent>
     <groupId>br.com.dasa</groupId>
     <artifactId>api-termo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>VERSION-REVISION</version>
     <name>api-termo</name>
     <description>Serviço de Termo de consentimento de dados</description>
 
