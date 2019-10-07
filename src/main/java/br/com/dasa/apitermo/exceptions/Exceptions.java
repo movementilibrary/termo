@@ -1,6 +1,6 @@
 package br.com.dasa.apitermo.exceptions;
 
-public class Exceptions extends ApiExceptions {
+public abstract class Exceptions extends ApiExceptions {
 
 
 

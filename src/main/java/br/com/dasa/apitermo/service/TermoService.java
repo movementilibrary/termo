@@ -1,6 +1,7 @@
 package br.com.dasa.apitermo.service;
 
 import br.com.dasa.apitermo.exceptions.ApiExceptions;
+import br.com.dasa.apitermo.model.Termo;
 import br.com.dasa.apitermo.repository.TermoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,10 @@ public class TermoService {
     private TermoRepository termoRepository;
 
 
-    public void salvarTermo(String descricao, String versao){
+    public void salvarTermo(Termo termo){
             try {
 
-//                this.termoRepository.saveByTermo(descricao, versao);
+                this.termoRepository.save(termo);
 
 
             }catch (ApiExceptions e){

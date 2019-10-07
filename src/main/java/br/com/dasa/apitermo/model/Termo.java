@@ -3,7 +3,6 @@ package br.com.dasa.apitermo.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "TERMO")
@@ -16,17 +15,38 @@ public class Termo {
     private String descricao;
     private String versao;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataModificacao;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private String dataModificacao;
 
-
-
-
-    public void setDataModificacao(Date dataModificacao) {
-        this.dataModificacao = dataModificacao;
+    public Long getId() {
+        return id;
     }
 
-    public Date getDataModificacao() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getVersao() {
+        return versao;
+    }
+
+    public void setVersao(String versao) {
+        this.versao = versao;
+    }
+
+    public String getDataModificacao() {
         return dataModificacao;
+    }
+
+    public void setDataModificacao(String dataModificacao) {
+        this.dataModificacao = dataModificacao;
     }
 }
