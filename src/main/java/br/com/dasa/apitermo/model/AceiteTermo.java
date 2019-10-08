@@ -20,8 +20,8 @@ public class AceiteTermo {
 
     private Boolean respotaCliente;
 
-    @OneToOne
-    private Termo termo;
+
+    private Integer idTermo;
 
     public Long getId() {
         return id;
@@ -55,11 +55,11 @@ public class AceiteTermo {
         this.respotaCliente = respotaCliente;
     }
 
-    public Termo getTermo() {
-        return termo;
+    public Integer getIdTermo() {
+        return idTermo;
     }
 
-    public void setTermo(Termo termo) {
-        this.termo = termo;
+    public void setIdTermo(Integer idTermo) {
+        this.idTermo = idTermo;
     }
 }

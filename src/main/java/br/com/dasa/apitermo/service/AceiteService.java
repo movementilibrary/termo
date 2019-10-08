@@ -1,6 +1,7 @@
 package br.com.dasa.apitermo.service;
 
-import br.com.dasa.apitermo.exceptions.ApiExceptions;
+import br.com.dasa.apitermo.exceptions.ApiException;
+import br.com.dasa.apitermo.exceptions.TermoPersistenciaExceptions;
 import br.com.dasa.apitermo.model.AceiteTermo;
 import br.com.dasa.apitermo.repository.AceiteRepository;
 import org.slf4j.Logger;
@@ -17,12 +18,15 @@ public class AceiteService {
     private AceiteRepository aceiteRepository;
 
 
-    public void salvarAceite(AceiteTermo aceiteTermo){
+    public boolean salvarAceite(AceiteTermo aceiteTermo) {
         try {
             this.aceiteRepository.save(aceiteTermo);
+            return true;
+        } catch (Exception e) {
+            LOGGER.error(String.valueOf(new TermoPersistenciaExceptions(e.getMessage())));
+            ;
 
-        }catch (ApiExceptions e){
-            LOGGER.error(e.getMessage());
         }
+        return false;
     }
 }
