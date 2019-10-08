@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import TermsOfUserService from '../service/TermsOfUserService';
 
-const INSTRUCTOR = 'in28minutes'
+const INSTRUCTOR = 'termos'
 
-class CourseComponent extends Component {
+class TermsComponent extends Component {
     constructor(props) {
         super(props)
 
@@ -27,7 +27,7 @@ class CourseComponent extends Component {
             return
         }
 
-        TermsOfUserService.retrieveCourse(INSTRUCTOR, this.state.id)
+        TermsOfUserService.retrieve(INSTRUCTOR, this.state.id)
             .then(response => this.setState({
                 description: response.data.description
             }))
@@ -48,18 +48,18 @@ class CourseComponent extends Component {
     onSubmit(values) {
         let username = INSTRUCTOR
 
-        let course = {
+        let terms = {
             id: this.state.id,
             description: values.description,
             targetDate: values.targetDate
         }
 
         if (this.state.id === -1) {
-            TermsOfUserService.createCourse(username, course)
-                .then(() => this.props.history.push('/courses'))
+            TermsOfUserService.create(username, terms)
+                .then(() => this.props.history.push('/terms'))
         } else {
-            TermsOfUserService.updateCourse(username, this.state.id, course)
-                .then(() => this.props.history.push('/courses'))
+            TermsOfUserService.update(username, this.state.id, terms)
+                .then(() => this.props.history.push('/terms'))
         }
 
         console.log(values);
@@ -106,4 +106,4 @@ class CourseComponent extends Component {
     }
 }
 
-export default CourseComponent
+export default TermsComponent

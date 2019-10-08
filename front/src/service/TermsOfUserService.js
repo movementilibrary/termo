@@ -1,34 +1,41 @@
 import axios from 'axios'
+import { stringify } from 'querystring';
 
-const INSTRUCTOR = 'in28minutes'
-const COURSE_API_URL = 'http://localhost:8080'
-const INSTRUCTOR_API_URL = `${COURSE_API_URL}/instructors/${INSTRUCTOR}`
+const query = 'sua_query'
+const URL = 'http://localhost:8080'
+const API_URL = `${URL}/link/${query}`
 
 class TermsOfUserService {
 
-    retrieveAllCourses(name) {
+    retrieveAll(name) {
         //console.log('executed service')
-        return axios.get(`${INSTRUCTOR_API_URL}/courses`);
+        return axios.get(`${API_URL}/terms`);
     }
 
-    retrieveCourse(name, id) {
+    retrieve(name, id) {
         //console.log('executed service')
-        return axios.get(`${INSTRUCTOR_API_URL}/courses/${id}`);
+        return axios.get(`${API_URL}/terms/${id}`);
     }
 
-    deleteCourse(name, id) {
+    delete(name, id) {
         //console.log('executed service')
-        return axios.delete(`${INSTRUCTOR_API_URL}/courses/${id}`);
+        return axios.delete(`${API_URL}/terms/${id}`);
     }
 
-    updateCourse(name, id, course) {
+    update(name, id, course) {
         //console.log('executed service')
-        return axios.put(`${INSTRUCTOR_API_URL}/courses/${id}`, course);
+        return axios.put(`${API_URL}/terms/${id}`, course);
     }
 
-    createCourse(name, course) {
-        //console.log('executed service')
-        return axios.post(`${INSTRUCTOR_API_URL}/courses/`, course);
+    create(termoUso, resumoTermo, versaoTermo) {
+        console.log('executed service: '+termoUso+" - "+resumoTermo+" - "+versaoTermo)
+        let terms = {
+            description : termoUso,
+            resume: resumoTermo,
+            version: versaoTermo
+        } 
+        console.log('executed service json: '+JSON.stringify(terms))
+        return axios.post(`${API_URL}/terms`, terms);
     }
 }
 
