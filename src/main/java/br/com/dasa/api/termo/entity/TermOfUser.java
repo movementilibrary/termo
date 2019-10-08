@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
@@ -27,7 +28,9 @@ public class TermOfUser implements Serializable {
 	@Column(name = "login_user", nullable = false)
 	private String loginUser;
 
-	@Column(name = "description_term", nullable = false)
+	
+	@Column(name = "description_term", columnDefinition="CLOB NOT NULL")
+	@Lob
 	private String descriptionTerm;
 
 	@Column(name = "summary_term", nullable = false)
@@ -44,7 +47,6 @@ public class TermOfUser implements Serializable {
 	private StatusTermUse status;
 
 	public TermOfUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
