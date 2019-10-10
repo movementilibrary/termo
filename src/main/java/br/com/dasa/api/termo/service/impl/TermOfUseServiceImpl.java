@@ -1,5 +1,6 @@
 package br.com.dasa.api.termo.service.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,9 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	}
 
 	@Override
-	public TermOfUser save(TermOfUser entity) {
-		return termOfUserRepository.save(entity);
+	public TermOfUser save(TermOfUser termOfUser) {
+		termOfUser.setCurrentDate(new Date());
+		return termOfUserRepository.save(termOfUser);
 	}
 	
 }
