@@ -10,8 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 
@@ -27,23 +28,22 @@ public class TermOfUser implements Serializable {
 
 	@Column(name = "login_user", nullable = false)
 	private String loginUser;
-
 	
-	@Column(name = "description_term", columnDefinition="CLOB NOT NULL")
-	@Lob
+	@Column(name = "description_term", columnDefinition="TEXT")
 	private String descriptionTerm;
 
 	@Column(name = "summary_term", nullable = false)
 	private String summaryTerm;
 
-	@Column(name = "current_date", nullable = false)
+	@Temporal(TemporalType.TIME)
+	@Column(name = "current_date_term", nullable = false)
 	private Date currentDate;
 
-	@Column(name = "version", nullable = false)
+	@Column(name = "version_term", nullable = false)
 	private String version;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
+	@Column(name = "status_term", nullable = false)
 	private StatusTermUse status;
 
 	public TermOfUser() {
