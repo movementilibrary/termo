@@ -14,7 +14,7 @@ ENV APPNAME $PROJECT_NAME-$VERSION-$REVISION.jar
 
 RUN add-apt-repository ppa:openjdk-r/ppa && \
     apt-get update && \
-    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y openjdk-11-jdk && \
     apt-get update && \
     mkdir /app && \
     groupadd app && \
