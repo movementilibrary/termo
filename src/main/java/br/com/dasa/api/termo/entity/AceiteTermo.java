@@ -1,4 +1,4 @@
-package br.com.dasa.apitermo.model;
+package br.com.dasa.api.termo.entity;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -14,14 +14,21 @@ public class AceiteTermo {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date dataAceite;
+    private Date dataAceite = new Date();
 
     private String mdmIdCliente;
 
     private Boolean respotaCliente;
 
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
+    private TermOfUser termOfUser;
 
-    private Integer idTermo;
+    public AceiteTermo(String mdmIdCliente, Boolean respotaCliente, TermOfUser termOfUser) {
+        this.mdmIdCliente = mdmIdCliente;
+        this.respotaCliente = respotaCliente;
+        this.termOfUser = termOfUser;
+    }
 
     public Long getId() {
         return id;
@@ -55,11 +62,13 @@ public class AceiteTermo {
         this.respotaCliente = respotaCliente;
     }
 
-    public Integer getIdTermo() {
-        return idTermo;
+
+
+    public TermOfUser getTermOfUser() {
+        return termOfUser;
     }
 
-    public void setIdTermo(Integer idTermo) {
-        this.idTermo = idTermo;
+    public void setTermOfUser(TermOfUser termOfUser) {
+        this.termOfUser = termOfUser;
     }
 }

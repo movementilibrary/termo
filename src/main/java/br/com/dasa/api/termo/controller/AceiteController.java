@@ -1,21 +1,24 @@
-package br.com.dasa.apitermo.controller;
+package br.com.dasa.api.termo.controller;
 
-import java.util.List;
-
+import br.com.dasa.api.termo.entity.AceiteTermoJson;
+import br.com.dasa.api.termo.exceptions.ApiException;
+import br.com.dasa.api.termo.exceptions.InternalServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.dasa.apitermo.exceptions.TermoPersistenciaExceptions;
-import br.com.dasa.apitermo.model.AceiteTermo;
-import br.com.dasa.apitermo.service.AceiteService;
+import br.com.dasa.api.termo.service.AceiteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 
 @RestController
 public class AceiteController {
@@ -33,17 +36,20 @@ public class AceiteController {
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
 
-    public boolean salvarTermoController(@RequestBody AceiteTermo aceiteTermo) {
-     
+    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) throws Exception {
+
         try {
+
             this.aceiteService.salvarAceite(aceiteTermo);
 
-            return true;
+            return ResponseEntity.ok(aceiteTermo);
+
+        } catch (ApiException e) {
+            return new ResponseEntity("Erro ao salvar termo", HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
-            LOGGER.error(String.valueOf(new TermoPersistenciaExceptions(e.getMessage())));
-            return false;
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-
-
     }
 }

@@ -29,14 +29,13 @@ public class TermOfUser implements Serializable {
 	private String loginUser;
 
 	
-	@Column(name = "description_term", columnDefinition="CLOB NOT NULL")
-	@Lob
+	@Column(name = "description_term", columnDefinition="TEXT NOT NULL")
 	private String descriptionTerm;
 
 	@Column(name = "summary_term", nullable = false)
 	private String summaryTerm;
 
-	@Column(name = "current_date", nullable = false)
+	@Column(name = "date", nullable = false)
 	private Date currentDate;
 
 	@Column(name = "version", nullable = false)

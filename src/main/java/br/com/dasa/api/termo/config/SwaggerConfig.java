@@ -1,4 +1,4 @@
-package br.com.dasa.apitermo.config;
+package br.com.dasa.api.termo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
