@@ -1,4 +1,4 @@
-package br.com.dasa.apitermo;
+package br.com.dasa.api.termo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class ApiTermoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiTermoApplication.class, args);
 	}
-
 }
