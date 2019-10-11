@@ -9,7 +9,7 @@ import java.util.Date;
 public class AceiteTermo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
