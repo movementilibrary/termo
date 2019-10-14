@@ -55,7 +55,6 @@ pipeline {
         }
 
 
-
         stage('Deploy Dev') {
             steps {
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
@@ -64,7 +63,12 @@ pipeline {
             }
         }
 
-
+       stage('Accept Test Dev'){
+           steps{
+               checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'devops/test/accept_tests']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@bitbucket.org:dasa_desenv_atendimento/automacao_termo_consentimento.git']]])
+               sh 'devops-tools/pipeline-shared-librares/regression_tests.sh -e dev -p docker -s "-t @teste_integrado_termo_cadastro_e_aceite"'
+            }
+        }
 
     }
 }
