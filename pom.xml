@@ -12,6 +12,7 @@
     <artifactId>api-termo</artifactId>
     <version>VERSION-REVISION</version>
     <name>api-termo</name>
+    <packaging>jar</packaging>
     <description>Serviço de Termo de consentimento de dados</description>
 
     <properties>

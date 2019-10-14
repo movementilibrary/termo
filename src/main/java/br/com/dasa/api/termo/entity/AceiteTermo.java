@@ -18,15 +18,15 @@ public class AceiteTermo {
 
     private String mdmIdCliente;
 
-    private Boolean respotaCliente;
+    private Boolean respostaCliente;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
     private TermOfUser termOfUser;
 
-    public AceiteTermo(String mdmIdCliente, Boolean respotaCliente, TermOfUser termOfUser) {
+    public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser) {
         this.mdmIdCliente = mdmIdCliente;
-        this.respotaCliente = respotaCliente;
+        this.respostaCliente = respostaCliente;
         this.termOfUser = termOfUser;
     }
 
@@ -54,12 +54,12 @@ public class AceiteTermo {
         this.mdmIdCliente = mdmIdCliente;
     }
 
-    public Boolean getRespotaCliente() {
-        return respotaCliente;
+    public Boolean getRespostaCliente() {
+        return respostaCliente;
     }
 
-    public void setRespotaCliente(Boolean respotaCliente) {
-        this.respotaCliente = respotaCliente;
+    public void setRespostaCliente(Boolean respostaCliente) {
+        this.respostaCliente = respostaCliente;
     }
 
 
