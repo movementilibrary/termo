@@ -1,4 +1,4 @@
-package br.com.dasa.api.termo.entity;
+package br.com.dasa.api.termo.entity.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

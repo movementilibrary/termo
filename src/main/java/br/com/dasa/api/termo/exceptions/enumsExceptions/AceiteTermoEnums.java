@@ -8,6 +8,7 @@ public enum  AceiteTermoEnums {
     private final Integer cod;
     private final String msg;
 
+
     AceiteTermoEnums(Integer cod , String msg) {
         this.cod = cod;
         this.msg = msg;

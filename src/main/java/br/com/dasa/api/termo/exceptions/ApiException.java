@@ -19,5 +19,5 @@ public abstract class ApiException extends RuntimeException {
 
     }
 
-    public abstract ErroJson getErro();
+    public abstract String getErro();
 }
