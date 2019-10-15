@@ -1,4 +1,4 @@
-package br.com.dasa.api.termo.entity;
+package br.com.dasa.api.termo.entity.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +8,7 @@ public class AceiteTermoJson {
     private Long idTermo;
     @JsonProperty("MDM_ID")
     private String mdmId;
-    @JsonProperty("REPOSTA_CLIENTE")
+    @JsonProperty("RESPOSTA_CLIENTE")
     private boolean respostaCliente;
 
     public Long getIdTermo() {

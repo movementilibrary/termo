@@ -25,51 +25,56 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "Serviços para cadastramento de termo de uso")
 @RestController
-@RequestMapping("/term")
+@RequestMapping("/api/term")
 public class TermOfUserEndPoint {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TermOfUserEndPoint.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TermOfUserEndPoint.class);
 
-	@Autowired
-	TermOfUseService termOfUseService;
-	
-	@GetMapping(value = "api/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
-	@ApiResponses(value = {
+    @Autowired
+    TermOfUseService termOfUseService;
+
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Sucesso"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Um erro interno foi detectado")
+
+    })
+    public ResponseEntity<TermOfUser> findById(@PathVariable long id) {
+        try {
+            Optional<TermOfUser> optional = termOfUseService.findById(id);
+            if (optional.isEmpty()) {
+                return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<TermOfUser>(optional.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(httpMethod = "POST", value = "Responsável por salvar e atualizar os termos de uso")
+    @ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Sucesso"),
-			@ApiResponse(code = 404, message = "O resource requisitado não foi encontrado"),
+			@ApiResponse(code = 401, message = "Unauthorized"),
+			@ApiResponse(code = 403, message = "Forbidden"),
+			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Um erro interno foi detectado")
-	})
-	public ResponseEntity<TermOfUser> findById(@PathVariable long id) {
-		try {
-			Optional<TermOfUser> optional = termOfUseService.findById(id);
-			if (optional.isEmpty()) {
-				return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<TermOfUser>(optional.get(), HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-			return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PostMapping(value = "api/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(httpMethod = "POST", value = "Responsável por salvar e atualizar os termos de uso")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Sucesso"),
-			@ApiResponse(code = 404, message = "O resource requisitado não foi inserido"),
-			@ApiResponse(code = 500, message = "Um erro interno foi detectado")
-	})
-	public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
-		try {
-			TermOfUser termUser = termOfUseService.save(termOfUser);
-			if (StringUtils.isEmpty(termUser)) {
-				return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<TermOfUser>(termUser, HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-			return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    })
+    public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
+        try {
+            TermOfUser termUser = termOfUseService.save(termOfUser);
+            if (StringUtils.isEmpty(termUser)) {
+                return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<TermOfUser>(termUser, HttpStatus.OK);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
