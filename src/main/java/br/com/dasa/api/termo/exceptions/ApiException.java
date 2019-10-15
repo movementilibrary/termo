@@ -4,7 +4,9 @@ package br.com.dasa.api.termo.exceptions;
 
 public abstract class ApiException extends RuntimeException {
 
-    public ApiException(String msg, Exception e) {
+	private static final long serialVersionUID = 1L;
+
+	public ApiException(String msg, Exception e) {
         super(msg, e);
     }
 
