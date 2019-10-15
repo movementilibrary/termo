@@ -33,7 +33,7 @@ public class TermOfUserEndPoint {
 	@Autowired
 	TermOfUseService termOfUseService;
 	
-	@GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "api/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Sucesso"),
@@ -53,7 +53,7 @@ public class TermOfUserEndPoint {
 		}
 	}
 	
-	@PostMapping(value = "/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "api/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "POST", value = "Responsável por salvar e atualizar os termos de uso")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Sucesso"),
