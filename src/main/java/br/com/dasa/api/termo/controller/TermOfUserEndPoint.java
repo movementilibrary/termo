@@ -44,6 +44,7 @@ public class TermOfUserEndPoint {
 
     })
     public ResponseEntity<TermOfUser> findById(@PathVariable long id) {
+        LOG.info("Entrado no metodo findById");
         try {
             Optional<TermOfUser> optional = termOfUseService.findById(id);
             if (optional.isEmpty()) {
@@ -66,6 +67,7 @@ public class TermOfUserEndPoint {
 			@ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
     public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
+        LOG.info("Entrado no metodo save");
         try {
             TermOfUser termUser = termOfUseService.save(termOfUser);
             if (StringUtils.isEmpty(termUser)) {

@@ -27,6 +27,7 @@ public class AceiteService {
 
 
     public void salvarAceite(AceiteTermoJson aceiteTermoJson) {
+
         Optional<TermOfUser> termOfUser = this.termOfUserRepository.findById(aceiteTermoJson.getIdTermo());
         try {
             if (termOfUser.isPresent()) {
@@ -35,6 +36,7 @@ public class AceiteService {
                 this.aceiteRepository.save(termo);
             } else {
                 LOGGER.info(AceiteTermoEnums.ID_NAO_ENCONTRADO.getMsg());
+                new Exception(AceiteTermoEnums.ID_NAO_ENCONTRADO.getMsg());
                 return;
             }
 

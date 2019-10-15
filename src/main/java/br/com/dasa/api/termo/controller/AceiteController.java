@@ -34,6 +34,7 @@ public class AceiteController {
 			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Um erro interno foi detectado") })
 	public ResponseEntity<AceiteTermoJson> salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
+			LOGGER.info("Entrando no metodo de aceite de termo");
 		try {
 			this.aceiteService.salvarAceite(aceiteTermo);
 			return new ResponseEntity<AceiteTermoJson>(aceiteTermo, HttpStatus.OK);
