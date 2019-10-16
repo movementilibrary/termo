@@ -27,7 +27,7 @@ public class AceiteController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AceiteController.class);
 
-	@PostMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = "application/json")
 	@ApiOperation(httpMethod = "POST", value = "Responsável por fazer o aceite do termo")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Sucesso"),
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
