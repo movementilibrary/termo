@@ -19,6 +19,9 @@ RUN add-apt-repository ppa:openjdk-r/ppa && \
     mkdir /app && \
     groupadd app && \
     useradd app -u 1001 -g app -d /app -s /bin/bash
+    
+ADD devops/CA-DASA-Root.crt /usr/local/share/ca-certificates/CA-DASA-Root.crt
+RUN update-ca-certificates
 
 COPY target/"$APPNAME" /app/
 

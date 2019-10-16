@@ -9,5 +9,4 @@ public interface TermOfUseService {
     Optional<TermOfUser> findById(long id);
 
     TermOfUser save(TermOfUser termOfUser);
-
 }
