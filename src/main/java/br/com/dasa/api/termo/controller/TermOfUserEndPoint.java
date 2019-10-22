@@ -2,6 +2,8 @@ package br.com.dasa.api.termo.controller;
 
 import java.util.Optional;
 
+import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class TermOfUserEndPoint {
     @Autowired
     TermOfUseService termOfUseService;
 
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
+
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
     @ApiResponses(value = {
@@ -46,7 +51,7 @@ public class TermOfUserEndPoint {
     public ResponseEntity<TermOfUser> findById(@PathVariable long id) {
         LOG.info("Entrado no metodo findById");
         try {
-            Optional<TermOfUser> optional = termOfUseService.findById(id);
+            Optional<TermOfUser> optional = this.termOfUseService.findById(id);
             if (optional.isEmpty()) {
                 return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
             }
@@ -60,23 +65,45 @@ public class TermOfUserEndPoint {
     @PostMapping(value = "/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "POST", value = "Responsável por salvar e atualizar os termos de uso")
     @ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Sucesso"),
-			@ApiResponse(code = 401, message = "Unauthorized"),
-			@ApiResponse(code = 403, message = "Forbidden"),
-			@ApiResponse(code = 404, message = "Not Found"),
-			@ApiResponse(code = 500, message = "Um erro interno foi detectado")
+            @ApiResponse(code = 200, message = "Sucesso"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
-    public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
+    public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
+
+
+        TermOfUser termOfUser = new TermOfUser();
+
+        Optional<TermOfUser> byId = this.termOfUserRepository.findById(1l);
+
+        Long id = 0l;
+        if (byId.isEmpty()) {
+            id = 1l;
+        } else if (byId.isPresent()) {
+            id += this.termOfUserRepository.count() +1 ;
+        }
+
+
         try {
-            TermOfUser termUser = termOfUseService.save(termOfUser);
-            if (StringUtils.isEmpty(termUser)) {
-                return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
+            termOfUser.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
+            termOfUser.setLoginUser(termoOfUserJson.getLoginUser());
+            termOfUser.setStatus(termoOfUserJson.getStatus());
+            termOfUser.setSummaryTerm(termoOfUserJson.getSummaryTerm());
+            termOfUser.setVersion("v".concat(id.toString()));
+            ;
+
+            this.termOfUseService.save(termOfUser);
+
+            if (StringUtils.isEmpty(termoOfUserJson)) {
+                return new ResponseEntity<TermoOfUserJson>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<TermOfUser>(termUser, HttpStatus.OK);
+            return new ResponseEntity<TermoOfUserJson>(termoOfUserJson, HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<TermoOfUserJson>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
