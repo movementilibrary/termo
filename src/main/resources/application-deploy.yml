@@ -1,22 +1,39 @@
-spring.datasource.url=${postgresUrl}
-spring.datasource.username=${postgresUsername}
-spring.datasource.password=${postgresPassword}
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=update
+spring:
+  datasource:
+    url: ${postgres-url}
+    username: ${postgres-username}
+    password: ${postgres-password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
 
+  main:
+    allow-bean-definition-overriding: ${spring-allow}
 
-keycloak.auth-server-url=${keycloakUrl}
-keycloak.realm=${keycloakReaml}
-keycloak.resource=${keycloakResource}
-keycloak.public-client=true
-keycloak.principal-attribute=preferred_username
+keycloack:
+  auth-server-url: ${keycloak-auth}
+  realm: ${keycloak-realm}
+  resource: ${keycloak-resource}
+  public-client: ${keycloak-client}
+  principal-attribute: ${keycloak.principal}
 
-keycloak.credentials.secret=${keycloakSecret}
-keycloak.bearer-only=true
+---
 
-spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
-
-keycloak.security-constraints[0].authRoles[0]=api-termo
-keycloak.security-constraints[0].securityCollections[0].patterns[0]=/api/*[0].patterns[0]=/api/*	
+spring:
+  datasource:
+    url: ${postgres-url-hml}
+    username: ${postgres-username-hml}
+    password: ${postgres-password-hml}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: ${spring-allow-hml}
