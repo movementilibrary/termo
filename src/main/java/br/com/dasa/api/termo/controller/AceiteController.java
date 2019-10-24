@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.exceptions.ApiException;
 import br.com.dasa.api.termo.service.AceiteService;
@@ -33,12 +29,14 @@ public class AceiteController {
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Um erro interno foi detectado") })
+
 	public ResponseEntity<AceiteTermoJson> salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
 			LOGGER.info("Entrando no metodo de aceite de termo");
 		try {
 
 			this.aceiteService.salvarAceite(aceiteTermo);
 			return new ResponseEntity<AceiteTermoJson>(aceiteTermo, HttpStatus.OK);
+
 		} catch (ApiException e) {
 			LOGGER.error(e.getMessage());
 			return new ResponseEntity<AceiteTermoJson>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -15,8 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.data.annotation.CreatedDate;
+
 
 @Entity
 @Table(name = "term_of_user")
@@ -34,10 +34,11 @@ public class TermOfUser implements Serializable {
 	@Column(name = "description_term", columnDefinition="TEXT")
 	private String descriptionTerm;
 
-	@Column(name = "summary_term", nullable = false)
+	@Column(name = "summary_term", columnDefinition="TEXT", nullable = false)
 	private String summaryTerm;
 
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	@Column(name = "current_date_term", nullable = false)
 	private Date currentDate = new Date();
 

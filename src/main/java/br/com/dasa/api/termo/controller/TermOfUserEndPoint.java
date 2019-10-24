@@ -33,7 +33,7 @@ public class TermOfUserEndPoint {
     private static final Logger LOG = LoggerFactory.getLogger(TermOfUserEndPoint.class);
 
     @Autowired
-    TermOfUseService termOfUseService;
+   private TermOfUseService termOfUseService;
 
     @Autowired
     private TermOfUserRepository termOfUserRepository;
@@ -73,33 +73,22 @@ public class TermOfUserEndPoint {
     })
     public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
-
-
-        TermOfUser termOfUser = new TermOfUser();
-
         Optional<TermOfUser> byId = this.termOfUserRepository.findById(1l);
-
-        Long id = 0l;
-        if (byId.isEmpty()) {
-            id = 1l;
-        } else if (byId.isPresent()) {
-            id += this.termOfUserRepository.count() +1 ;
-        }
-
+        Long id = 1l;
+        if (!byId.isEmpty() && byId.isPresent()) id += this.termOfUserRepository.count() + 1;
 
         try {
-            termOfUser.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
-            termOfUser.setLoginUser(termoOfUserJson.getLoginUser());
-            termOfUser.setStatus(termoOfUserJson.getStatus());
-            termOfUser.setSummaryTerm(termoOfUserJson.getSummaryTerm());
-            termOfUser.setVersion("v".concat(id.toString()));
-            ;
+
+            TermOfUser termOfUser =
+                    new TermOfUser(termoOfUserJson.getLoginUser(), termoOfUserJson.getDescriptionTerm(),
+                            termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus(), "v".concat(id.toString()));
 
             this.termOfUseService.save(termOfUser);
 
             if (StringUtils.isEmpty(termoOfUserJson)) {
                 return new ResponseEntity<TermoOfUserJson>(HttpStatus.NOT_FOUND);
             }
+            LOG.info("Saindo do metodo save");
             return new ResponseEntity<TermoOfUserJson>(termoOfUserJson, HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

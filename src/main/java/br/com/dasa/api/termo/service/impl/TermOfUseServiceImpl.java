@@ -24,7 +24,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 
 
 
-
 	@Override
 	public TermOfUser save(TermOfUser termOfUser) {
 		termOfUser.setCurrentDate(new Date());

@@ -7,9 +7,6 @@ public class ValidaExceptions {
     private ValidaExceptions(){}
 
 
-    public static void validaAceiteId(AceiteTermo termo){
-
-    }
 
     public static void validaAceiteId(Long idTermo) {
         if (idTermo == null){
