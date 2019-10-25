@@ -15,6 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import org.springframework.data.annotation.CreatedDate;
+
 
 @Entity
 @Table(name = "term_of_user")
@@ -23,7 +25,7 @@ public class TermOfUser implements Serializable {
 	private static final long serialVersionUID = 5976190674890475517L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name = "login_user", nullable = false)
@@ -32,12 +34,14 @@ public class TermOfUser implements Serializable {
 	@Column(name = "description_term", columnDefinition="TEXT")
 	private String descriptionTerm;
 
-	@Column(name = "summary_term", nullable = false)
+	@Column(name = "summary_term", columnDefinition="TEXT", nullable = false)
 	private String summaryTerm;
 
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	@Column(name = "current_date_term", nullable = false)
-	private Date currentDate;
+	private Date currentDate = new Date();
+
 
 	@Column(name = "version_term", nullable = false)
 	private String version;
@@ -49,8 +53,23 @@ public class TermOfUser implements Serializable {
 	public TermOfUser() {
 	}
 
+	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status) {
+		this.loginUser = loginUser;
+		this.descriptionTerm = descriptionTerm;
+		this.summaryTerm = summaryTerm;
+		this.status = status;
+	}
+
+	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, String version) {
+		this.loginUser = loginUser;
+		this.descriptionTerm = descriptionTerm;
+		this.summaryTerm = summaryTerm;
+		this.status = status;
+		this.version = version;
+	}
+
 	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
-			StatusTermUse status) {
+					  StatusTermUse status) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
@@ -99,6 +118,10 @@ public class TermOfUser implements Serializable {
 		this.currentDate = currentDate;
 	}
 
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
 	public String getVersion() {
 		return version;
 	}
@@ -115,69 +138,5 @@ public class TermOfUser implements Serializable {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "TermOfUser [id=" + id + ", loginUser=" + loginUser + ", descriptionTerm=" + descriptionTerm
-				+ ", summaryTerm=" + summaryTerm + ", currentDate=" + currentDate + ", version=" + version + ", status="
-				+ status + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((currentDate == null) ? 0 : currentDate.hashCode());
-		result = prime * result + ((descriptionTerm == null) ? 0 : descriptionTerm.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((loginUser == null) ? 0 : loginUser.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((summaryTerm == null) ? 0 : summaryTerm.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TermOfUser other = (TermOfUser) obj;
-		if (currentDate == null) {
-			if (other.currentDate != null)
-				return false;
-		} else if (!currentDate.equals(other.currentDate))
-			return false;
-		if (descriptionTerm == null) {
-			if (other.descriptionTerm != null)
-				return false;
-		} else if (!descriptionTerm.equals(other.descriptionTerm))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (loginUser == null) {
-			if (other.loginUser != null)
-				return false;
-		} else if (!loginUser.equals(other.loginUser))
-			return false;
-		if (status != other.status)
-			return false;
-		if (summaryTerm == null) {
-			if (other.summaryTerm != null)
-				return false;
-		} else if (!summaryTerm.equals(other.summaryTerm))
-			return false;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
-			return false;
-		return true;
-	}
 
 }

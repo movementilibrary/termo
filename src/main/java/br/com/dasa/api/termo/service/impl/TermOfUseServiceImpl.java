@@ -10,21 +10,24 @@ import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.TermOfUseService;
 
+@SuppressWarnings("ALL")
 @Service
 public class TermOfUseServiceImpl implements TermOfUseService {
 
 	@Autowired
-	TermOfUserRepository termOfUserRepository;
+	private TermOfUserRepository termOfUserRepository;
 
 	@Override
 	public Optional<TermOfUser> findById(long id) {
 		return termOfUserRepository.findById(id);
 	}
 
+
+
 	@Override
 	public TermOfUser save(TermOfUser termOfUser) {
 		termOfUser.setCurrentDate(new Date());
 		return termOfUserRepository.save(termOfUser);
 	}
-	
+
 }

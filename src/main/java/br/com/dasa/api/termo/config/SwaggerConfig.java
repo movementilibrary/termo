@@ -10,6 +10,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
@@ -18,17 +20,18 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("br.com.dasa.api.termo.controller"))
                 .build()
+                .groupName("Groupo Dasa APIs")
                 .apiInfo(apiInfo());
+
     }
 
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
                 .termsOfServiceUrl("Terms of service")
-                .title( "API de Microserviço aceite de termo ")
+                .title("API de Microserviço aceite de termo ")
                 .description("API referente aceite de termo")
                 .version("v1")
                 .build();
