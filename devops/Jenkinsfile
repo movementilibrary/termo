@@ -46,21 +46,40 @@ pipeline {
             }
         }
 
+        stage('Unit Test') {
+             steps {
+                 sh 'devops-tools/pipeline-shared-librares/unit-tests.sh'
+             }
+         }
+
+
+        stage('Quality Analyzing') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'bash -x devops-tools/pipeline-shared-librares/quality.sh -a analize'
+                }
+            }
+        }
+
+        stage('Quality Gates') {
+             steps {
+                 script {
+                     timeout(time: 30, unit: 'MINUTES') {
+                         def qg = waitForQualityGate()
+                             if (qg.status != 'OK') {
+                                 error "Pipeline aborted due to quality gates failure: ${qg.status}"
+                             } else {
+                                 echo "Quality gates returned ok, with result: ${qg.status}"
+                             }
+                     }
+                 }
+             }
+        }
 
 
         stage('Upload Artifact') {
             steps {
                 sh 'bash -x devops-tools/pipeline-shared-librares/nexus-upload.sh'
-            }
-        }
-
-
-
-        stage('Deploy Dev') {
-            steps {
-                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
-                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
-                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
             }
         }
              stage('Deploy Hml') {
@@ -71,6 +90,7 @@ pipeline {
                     }
                 }
 
+
         stage('Deploy Hml') {
             steps {
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-hml -r RSG_GLIESE_PRE_ANALYTICS_HML -e hml -i deploy -d cloud'
@@ -79,6 +99,13 @@ pipeline {
             }
         }
 
+        stage('Deploy Dev') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
+            }
+        }
 
         stage('Accept Test Dev'){
 
