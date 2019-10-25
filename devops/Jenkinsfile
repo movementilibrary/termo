@@ -53,18 +53,11 @@ pipeline {
          }
 
 
-         stage('Parallel Quality Analyzing') {
+        stage('Quality Analyzing') {
             steps {
-                parallel(
-                    'Security Analyzing Fortify': {
-                        sh 'bash -x devops-tools/pipeline-shared-librares/quality-fortify.sh'
-                    },
-                    'Quality Analyzing': {
-                        withSonarQubeEnv('SonarQube') {
-                            sh 'bash -x devops-tools/pipeline-shared-librares/quality.sh -a analize'
-                        }
-                    }
-                )
+                withSonarQubeEnv('SonarQube') {
+                    sh 'bash -x devops-tools/pipeline-shared-librares/quality.sh -a analize'
+                }
             }
         }
 
