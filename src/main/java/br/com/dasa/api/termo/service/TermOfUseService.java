@@ -2,6 +2,7 @@ package br.com.dasa.api.termo.service;
 
 import br.com.dasa.api.termo.entity.TermOfUser;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TermOfUseService {
@@ -12,6 +13,7 @@ public interface TermOfUseService {
 
 
     TermOfUser save(TermOfUser termOfUser);
+
 
 
 }
