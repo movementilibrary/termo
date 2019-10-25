@@ -1,6 +1,6 @@
 #Termo de Consentimento do Usuário
 
-   This is designed to store all terms of use, exposing the endpoints of one CRUD in the remainder.
+   This is designed to store all terms of use, exposing the endpoints of one CRUD in the remainder
 
 #Pré-requisites
    It's required a IDE Eclipse or InteliJ.
