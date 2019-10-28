@@ -1,5 +1,8 @@
 package br.com.dasa.api.termo.service;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 
 import org.junit.Before;
@@ -14,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.dasa.api.termo.entity.TermOfUser;
+import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
+import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
@@ -33,7 +38,7 @@ public class AceiteServiceTest {
 	@Autowired
 	private AceiteRepository aceiteRepository; 
 	@Autowired
-	private TermOfUserRepository termOfUserRepository; 
+	private TermOfUserRepository termOfUserRepository;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -44,9 +49,51 @@ public class AceiteServiceTest {
 	
 	
 	@Test
-	public void buscarTermoUsuarioNaoRespondido() {
+	public void testBuscarTermoUsuarioRespondidoSim() {
+		
+		String cip = "34445"; 
+		String mdmId = "12345"; 
 		
 		TermOfUser term = criarTermoVersao("V-1.0", false);
+		criarAceiteTermo(term.getId(), cip, mdmId, true);
+		
+		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip); 
+		
+		assertTrue(json.isTermoAceite());
+		
+		
+	}
+	
+	@Test
+	public void testApenasTermoV1RespondidoV2NaoRespondido() {
+		
+		String cip = "34445"; 
+		String mdmId = "12345"; 
+		
+		TermOfUser term = criarTermoVersao("V-1.0", false);
+		criarAceiteTermo(term.getId(), cip, mdmId, true);
+		criarTermoVersao("V-2.0", false);
+		
+		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip); 
+		
+		assertFalse(json.isTermoAceite());
+		
+		
+	}
+	
+	@Test
+	public void testApenasRespondidoV2NaoRespondido() {
+		
+		String cip = "34445"; 
+		String mdmId = "12345"; 
+		
+		criarTermoVersao("V-1.0", false);
+		TermOfUser term = criarTermoVersao("V-2.0", false);
+		criarAceiteTermo(term.getId(), cip, mdmId, true);
+		
+		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip); 
+		
+		assertTrue(json.isTermoAceite());
 		
 		
 	}
@@ -64,6 +111,16 @@ public class AceiteServiceTest {
 		termOfUserRepository.save(term);
 		
 		return term; 
+	}
+	
+	private void criarAceiteTermo(Long idTermo, String cip, String mdmId, boolean respostaCliente) {
+		
+		AceiteTermoJson json = new AceiteTermoJson(); 
+		json.setCip(cip);
+		json.setIdTermo(idTermo);
+		json.setRespostaCliente(respostaCliente);
+		json.setMdmId(mdmId);
+		aceiteService.salvarAceite(json); 
 	}
 	
 

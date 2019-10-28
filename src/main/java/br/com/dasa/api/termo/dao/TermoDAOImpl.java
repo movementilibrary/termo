@@ -19,7 +19,7 @@ public class TermoDAOImpl extends BaseDAO implements TermoDAO{
 	
 		StringBuilder jpql = new StringBuilder(); 
 		
-		jpql.append("select t from TermoOfUser t where t.flagAtualizacao = false and t.status = :status order by t.id desc "); 
+		jpql.append("select t from TermOfUser t where t.flagAtualizacao = false and t.status = :status order by t.id desc "); 
 		
 		Query query = em.createQuery(jpql.toString()); 
 		

@@ -26,6 +26,10 @@ public class AceiteTermo {
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
 	private TermOfUser termOfUser;
 
+	public AceiteTermo() {
+		
+	}
+	
 	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, String cip) {
 		this.mdmIdCliente = mdmIdCliente;
 		this.respostaCliente = respostaCliente;

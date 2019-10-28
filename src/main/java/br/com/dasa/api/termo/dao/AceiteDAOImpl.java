@@ -38,7 +38,7 @@ public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 		if(!StringUtils.isEmpty(mdmId)) {
 			addAnd(jpql);
 			jpql.append(" a.mdmIdCliente = :mdmId "); 
-			parametros.add(new ParametroQuery("mdmID", mdmId)); 
+			parametros.add(new ParametroQuery("mdmId", mdmId)); 
 		}
 		
 		if(!StringUtils.isEmpty(cip)) {
