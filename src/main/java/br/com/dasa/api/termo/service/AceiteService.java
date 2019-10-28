@@ -1,5 +1,12 @@
 package br.com.dasa.api.termo.service;
 
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.dasa.api.termo.entity.AceiteTermo;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
@@ -10,12 +17,6 @@ import br.com.dasa.api.termo.exceptions.ValidaExceptions;
 import br.com.dasa.api.termo.exceptions.enumsExceptions.AceiteTermoEnums;
 import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AceiteService {
@@ -55,6 +56,14 @@ public class AceiteService {
 
 	public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, String cip) {
 		
-		return null;
+		Optional<TermOfUser> optionalTerm = termOfUserRepository.buscarUltimoTermoObrigatorio(); 
+		
+		if(optionalTerm.isPresent()) {
+			return new BuscaAceiteTermoJson(aceiteRepository.usuarioRespondeuAoTermo(mdmId, cip, optionalTerm.get().getId())); 
+		}
+		
+		return new BuscaAceiteTermoJson(false);
 	}
+
+
 }

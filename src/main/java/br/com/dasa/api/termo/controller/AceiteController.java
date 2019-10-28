@@ -52,7 +52,7 @@ public class AceiteController {
 	}
 	
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Responsável por buscar aceite de termo passando o MDM ID ou a CIP")	
 	public ResponseEntity buscarAceiteTermo(@RequestParam String mdmId, @RequestParam String cip) {
 		
