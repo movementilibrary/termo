@@ -6,8 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
+import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
 import br.com.dasa.api.termo.exceptions.ApiException;
 import br.com.dasa.api.termo.service.AceiteService;
 import io.swagger.annotations.ApiOperation;
@@ -41,5 +49,19 @@ public class AceiteController {
 			LOGGER.error(e.getMessage());
 			return new ResponseEntity<AceiteTermoJson>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Responsável por buscar aceite de termo passando o MDM ID ou a CIP")	
+	public ResponseEntity buscarAceiteTermo(@RequestParam String mdmId, @RequestParam String cip) {
+		
+		if((!StringUtils.isEmpty(mdmId)) || (!StringUtils.isEmpty(mdmId))) {
+			BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+			return new ResponseEntity(json, HttpStatus.OK); 
+		}
+		
+		return new ResponseEntity(HttpStatus.BAD_REQUEST); 
+		
 	}
 }

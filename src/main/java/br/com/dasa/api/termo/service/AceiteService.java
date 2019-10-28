@@ -3,6 +3,7 @@ package br.com.dasa.api.termo.service;
 import br.com.dasa.api.termo.entity.AceiteTermo;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
+import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
 import br.com.dasa.api.termo.exceptions.AceiteExceptions;
 import br.com.dasa.api.termo.exceptions.ApiException;
 import br.com.dasa.api.termo.exceptions.ValidaExceptions;
@@ -50,4 +51,10 @@ public class AceiteService {
         }
 
     }
+
+
+	public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, String cip) {
+		
+		return null;
+	}
 }
