@@ -1,6 +1,7 @@
 package br.com.dasa.api.termo.service.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +15,30 @@ import br.com.dasa.api.termo.service.TermOfUseService;
 @Service
 public class TermOfUseServiceImpl implements TermOfUseService {
 
-	@Autowired
-	private TermOfUserRepository termOfUserRepository;
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
 
-	@Override
-	public Optional<TermOfUser> findById(long id) {
-		return termOfUserRepository.findById(id);
-	}
+    @Override
+    public Optional<TermOfUser> findById(long id) {
+        return termOfUserRepository.findById(id);
+    }
 
 
+    @Override
+    public TermOfUser save(TermOfUser termOfUser) {
+        Optional<TermOfUser> byId = this.termOfUserRepository.findById(1l);
+        termOfUser.setVersion("v1");
+//        if (byId.isEmpty()) {
+//            termOfUser.setVersion("v".concat("1"));
+//        }
+//        if (byId.isPresent()) {
+//            ter
+//
+//        }
 
-	@Override
-	public TermOfUser save(TermOfUser termOfUser) {
-		termOfUser.setCurrentDate(new Date());
-		return termOfUserRepository.save(termOfUser);
-	}
+
+        return termOfUserRepository.save(termOfUser);
+    }
+
 
 }

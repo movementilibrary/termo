@@ -50,8 +50,16 @@ public class TermOfUser implements Serializable {
 	@Column(name = "status_term", nullable = false)
 	private StatusTermUse status;
 
+	@Column(name = "flag_atualizacao", nullable = false)
+	private boolean flagAtualizacao;
 	public TermOfUser() {
 	}
+
+	public TermOfUser(Long id) {
+		this.id = id;
+	}
+
+
 
 	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status) {
 		this.loginUser = loginUser;
@@ -138,5 +146,11 @@ public class TermOfUser implements Serializable {
 		this.status = status;
 	}
 
+	public boolean isFlagAtualizacao() {
+		return flagAtualizacao;
+	}
 
+	public void setFlagAtualizacao(boolean flagAtualizacao) {
+		this.flagAtualizacao = flagAtualizacao;
+	}
 }

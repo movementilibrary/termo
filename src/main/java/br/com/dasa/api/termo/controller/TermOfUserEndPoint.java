@@ -1,9 +1,13 @@
 package br.com.dasa.api.termo.controller;
 
-import java.util.Optional;
-
+import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
+import br.com.dasa.api.termo.service.TermOfUseService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import br.com.dasa.api.termo.entity.TermOfUser;
-import br.com.dasa.api.termo.service.TermOfUseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import java.util.List;
+import java.util.Optional;
 
 @Api(value = "Serviços para cadastramento de termo de uso")
 @RestController
@@ -33,10 +28,11 @@ public class TermOfUserEndPoint {
     private static final Logger LOG = LoggerFactory.getLogger(TermOfUserEndPoint.class);
 
     @Autowired
-   private TermOfUseService termOfUseService;
+    private TermOfUseService termOfUseService;
 
     @Autowired
     private TermOfUserRepository termOfUserRepository;
+
 
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
@@ -53,12 +49,12 @@ public class TermOfUserEndPoint {
         try {
             Optional<TermOfUser> optional = this.termOfUseService.findById(id);
             if (optional.isEmpty()) {
-                return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<TermOfUser>(optional.get(), HttpStatus.OK);
+            return new ResponseEntity<>(optional.get(), HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -73,26 +69,25 @@ public class TermOfUserEndPoint {
     })
     public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
-        Optional<TermOfUser> byId = this.termOfUserRepository.findById(1l);
-        Long id = 1l;
-        if (!byId.isEmpty() && byId.isPresent()) id += this.termOfUserRepository.count() + 1;
 
         try {
 
             TermOfUser termOfUser =
                     new TermOfUser(termoOfUserJson.getLoginUser(), termoOfUserJson.getDescriptionTerm(),
-                            termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus(), "v".concat(id.toString()));
+                            termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus());
 
             this.termOfUseService.save(termOfUser);
 
             if (StringUtils.isEmpty(termoOfUserJson)) {
-                return new ResponseEntity<TermoOfUserJson>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             LOG.info("Saindo do metodo save");
-            return new ResponseEntity<TermoOfUserJson>(termoOfUserJson, HttpStatus.OK);
+            return new ResponseEntity<>(termoOfUserJson, HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return new ResponseEntity<TermoOfUserJson>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }
