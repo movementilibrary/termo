@@ -3,7 +3,6 @@ package br.com.dasa.api.termo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -18,17 +17,18 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("br.com.dasa.api.termo.controller"))
                 .build()
+                .groupName("Groupo Dasa APIs")
                 .apiInfo(apiInfo());
+
     }
 
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
                 .termsOfServiceUrl("Terms of service")
-                .title( "API de Microserviço aceite de termo ")
+                .title("API de Microserviço aceite de termo ")
                 .description("API referente aceite de termo")
                 .version("v1")
                 .build();

@@ -3,8 +3,9 @@ package br.com.dasa.api.termo.service;
 import br.com.dasa.api.termo.entity.AceiteTermo;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
-import br.com.dasa.api.termo.exceptions.ApiException;
-import br.com.dasa.api.termo.exceptions.enumsExceptions.AceiteTermoEnums;
+import br.com.dasa.api.termo.exceptions.AceiteExceptions;
+import br.com.dasa.api.termo.exceptions.ValidaExceptions;
+import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import org.slf4j.Logger;
@@ -29,20 +30,22 @@ public class AceiteService {
     public void salvarAceite(AceiteTermoJson aceiteTermoJson) {
 
         Optional<TermOfUser> termOfUser = this.termOfUserRepository.findById(aceiteTermoJson.getIdTermo());
+        ValidaExceptions.validaAceiteId(aceiteTermoJson.getIdTermo());
+        ValidaExceptions.validaTermo(aceiteTermoJson);
+
         try {
             if (termOfUser.isPresent()) {
                 AceiteTermo termo = new AceiteTermo(aceiteTermoJson.getMdmId(),
-                        aceiteTermoJson.isRespostaCliente(), termOfUser.get());
+                        aceiteTermoJson.isRespostaCliente(), termOfUser.get(), aceiteTermoJson.getCip());
                 this.aceiteRepository.save(termo);
             } else {
                 LOGGER.info(AceiteTermoEnums.ID_NAO_ENCONTRADO.getMsg());
-                new Exception(AceiteTermoEnums.ID_NAO_ENCONTRADO.getMsg());
-                return;
+                throw new AceiteExceptions(AceiteTermoEnums.ID_NAO_ENCONTRADO);
             }
 
-        } catch (ApiException e) {
-            LOGGER.error(e.getMessage(), e);
-            new Exception(e.getMessage().concat(e.getErro()));
+
+        } catch (Exception e) {
+            throw new AceiteExceptions(e.getMessage());
 
         }
 
