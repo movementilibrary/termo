@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@SuppressWarnings("serial")
 public class AceiteTermo {
 
 	@Id
@@ -20,17 +21,21 @@ public class AceiteTermo {
 
 	private Boolean respostaCliente;
 
-	private String cip;
+	private Integer cip;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
 	private TermOfUser termOfUser;
 
 	public AceiteTermo() {
+
 		
 	}
 	
-	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, String cip) {
+
+
+	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Integer cip) {
+
 		this.mdmIdCliente = mdmIdCliente;
 		this.respostaCliente = respostaCliente;
 		this.termOfUser = termOfUser;
@@ -73,11 +78,11 @@ public class AceiteTermo {
 		return termOfUser;
 	}
 
-	public String getCip() {
+	public Integer getCip() {
 		return cip;
 	}
 
-	public void setCip(String cip) {
+	public void setCip(Integer cip) {
 		this.cip = cip;
 	}
 

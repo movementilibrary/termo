@@ -15,9 +15,8 @@ import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
 import br.com.dasa.api.termo.exceptions.AceiteExceptions;
-import br.com.dasa.api.termo.exceptions.ApiException;
 import br.com.dasa.api.termo.exceptions.ValidaExceptions;
-import br.com.dasa.api.termo.exceptions.enumsExceptions.AceiteTermoEnums;
+import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 
@@ -37,6 +36,8 @@ public class AceiteService {
 
         Optional<TermOfUser> termOfUser = this.termOfUserRepository.findById(aceiteTermoJson.getIdTermo());
         ValidaExceptions.validaAceiteId(aceiteTermoJson.getIdTermo());
+        ValidaExceptions.validaTermo(aceiteTermoJson);
+
         try {
             if (termOfUser.isPresent()) {
                 AceiteTermo termo = new AceiteTermo(aceiteTermoJson.getMdmId(),
@@ -44,20 +45,19 @@ public class AceiteService {
                 this.aceiteRepository.save(termo);
             } else {
                 LOGGER.info(AceiteTermoEnums.ID_NAO_ENCONTRADO.getMsg());
-              throw new AceiteExceptions("Id do termo não encontrado");
+                throw new AceiteExceptions(AceiteTermoEnums.ID_NAO_ENCONTRADO);
             }
 
 
-        } catch (ApiException e) {
-            LOGGER.error(e.getMessage(), e);
-           throw  new RuntimeException(e.getMessage().concat(e.getErro()));
+        } catch (Exception e) {
+            throw new AceiteExceptions(e.getMessage());
 
         }
 
     }
 
 
-	public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, String cip) {
+	public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, Integer cip) {
 		
 		Optional<TermOfUser> optionalTerm = termOfUserRepository.buscarUltimoTermoObrigatorio(); 
 		

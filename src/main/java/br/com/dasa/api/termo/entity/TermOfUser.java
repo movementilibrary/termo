@@ -1,28 +1,18 @@
 package br.com.dasa.api.termo.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
 @Table(name = "term_of_user")
-public class TermOfUser implements Serializable {
+@SuppressWarnings("serial")
+public class TermOfUser {
 
-	private static final long serialVersionUID = 5976190674890475517L;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -122,13 +112,6 @@ public class TermOfUser implements Serializable {
 		return currentDate;
 	}
 
-	public void setCurrentDate(Date currentDate) {
-		this.currentDate = currentDate;
-	}
-
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
 
 	public String getVersion() {
 		return version;
@@ -152,5 +135,10 @@ public class TermOfUser implements Serializable {
 
 	public void setFlagAtualizacao(boolean flagAtualizacao) {
 		this.flagAtualizacao = flagAtualizacao;
+	}
+
+	public void setCurrentDate(Date currentDate) {
+		this.currentDate = currentDate; 
+		
 	}
 }

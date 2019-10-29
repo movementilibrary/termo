@@ -46,6 +46,35 @@ pipeline {
             }
         }
 
+        stage('Unit Test') {
+             steps {
+                 sh 'devops-tools/pipeline-shared-librares/unit-tests.sh'
+             }
+         }
+
+
+        stage('Quality Analyzing') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'bash -x devops-tools/pipeline-shared-librares/quality.sh -a analize'
+                }
+            }
+        }
+
+        stage('Quality Gates') {
+             steps {
+                 script {
+                     timeout(time: 30, unit: 'MINUTES') {
+                         def qg = waitForQualityGate()
+                             if (qg.status != 'OK') {
+                                 error "Pipeline aborted due to quality gates failure: ${qg.status}"
+                             } else {
+                                 echo "Quality gates returned ok, with result: ${qg.status}"
+                             }
+                     }
+                 }
+             }
+        }
 
 
         stage('Upload Artifact') {
@@ -54,31 +83,13 @@ pipeline {
             }
         }
 
-
-
-        stage('Deploy Dev') {
+		stage('Deploy Dev') {
             steps {
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
                 sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
                 sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
             }
         }
-             stage('Deploy Hml') {
-                    steps {
-                        sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-hml -r RSG_GLIESE_PRE_ANALYTICS_HML -e hml -i deploy -d cloud'
-                        sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e hml'
-                        sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e hml'
-                    }
-                }
-
-        stage('Deploy Hml') {
-            steps {
-                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-hml -r RSG_GLIESE_PRE_ANALYTICS_HML -e hml -i deploy -d cloud'
-                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e hml'
-                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e hml'
-            }
-        }
-
 
         stage('Accept Test Dev'){
 
@@ -95,6 +106,35 @@ pipeline {
             }
         }
 
+        stage('Deploy Hml') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-hml -r RSG_GLIESE_PRE_ANALYTICS_HML -e hml -i deploy -d cloud'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e hml'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e hml'
+            }
+        }
 
+        stage('Approved to Prod') {
+        	when {
+               branch 'master'
+            }
+            options {
+                timeout(time: 600, unit: 'SECONDS')
+            }
+            steps {
+                input(
+                    id: 'Proceed', message: 'Was this successful?', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Package Approved to deploy in Prod ? (Click "Proceed" to continue)']
+                ])
+            }
+        }
+        
+        stage('Deploy Prd') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e prd'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e prd'
+            }
+        }
     }
 }

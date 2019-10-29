@@ -50,7 +50,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testBuscarTermoUsuarioRespondidoSim() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		TermOfUser term = criarTermoVersao("V-1.0", false);
@@ -65,7 +65,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testApenasTermoV1RespondidoV2NaoRespondido() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		TermOfUser term = criarTermoVersao("V-1.0", false);
@@ -81,7 +81,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testApenasRespondidoV2NaoComoReposta() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		criarTermoVersao("V-1.0", false);
@@ -96,7 +96,7 @@ public class AceiteServiceTest {
 
 	@Test
 	public void testAceitarTermoObrigatorioENaoAceitarTermoNaoObrigatorio() {
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		criarTermoVersao("V-1.0", false);
@@ -112,7 +112,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testNaoAceitarNenhumTermoAnteriorEaceitarUltimoTermoNaoObrigatorio() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		criarTermoVersao("V-1.0", false);
@@ -128,7 +128,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testNaoAceitarNenhumTermoAnteriorEaceitarPenultimoTermoNaoObrigatorio() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		criarTermoVersao("V-1.0", false);
@@ -146,7 +146,7 @@ public class AceiteServiceTest {
 	@Test
 	public void testAceitarTermosNaoObrigatoriosAnteriroresENaoAceitarObrigatorio() {
 
-		String cip = "34445";
+		Integer cip = 34445;
 		String mdmId = "12345";
 
 		criarTermoVersao("V-1.0", false);
@@ -177,7 +177,7 @@ public class AceiteServiceTest {
 		return term;
 	}
 
-	private void criarAceiteTermo(Long idTermo, String cip, String mdmId, boolean respostaCliente) {
+	private void criarAceiteTermo(Long idTermo, Integer cip, String mdmId, boolean respostaCliente) {
 
 		AceiteTermoJson json = new AceiteTermoJson();
 		json.setCip(cip);

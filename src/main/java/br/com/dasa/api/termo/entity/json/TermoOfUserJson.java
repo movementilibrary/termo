@@ -19,7 +19,8 @@ public class TermoOfUserJson {
     @JsonProperty("USUARIO")
     private String loginUser;
 
-
+     TermoOfUserJson() {
+    }
 
     public String getDescriptionTerm() {
         return descriptionTerm;

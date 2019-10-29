@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface AceiteDAO {
 
-	boolean usuarioRespondeuAoTermo(String mdmId, String cip, List<Long> termosId); 
+	boolean usuarioRespondeuAoTermo(String mdmId, Integer cip, List<Long> termosId); 
 	
 }

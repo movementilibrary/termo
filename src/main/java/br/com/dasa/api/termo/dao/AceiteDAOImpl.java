@@ -15,7 +15,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 
 	@Override
-	public boolean usuarioRespondeuAoTermo(String mdmId, String cip, List<Long> termosId) {
+	public boolean usuarioRespondeuAoTermo(String mdmId, Integer cip, List<Long> termosId) {
 		
 		HashSet<ParametroQuery> parametros = new HashSet<>();
 		StringBuilder sql = createQueryRespondeuAoTermo(mdmId, cip, termosId, parametros); 
@@ -30,7 +30,7 @@ public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 		return lista.getFirst().getRespostaCliente(); 
 	}
 
-	private StringBuilder createQueryRespondeuAoTermo(String mdmId, String cip, List<Long> termosId,
+	private StringBuilder createQueryRespondeuAoTermo(String mdmId, Integer cip, List<Long> termosId,
 			HashSet<ParametroQuery> parametros) {
 		StringBuilder jpql = new StringBuilder(); 
 		 
@@ -42,7 +42,7 @@ public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 			parametros.add(new ParametroQuery("mdmId", mdmId)); 
 		}
 		
-		if(!StringUtils.isEmpty(cip)) {
+		if(cip != null && cip > 0) {
 			addAnd(jpql);
 			jpql.append(" a.cip = :cip ");
 			parametros.add(new ParametroQuery("cip", cip)); 
