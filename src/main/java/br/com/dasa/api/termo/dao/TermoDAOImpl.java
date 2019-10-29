@@ -34,4 +34,20 @@ public class TermoDAOImpl extends BaseDAO implements TermoDAO{
 		return Optional.empty();
 	}
 
+	@Override
+	public List<TermOfUser> buscarTermosUltimosTermosNaoObrigatorios(Long idUltimoTermo) {
+		
+		StringBuilder jpql = new StringBuilder(); 
+		
+		jpql.append("select t from TermOfUser t where t.flagAtualizacao = true and t.status = :status and t.id > :idUltimoTermo order by t.id desc ");
+		
+		Query query = em.createQuery(jpql.toString()); 
+		
+		query.setParameter("status", StatusTermUse.ACTIVE);
+		
+		query.setParameter("idUltimoTermo", idUltimoTermo);
+		
+		return query.getResultList(); 
+	}
+
 }

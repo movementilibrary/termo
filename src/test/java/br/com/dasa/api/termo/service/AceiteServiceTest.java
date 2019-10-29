@@ -82,7 +82,7 @@ public class AceiteServiceTest {
 	}
 	
 	@Test
-	public void testApenasRespondidoV2NaoRespondido() {
+	public void testApenasRespondidoV2NaoComoReposta() {
 		
 		String cip = "34445"; 
 		String mdmId = "12345"; 
@@ -96,6 +96,37 @@ public class AceiteServiceTest {
 		assertTrue(json.isTermoAceite());
 		
 		
+	}
+	
+	@Test 
+	public void testAceitarTermoObrigatorioENaoAceitarTermoNaoObrigatorio() {
+		String cip = "34445"; 
+		String mdmId = "12345"; 
+		
+		criarTermoVersao("V-1.0", false);
+		TermOfUser term = criarTermoVersao("V-2.0", false);
+		criarTermoVersao("V-2.1", true);
+		criarAceiteTermo(term.getId(), cip, mdmId, true);
+		
+		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip); 
+		
+		assertTrue(json.isTermoAceite());
+	}
+	
+	@Test
+	public void testNaoAceitarNenhumTermoAnteriorEaceitarUltimoTermoNaoObrigatorio() {
+		
+		String cip = "34445"; 
+		String mdmId = "12345"; 
+		
+		criarTermoVersao("V-1.0", false);
+		criarTermoVersao("V-2.0", false);
+		TermOfUser term = criarTermoVersao("V-2.1", true);
+		criarAceiteTermo(term.getId(), cip, mdmId, true);
+		
+		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip); 
+		
+		assertTrue(json.isTermoAceite());
 	}
 	
 	private TermOfUser criarTermoVersao(String version, boolean flagAtualizacao) {

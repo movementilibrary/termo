@@ -1,6 +1,9 @@
 package br.com.dasa.api.termo.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +61,14 @@ public class AceiteService {
 		
 		Optional<TermOfUser> optionalTerm = termOfUserRepository.buscarUltimoTermoObrigatorio(); 
 		
+		ArrayList<Long> ids = new ArrayList<>(); 
+		
 		if(optionalTerm.isPresent()) {
-			return new BuscaAceiteTermoJson(aceiteRepository.usuarioRespondeuAoTermo(mdmId, cip, optionalTerm.get().getId())); 
+			ids.add(optionalTerm.get().getId()); 
+			List<TermOfUser> lista = termOfUserRepository.buscarTermosUltimosTermosNaoObrigatorios(optionalTerm.get().getId());
+			ids.addAll(lista.stream().map(t -> t.getId()).collect(Collectors.toList())); 
+			
+			return new BuscaAceiteTermoJson(aceiteRepository.usuarioRespondeuAoTermo(mdmId, cip, ids)); 
 		}
 		
 		return new BuscaAceiteTermoJson(false);

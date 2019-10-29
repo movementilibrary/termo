@@ -2,6 +2,7 @@ package br.com.dasa.api.termo.dao;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Query;
 
@@ -14,10 +15,10 @@ import io.micrometer.core.instrument.util.StringUtils;
 public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 
 	@Override
-	public boolean usuarioRespondeuAoTermo(String mdmId, String cip, Long termoId) {
+	public boolean usuarioRespondeuAoTermo(String mdmId, String cip, List<Long> termosId) {
 		
 		HashSet<ParametroQuery> parametros = new HashSet<>();
-		StringBuilder sql = createQueryRespondeuAoTermo(mdmId, cip, termoId, parametros); 
+		StringBuilder sql = createQueryRespondeuAoTermo(mdmId, cip, termosId, parametros); 
 		Query query = em.createQuery(sql.toString()); 
 		parametros.forEach(p -> query.setParameter(p.getKey(), p.getValue()));
 		LinkedList<AceiteTermo> lista = new LinkedList<>(query.getResultList()); 
@@ -29,7 +30,7 @@ public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 		return lista.getFirst().getRespostaCliente(); 
 	}
 
-	private StringBuilder createQueryRespondeuAoTermo(String mdmId, String cip, Long termoId,
+	private StringBuilder createQueryRespondeuAoTermo(String mdmId, String cip, List<Long> termosId,
 			HashSet<ParametroQuery> parametros) {
 		StringBuilder jpql = new StringBuilder(); 
 		 
@@ -47,10 +48,10 @@ public class AceiteDAOImpl extends BaseDAO implements AceiteDAO{
 			parametros.add(new ParametroQuery("cip", cip)); 
 		}
 		
-		if(termoId != null && termoId > 0l) {
+		if(termosId != null && !termosId.isEmpty()) {
 			addAnd(jpql);
-			jpql.append(" a.termOfUser.id = :termoId ");
-			parametros.add(new ParametroQuery("termoId", termoId)); 
+			jpql.append(" a.termOfUser.id in (:termoId)");
+			parametros.add(new ParametroQuery("termoId", termosId)); 
 		}
 		
 		jpql.append(" order by a.dataAceite desc ");
