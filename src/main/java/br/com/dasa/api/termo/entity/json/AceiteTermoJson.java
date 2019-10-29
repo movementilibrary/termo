@@ -1,9 +1,8 @@
 package br.com.dasa.api.termo.entity.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.jackson.JsonComponent;
 
-@JsonComponent
+
 public class AceiteTermoJson {
 
     @JsonProperty("ID_TERMO")
@@ -11,9 +10,20 @@ public class AceiteTermoJson {
     @JsonProperty("MDM_ID")
     private String mdmId;
     @JsonProperty("CIP")
-    private String cip;
+    private Integer cip;
     @JsonProperty("RESPOSTA_CLIENTE")
     private boolean respostaCliente;
+
+    public AceiteTermoJson() {
+
+    }
+
+    public AceiteTermoJson(Long idTermo, String mdmId, Integer cip, boolean respostaCliente) {
+        this.idTermo = idTermo;
+        this.mdmId = mdmId;
+        this.cip = cip;
+        this.respostaCliente = respostaCliente;
+    }
 
     public Long getIdTermo() {
         return idTermo;
@@ -35,11 +45,11 @@ public class AceiteTermoJson {
         return respostaCliente;
     }
 
-	public String getCip() {
+	public Integer getCip() {
 		return cip;
 	}
 
-	public void setCip(String cip) {
+	public void setCip(Integer cip) {
 		this.cip = cip;
 	}
 
