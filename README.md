@@ -20,16 +20,25 @@ Configurações para conectar ao banco de dados esta no arquivo application-dev.
   
  
 #Endpoints local
-http://localhost:8080/term/user/registry
-http://localhost:8080/term/user/{id}
+http://localhost:8090/swagger-ui.html#/api/term/aceite-termo
+http://localhost:8090/swagger-ui.html#/api/term/user/registry
+http://localhost:8090/swagger-ui.html#/api/term/user/{id}
  
 #Payload JSON to insert new term of user
 {
-	 "loginUser":"t34904918827",
-	 "descriptionTerm":"termo de uso",
-	 "summaryTerm":"sumario",
-	 "version":"v1",
-	 "status":"ACTIVE"
+
+  "descricao_termo": "string",
+  "resumo_termo": "string",
+  "status": "ACTIVE",
+  "usuario": "string"
+}
+
+#Payload JSON aceite Termo
+{
+  "cip": 0,
+  "id_termo": 0,
+  "mdm_id": "string",
+  "resposta_cliente": true
 }
 
 #Documentação

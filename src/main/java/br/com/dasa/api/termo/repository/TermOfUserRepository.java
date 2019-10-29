@@ -1,9 +1,12 @@
 package br.com.dasa.api.termo.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import br.com.dasa.api.termo.entity.TermOfUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface TermOfUserRepository extends CrudRepository<TermOfUser, Long> {
-    
+@Repository
+public interface TermOfUserRepository extends JpaRepository<TermOfUser, Long> {
+
+
+
 }
