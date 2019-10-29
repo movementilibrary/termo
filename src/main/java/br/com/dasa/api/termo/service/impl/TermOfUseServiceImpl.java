@@ -25,7 +25,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Override
     public TermOfUser save(TermOfUser termOfUser) {
         termOfUser.setVersion("v1");
-        ValidaExceptions.validaTermoOfUser(termOfUser);
+
         return termOfUserRepository.save(termOfUser);
     }
 
