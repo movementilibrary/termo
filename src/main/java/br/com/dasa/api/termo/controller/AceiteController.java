@@ -1,21 +1,6 @@
 package br.com.dasa.api.termo.controller;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
 import br.com.dasa.api.termo.exceptions.ApiException;
@@ -29,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/term")
 @RestController
@@ -64,7 +47,7 @@ public class AceiteController {
 	}
 	
 	
-	@GetMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Responsável por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)	
 	public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
 		
