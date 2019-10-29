@@ -30,7 +30,13 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	}
 
 
-	public TermOfUser verificaFlagisMaked(TermOfUser termOfUser){
+    /**
+     * Metodo responsável por vertificar se Flag is marcada, caso esteja marcada gera Versao Grande
+     * caso não estaje marcada gera versão menor
+     * @param termOfUser
+     * @return
+     */
+	public TermOfUser verificaFlagIsMaked(TermOfUser termOfUser){
 		Integer novaVersao = null;
 		if(termOfUser.isFlag()){
 			termOfUser.setVersion(versionTermImpl.criaVersao(new VersionTerm(termOfUser.getDescriptionTerm())).toString());
@@ -56,6 +62,11 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	}
 
 
+    /**
+     * Metodo Responsáve por retornar TermOfUser pelo Id
+     * @param id
+     * @return
+     */
 	@Override
 	public Optional<TermOfUser> findById(long id) {
 		return termOfUserRepository.findById(id);

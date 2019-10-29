@@ -12,6 +12,6 @@ public interface TermOfUseService {
 
     void atualizaStatus(TermOfUser termOfUser);
 
-    TermOfUser verificaFlagisMaked (TermOfUser termOfUser);
+    TermOfUser verificaFlagIsMaked (TermOfUser termOfUser);
 
 }
