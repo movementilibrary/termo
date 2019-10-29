@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml versionTerm="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.8.RELEASE</version>
+        <versionTerm>2.1.8.RELEASE</versionTerm>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.dasa</groupId>
     <artifactId>api-termo</artifactId>
-    <version>VERSION-REVISION</version>
+    <versionTerm>VERSION-REVISION</versionTerm>
     <name>api-termo</name>
     <packaging>jar</packaging>
     <description>Serviço de Termo de consentimento de dados</description>
 
     <properties>
-        <java.version>11</java.version>
-        <keycloak.version>4.0.0.Final</keycloak.version>
+        <java.versionTerm>11</java.versionTerm>
+        <keycloak.versionTerm>4.0.0.Final</keycloak.versionTerm>
     </properties>
 
     <dependencies>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <versionTerm>3.9</versionTerm>
         </dependency>
 
         <dependency>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.newrelic.agent.java</groupId>
             <artifactId>newrelic-java</artifactId>
-            <version>5.0.0</version>
+            <versionTerm>5.0.0</versionTerm>
             <scope>provided</scope>
             <type>zip</type>
         </dependency>
@@ -74,12 +74,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.1</version>
+            <versionTerm>2.9.1</versionTerm>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.1</version>
+            <versionTerm>2.9.1</versionTerm>
         </dependency>
 
         <dependency>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
+            <versionTerm>1.18.10</versionTerm>
             <scope>provided</scope>
         </dependency>
 
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <versionTerm>2.8.5</versionTerm>
         </dependency>
 
 
@@ -115,7 +115,7 @@
             <dependency>
                 <groupId>org.keycloak.bom</groupId>
                 <artifactId>keycloak-adapter-bom</artifactId>
-                <version>${keycloak.version}</version>
+                <versionTerm>${keycloak.versionTerm}</versionTerm>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -132,7 +132,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version><!--$NO-MVN-MAN-VER$ -->
+                <versionTerm>3.1.1</versionTerm><!--$NO-MVN-MAN-VER$ -->
                 <executions>
                     <execution>
                         <id>unpack-newrelic</id>

@@ -9,4 +9,9 @@ public interface TermOfUseService {
     Optional<TermOfUser> findById(long id);
 
     TermOfUser save(TermOfUser termOfUser);
+
+    void atualizaStatus(TermOfUser termOfUser);
+
+    Integer verificaFlag (TermOfUser termOfUser);
+
 }

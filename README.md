@@ -4,7 +4,7 @@
 
 #Pré-requisites
    It's required a IDE Eclipse or InteliJ.
-   Minimum version required is Java 11.
+   Minimum versionTerm required is Java 11.
    Maven
 
 #Tecnologia
@@ -28,8 +28,9 @@ http://localhost:8080/term/user/{id}
 	 "loginUser":"t34904918827",
 	 "descriptionTerm":"termo de uso",
 	 "summaryTerm":"sumario",
-	 "version":"v1",
+	 "versionTerm":"v1",
 	 "status":"ACTIVE"
+	 
 }
 
 #Documentação

@@ -20,7 +20,7 @@ public class AceiteTermo {
 
 	private Boolean respostaCliente;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
 	private TermOfUser termOfUser;
 

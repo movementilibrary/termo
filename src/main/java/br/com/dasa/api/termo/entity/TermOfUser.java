@@ -42,6 +42,10 @@ public class TermOfUser implements Serializable {
 	@Column(name = "version_term", nullable = false)
 	private String version;
 
+
+	@Column(name = "flag", nullable = false)
+	private boolean flag;
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status_term", nullable = false)
 	private StatusTermUse status;
@@ -49,13 +53,15 @@ public class TermOfUser implements Serializable {
 	public TermOfUser() {
 	}
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
-			StatusTermUse status) {
+
+	public TermOfUser(Long id, String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version, boolean flag, StatusTermUse status) {
+		this.id = id;
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
 		this.currentDate = currentDate;
 		this.version = version;
+		this.flag = flag;
 		this.status = status;
 	}
 
@@ -105,6 +111,14 @@ public class TermOfUser implements Serializable {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 	public StatusTermUse getStatus() {
