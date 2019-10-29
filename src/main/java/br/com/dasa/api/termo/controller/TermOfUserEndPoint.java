@@ -69,7 +69,7 @@ public class TermOfUserEndPoint {
     public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
         LOG.info("Entrado no metodo save");
         try {
-            TermOfUser termUser = termOfUseService.save(termOfUser);
+            TermOfUser termUser = termOfUseService.verificaFlagisMaked(termOfUser);
             if (StringUtils.isEmpty(termUser)) {
                 return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
             }

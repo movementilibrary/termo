@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
-import br.com.dasa.api.termo.service.VersionTermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,23 +25,20 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	@Override
 	public TermOfUser save(TermOfUser termOfUser) {
 		termOfUser.setCurrentDate(new Date());
-		verificaFlag(termOfUser);
-
 		TermOfUser novoTermo = termOfUserRepository.save(termOfUser);
-		atualizaStatus(novoTermo);
-
 		return  novoTermo;
 	}
 
 
-	public Integer verificaFlag(TermOfUser termOfUser){
+	public TermOfUser verificaFlagisMaked(TermOfUser termOfUser){
 		Integer novaVersao = null;
 		if(termOfUser.isFlag()){
-			novaVersao = versionTermImpl.criaVersao(new VersionTerm(termOfUser.getDescriptionTerm()));
-			termOfUser.setVersion("V".concat(novaVersao.toString()));
+			termOfUser.setVersion(versionTermImpl.criaVersao(new VersionTerm(termOfUser.getDescriptionTerm())).toString());
+			atualizaStatus(termOfUser);
 		}
 
-		return novaVersao;
+		return termOfUser;
+
 	}
 
 	/**
@@ -53,8 +49,10 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	@Override
 	public void atualizaStatus(TermOfUser termOfUser){
 		Optional<TermOfUser> versaoAnterior = findById(termOfUser.getId() - 1);
-		if(versaoAnterior.isPresent())
+		if(versaoAnterior.isPresent()) {
 			versaoAnterior.get().setStatus(StatusTermUse.INACTIVE);
+		    save(versaoAnterior.get());
+		}
 	}
 
 
@@ -64,5 +62,5 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	}
 
 
-	
+	//TODO: zerar subVersao
 }
