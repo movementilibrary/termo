@@ -33,9 +33,6 @@ public class ValidaExceptions {
 
     }
 
-    public static void validaTermoOfUser(TermOfUser termOfUser){
-        if (termOfUser.getId() == null){
-            throw new AceiteExceptions(AceiteTermoEnums.ID_NAO_ENCONTRADO);
-        }
-    }
+
+
 }
