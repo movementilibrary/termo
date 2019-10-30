@@ -122,15 +122,15 @@ public class AceiteTestUnitarios {
     }
 
 
-
-    private AceiteTermoJson getAceiteTermo() {
-
-        termoJson.setRespostaCliente(getEsperado().getRespostaCliente());
-        termoJson.setIdTermo(getEsperado().getTermOfUser().getId());
-        termoJson.setCip(getEsperado().getCip());
-        termoJson.setMdmId(getEsperado().getMdmIdCliente());
-        return termoJson;
-    }
+//
+//    private AceiteTermoJson getAceiteTermo() {
+//
+//        termoJson.setRespostaCliente(getEsperado().getRespostaCliente());
+//        termoJson.setIdTermo(getEsperado().getTermOfUser().getId());
+//        termoJson.setCip(getEsperado().getCip());
+//        termoJson.setMdmId(getEsperado().getMdmIdCliente());
+//        return termoJson;
+//    }
 
     private AceiteTermo getEsperado() {
 
