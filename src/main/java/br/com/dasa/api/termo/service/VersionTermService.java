@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface VersionTermService {
 
-    Integer criaVersao(VersionTerm description);
+    Integer saveNewVersion(VersionTerm versionTerm);
+
+    VersionTerm findById(Integer id);
 
 }

@@ -7,9 +7,17 @@ import javax.persistence.*;
 public class SubVersion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private  Integer subVersion;
 
+
+    public SubVersion() {
+    }
+
+    public SubVersion(Integer subVersion) {
+        this.subVersion = subVersion;
+    }
 
     public Integer getId() {
         return id;
@@ -17,5 +25,13 @@ public class SubVersion {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSubVersion() {
+        return subVersion;
+    }
+
+    public void setSubVersion(Integer subVersion) {
+        this.subVersion = subVersion;
     }
 }

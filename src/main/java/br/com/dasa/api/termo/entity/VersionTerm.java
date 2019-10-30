@@ -9,16 +9,15 @@ public class VersionTerm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String description;
+    private Integer version;
 
 
     public VersionTerm() {
     }
 
-    public VersionTerm(String description) {
-        this.description = description;
+    public VersionTerm( Integer version) {
+        this.version = version;
     }
-
 
     public Integer getId() {
         return id;
@@ -28,11 +27,11 @@ public class VersionTerm {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getVersion() {
+        return version;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

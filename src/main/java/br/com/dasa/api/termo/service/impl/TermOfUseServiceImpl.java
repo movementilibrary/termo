@@ -3,6 +3,7 @@ package br.com.dasa.api.termo.service.impl;
 import java.util.Date;
 import java.util.Optional;
 
+import br.com.dasa.api.termo.entity.SubVersion;
 import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,20 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 	@Autowired
 	private VersionTermImpl versionTermImpl;
 
+	@Autowired
+	private SubVersionImpl subVersionImpl;
+
 
 	@Override
 	public TermOfUser save(TermOfUser termOfUser) {
 		termOfUser.setCurrentDate(new Date());
+		String newVersion = null;
+		if(termOfUser.isFlag()){
+			newVersion = generatedNewVersion();
+		}else {
+			newVersion = generatedNewSubVersion();
+		}
+		termOfUser.setVersion(newVersion);
 		TermOfUser novoTermo = termOfUserRepository.save(termOfUser);
 		return  novoTermo;
 	}
@@ -33,32 +44,39 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     /**
      * Metodo responsável por vertificar se Flag is marcada, caso esteja marcada gera Versao Grande
      * caso não estaje marcada gera versão menor
-     * @param termOfUser
+     * @param
      * @return
      */
-	public TermOfUser verificaFlagIsMaked(TermOfUser termOfUser){
-		Integer novaVersao = null;
-		if(termOfUser.isFlag()){
-			termOfUser.setVersion(versionTermImpl.criaVersao(new VersionTerm(termOfUser.getDescriptionTerm())).toString());
-			atualizaStatus(termOfUser);
-		}
+	public String generatedNewVersion(){
+		Integer newVersion = null;
+			VersionTerm currenteVersion = versionTermImpl.findById(1);
+			if(currenteVersion==null){
+				newVersion = versionTermImpl.saveNewVersion(new VersionTerm(1));
+			}else{
+				currenteVersion.setVersion(currenteVersion.getVersion()+1);
+				newVersion = versionTermImpl.saveNewVersion(currenteVersion);
 
-		return termOfUser;
+				SubVersion currentSubVersion = subVersionImpl.findById(1);
+				subVersionImpl.updateSubVersion(currentSubVersion);
+			}
+
+		return "V".concat(newVersion.toString());
 
 	}
 
-	/**
-	 * Metodo Responsável por atualizar status caso encontre versão
-	 * @param termOfUser
-	 * @return
-	 */
-	@Override
-	public void atualizaStatus(TermOfUser termOfUser){
-		Optional<TermOfUser> versaoAnterior = findById(termOfUser.getId() - 1);
-		if(versaoAnterior.isPresent()) {
-			versaoAnterior.get().setStatus(StatusTermUse.INACTIVE);
-		    save(versaoAnterior.get());
+
+	public String generatedNewSubVersion(){
+		Integer newSubVersion = null;
+		SubVersion currentSubVersion = subVersionImpl.findById(1);
+		if(currentSubVersion==null){
+			newSubVersion = subVersionImpl.saveNewSubVersion(new SubVersion(1));
+		}else {
+			currentSubVersion.setSubVersion(currentSubVersion.getId()+1);
+			newSubVersion = subVersionImpl.saveNewSubVersion(currentSubVersion);
+
+			VersionTerm currenteVersion = versionTermImpl.findById(1);
 		}
+		return "V".concat(currentSubVersion.toString()).concat(".").concat(newSubVersion.toString());
 	}
 
 
@@ -72,6 +90,5 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 		return termOfUserRepository.findById(id);
 	}
 
-
-	//TODO: zerar subVersao
+//TODO: inativar versao anterior
 }

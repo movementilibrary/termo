@@ -10,8 +10,6 @@ public interface TermOfUseService {
 
     TermOfUser save(TermOfUser termOfUser);
 
-    void atualizaStatus(TermOfUser termOfUser);
 
-    TermOfUser verificaFlagIsMaked (TermOfUser termOfUser);
 
 }

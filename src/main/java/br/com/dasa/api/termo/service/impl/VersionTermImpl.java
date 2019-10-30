@@ -20,10 +20,14 @@ public class VersionTermImpl implements VersionTermService {
      * @return
      */
     @Override
-    public Integer criaVersao(VersionTerm versionTerm) {
+    public Integer saveNewVersion(VersionTerm versionTerm) {
         return versionTermRepository.save(versionTerm).getId();
     }
 
+    @Override
+    public VersionTerm findById(Integer id) {
+        return versionTermRepository.findById(id).get();
+    }
 
 
 }
