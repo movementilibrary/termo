@@ -51,30 +51,16 @@ public class TermOfUser {
 
 
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status) {
+	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, boolean flagAtualizacao) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
 		this.status = status;
+		this.flagAtualizacao = flagAtualizacao;
 	}
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, String version) {
-		this.loginUser = loginUser;
-		this.descriptionTerm = descriptionTerm;
-		this.summaryTerm = summaryTerm;
-		this.status = status;
-		this.version = version;
-	}
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
-					  StatusTermUse status) {
-		this.loginUser = loginUser;
-		this.descriptionTerm = descriptionTerm;
-		this.summaryTerm = summaryTerm;
-		this.currentDate = currentDate;
-		this.version = version;
-		this.status = status;
-	}
+
 
 	public Long getId() {
 		return id;

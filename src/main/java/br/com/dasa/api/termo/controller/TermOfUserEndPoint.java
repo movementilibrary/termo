@@ -71,9 +71,8 @@ public class TermOfUserEndPoint {
 
         try {
 
-            TermOfUser termOfUser =
-                    new TermOfUser(termoOfUserJson.getLoginUser(), termoOfUserJson.getDescriptionTerm(),
-                            termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus());
+            TermOfUser termOfUser = new TermOfUser(termoOfUserJson.getLoginUser(), termoOfUserJson.getDescriptionTerm(),
+                    termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus(), termoOfUserJson.getFlagAtualizacao());
 
             this.termOfUseService.save(termOfUser);
 

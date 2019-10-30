@@ -19,7 +19,10 @@ public class TermoOfUserJson {
     @JsonProperty("USUARIO")
     private String loginUser;
 
-     TermoOfUserJson() {
+    @JsonProperty("FLAG_ATUALIZACAO")
+    private Boolean flagAtualizacao;
+
+    TermoOfUserJson() {
     }
 
     public String getDescriptionTerm() {
@@ -52,5 +55,13 @@ public class TermoOfUserJson {
 
     public void setStatus(StatusTermUse status) {
         this.status = status;
+    }
+
+    public Boolean getFlagAtualizacao() {
+        return flagAtualizacao;
+    }
+
+    public void setFlagAtualizacao(Boolean flagAtualizacao) {
+        this.flagAtualizacao = flagAtualizacao;
     }
 }
