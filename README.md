@@ -27,10 +27,13 @@ http://localhost:8090/swagger-ui.html#/api/term/user/{id}
 #Payload JSON to insert new term of user
 {
 
+
   "descricao_termo": "string",
+  "flag_atualizacao": true,
   "resumo_termo": "string",
   "status": "ACTIVE",
   "usuario": "string"
+
 }
 
 #Payload JSON aceite Termo
