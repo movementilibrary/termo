@@ -1,6 +1,4 @@
 package br.com.dasa.api.termo.service.impl;
-
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.Optional;
 
@@ -9,6 +7,7 @@ import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +43,10 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     }
 
     @Override
-    public TermOfUser checkFlagIsMarked(TermoOfUserJson TermoOfUserJson) {
-
-        //TODO: fazer depara termoOfuser
+    public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
+        TermOfUser termOfUser = convertTerOfUserJsonToTermOfUserJson(termoOfUserJson);
         String newVersion = null;
-
-        if (termOfUser.isFlag() == true) {
+        if (termOfUser.isFlagAtualizacao() == true) {
             newVersion = generatedNewVersion();
 
         } else {
@@ -147,6 +144,22 @@ public class TermOfUseServiceImpl implements TermOfUseService {
             e.getMessage();
         }
 
+    }
+
+
+    /**
+     * Metodo responsável por converter TermOfUserJson to TermOfUser
+     * @param termoOfUserJson
+     * @return
+     */
+    public TermOfUser convertTerOfUserJsonToTermOfUserJson (TermoOfUserJson termoOfUserJson){
+        TermOfUser termOfUser = new TermOfUser();
+        termOfUser.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
+        termOfUser.setLoginUser(termoOfUserJson.getLoginUser());
+        termOfUser.setSummaryTerm(termoOfUserJson.getSummaryTerm());
+        termOfUser.setFlagAtualizacao(termoOfUserJson.getFlagAtualizacao());
+        termOfUser.setStatus(StatusTermUse.ACTIVE);
+        return termOfUser;
     }
 
 

@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface TermOfUseService {
 
 
-
     Optional<TermOfUser> findById(long id);
 
     TermOfUser checkFlagIsMarked(TermoOfUserJson termOfUserJson);

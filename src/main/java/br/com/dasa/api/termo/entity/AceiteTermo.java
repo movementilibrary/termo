@@ -21,8 +21,6 @@ public class AceiteTermo {
 
 	private Boolean respostaCliente;
 
-    //TODO: Verificar porque manyToMany
-	@ManyToOne(cascade = CascadeType.ALL)
 	private Integer cip;
 
 	@ManyToOne(cascade = CascadeType.DETACH)

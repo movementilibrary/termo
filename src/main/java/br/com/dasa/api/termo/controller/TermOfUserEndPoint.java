@@ -47,7 +47,7 @@ public class TermOfUserEndPoint {
         LOG.info("Entrado no metodo findById");
         try {
             Optional<TermOfUser> optional = this.termOfUseService.findById(id);
-            if (optional.isEmpty()) {
+            if (!optional.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(optional.get(), HttpStatus.OK);
@@ -66,12 +66,11 @@ public class TermOfUserEndPoint {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
-    public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
-        TermOfUser termUser = termOfUseService.checkFlagIsMarked(TermoOfUserJson);
-        return new ResponseEntity<TermOfUser>(TermoOfUserJson, HttpStatus.CREATED);
+    public ResponseEntity<TermOfUser> save(@RequestBody TermoOfUserJson termoOfUserJson) {
+        TermOfUser termoOfUser = termOfUseService.checkFlagIsMarked(termoOfUserJson);
+        return new ResponseEntity<TermOfUser>(termoOfUser, HttpStatus.CREATED);
     }
 
 }
 
 
-}
