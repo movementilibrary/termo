@@ -1,18 +1,33 @@
 package br.com.dasa.api.termo.service;
 
-import br.com.dasa.api.termo.entity.TermOfUser;
-
 import java.util.Optional;
 
-public interface TermOfUseService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.dasa.api.termo.entity.TermOfUser;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
+
+@Service
+public class TermOfUseService {
+
+	@Autowired
+	private TermOfUserRepository termOfUserRepository;
 
 
+	public Optional<TermOfUser> findById(long id) {
+		return termOfUserRepository.findById(id);
+	}
 
-    Optional<TermOfUser> findById(long id);
+	
+	public TermOfUser save(TermOfUser termOfUser) {
+		termOfUser.setVersion("v1");
 
-
-    TermOfUser save(TermOfUser termOfUser);
-
-
+		return termOfUserRepository.save(termOfUser);
+	}
+	
+	public TermOfUser buscarUltimoTermo() {
+		return termOfUserRepository.buscarUltimoTermoAtivo(); 
+	}
 
 }

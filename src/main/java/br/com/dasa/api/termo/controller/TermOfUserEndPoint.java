@@ -86,6 +86,24 @@ public class TermOfUserEndPoint {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("/last")
+    public ResponseEntity buscarUltimoTermo() {
+    	try {
+    		
+    		TermOfUser termOfUser = termOfUseService.buscarUltimoTermo(); 
+    		
+    		if(termOfUser != null) {
+    			return new ResponseEntity(termOfUser, HttpStatus.OK); 
+    		}
+    		
+    		return new ResponseEntity(HttpStatus.NO_CONTENT); 
+    		
+    	}catch(Exception e) {
+    		LOG.error(e.getMessage(), e);
+    		return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR); 
+    	}
+    }
 
 
 }
