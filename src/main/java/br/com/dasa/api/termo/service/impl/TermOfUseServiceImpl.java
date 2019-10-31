@@ -1,18 +1,22 @@
 package br.com.dasa.api.termo.service.impl;
 
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.Optional;
 
 import br.com.dasa.api.termo.entity.SubVersion;
 import br.com.dasa.api.termo.entity.VersionTerm;
+import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.dasa.api.termo.entity.TermOfUser;
+
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.TermOfUseService;
+
 
 @Service
 public class TermOfUseServiceImpl implements TermOfUseService {
@@ -40,7 +44,9 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     }
 
     @Override
-    public TermOfUser checkFlagIsMarked(TermOfUser termOfUser) {
+    public TermOfUser checkFlagIsMarked(TermoOfUserJson TermoOfUserJson) {
+
+        //TODO: fazer depara termoOfuser
         String newVersion = null;
 
         if (termOfUser.isFlag() == true) {
@@ -145,3 +151,4 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 
 
 }
+

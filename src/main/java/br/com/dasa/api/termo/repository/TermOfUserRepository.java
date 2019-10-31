@@ -1,14 +1,17 @@
 package br.com.dasa.api.termo.repository;
 
-import br.com.dasa.api.termo.enumeration.StatusTermUse;
-import org.springframework.data.repository.CrudRepository;
 
+import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import br.com.dasa.api.termo.dao.TermoDAO;
 import br.com.dasa.api.termo.entity.TermOfUser;
 
 import java.util.Optional;
 
-public interface TermOfUserRepository extends CrudRepository<TermOfUser, Long> {
+@Repository
+public interface TermOfUserRepository extends JpaRepository<TermOfUser, Long>, TermoDAO {
 
     Optional<TermOfUser> findByStatus(StatusTermUse status);
-    
+
 }
