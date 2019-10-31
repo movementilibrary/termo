@@ -1,11 +1,14 @@
 package br.com.dasa.api.termo.service.impl;
 
 import br.com.dasa.api.termo.entity.SubVersion;
-import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.repository.SubVersionRepository;
 import br.com.dasa.api.termo.service.SubVersionTermService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Service
 public class SubVersionImpl implements SubVersionTermService {
 
     @Autowired
@@ -13,8 +16,16 @@ public class SubVersionImpl implements SubVersionTermService {
 
 
     @Override
-    public Integer saveNewSubVersion(SubVersion subVersion) {
-        return subVersionRepository.save(subVersion).getId();
+    public SubVersion saveNewSubVersion(SubVersion subVersion) {
+        SubVersion newSubVersion = null;
+        try {
+         newSubVersion = subVersionRepository.save(subVersion);
+
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+        return newSubVersion;
     }
 
     @Override
@@ -25,6 +36,12 @@ public class SubVersionImpl implements SubVersionTermService {
 
     @Override
     public SubVersion findById(Integer id) {
-        return null;
+        Optional<SubVersion> currentSubVersion = null;
+        try {
+            currentSubVersion = subVersionRepository.findById(id);
+        }catch (Exception e){
+            e.getMessage();
+        }
+        return currentSubVersion.orElse(null);
     }
 }

@@ -2,10 +2,12 @@ package br.com.dasa.api.termo.service;
 
 import br.com.dasa.api.termo.entity.SubVersion;
 
+import java.util.Optional;
+
 
 public interface SubVersionTermService {
 
-    Integer saveNewSubVersion(SubVersion subVersion);
+    SubVersion saveNewSubVersion(SubVersion subVersion);
 
     void updateSubVersion(SubVersion subVersion);
 

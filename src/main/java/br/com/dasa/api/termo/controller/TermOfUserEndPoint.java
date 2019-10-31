@@ -60,23 +60,16 @@ public class TermOfUserEndPoint {
     @PostMapping(value = "/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "POST", value = "Responsável por salvar e atualizar os termos de uso")
     @ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Sucesso"),
-			@ApiResponse(code = 401, message = "Unauthorized"),
-			@ApiResponse(code = 403, message = "Forbidden"),
-			@ApiResponse(code = 404, message = "Not Found"),
-			@ApiResponse(code = 500, message = "Um erro interno foi detectado")
+            @ApiResponse(code = 200, message = "Sucesso"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
     public ResponseEntity<TermOfUser> save(@RequestBody TermOfUser termOfUser) {
         LOG.info("Entrado no metodo save");
-        try {
-            TermOfUser termUser = termOfUseService.verificaFlagIsMaked(termOfUser);
-            if (StringUtils.isEmpty(termUser)) {
-                return new ResponseEntity<TermOfUser>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<TermOfUser>(termUser, HttpStatus.OK);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            return new ResponseEntity<TermOfUser>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        TermOfUser termUser = termOfUseService.checkFlagIsMarked(termOfUser);
+        return new ResponseEntity<TermOfUser>(termOfUser, HttpStatus.CREATED);
+
     }
 }
