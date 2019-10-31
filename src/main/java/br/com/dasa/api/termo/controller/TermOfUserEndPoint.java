@@ -87,7 +87,8 @@ public class TermOfUserEndPoint {
         }
     }
     
-    @GetMapping("/last")
+    @GetMapping(value = "/last", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "busca o ultimo termo valido", response = TermOfUser.class)
     public ResponseEntity buscarUltimoTermo() {
     	try {
     		
