@@ -1,29 +1,21 @@
 package br.com.dasa.api.termo.entity;
 
-import java.io.Serializable;
+import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import br.com.dasa.api.termo.enumeration.StatusTermUse;
 
 @Entity
 @Table(name = "term_of_user")
-public class TermOfUser implements Serializable {
+@SuppressWarnings("serial")
+public class TermOfUser {
 
-	private static final long serialVersionUID = 5976190674890475517L;
+
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(name = "login_user", nullable = false)
@@ -32,12 +24,14 @@ public class TermOfUser implements Serializable {
 	@Column(name = "description_term", columnDefinition="TEXT")
 	private String descriptionTerm;
 
-	@Column(name = "summary_term", nullable = false)
+	@Column(name = "summary_term", columnDefinition="TEXT", nullable = false)
 	private String summaryTerm;
 
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	@Column(name = "current_date_term", nullable = false)
-	private Date currentDate;
+	private Date currentDate = new Date();
+
 
 	@Column(name = "version_term", nullable = false)
 	private String version;
@@ -46,18 +40,27 @@ public class TermOfUser implements Serializable {
 	@Column(name = "status_term", nullable = false)
 	private StatusTermUse status;
 
+	@Column(name = "flag_atualizacao", nullable = false)
+	private boolean flagAtualizacao;
 	public TermOfUser() {
 	}
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
-			StatusTermUse status) {
+	public TermOfUser(Long id) {
+		this.id = id;
+	}
+
+
+
+	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, boolean flagAtualizacao) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
-		this.currentDate = currentDate;
-		this.version = version;
 		this.status = status;
+		this.flagAtualizacao = flagAtualizacao;
 	}
+
+
+
 
 	public Long getId() {
 		return id;
@@ -95,9 +98,6 @@ public class TermOfUser implements Serializable {
 		return currentDate;
 	}
 
-	public void setCurrentDate(Date currentDate) {
-		this.currentDate = currentDate;
-	}
 
 	public String getVersion() {
 		return version;
@@ -115,69 +115,16 @@ public class TermOfUser implements Serializable {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "TermOfUser [id=" + id + ", loginUser=" + loginUser + ", descriptionTerm=" + descriptionTerm
-				+ ", summaryTerm=" + summaryTerm + ", currentDate=" + currentDate + ", version=" + version + ", status="
-				+ status + "]";
+	public boolean isFlagAtualizacao() {
+		return flagAtualizacao;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((currentDate == null) ? 0 : currentDate.hashCode());
-		result = prime * result + ((descriptionTerm == null) ? 0 : descriptionTerm.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((loginUser == null) ? 0 : loginUser.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((summaryTerm == null) ? 0 : summaryTerm.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
+	public void setFlagAtualizacao(boolean flagAtualizacao) {
+		this.flagAtualizacao = flagAtualizacao;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TermOfUser other = (TermOfUser) obj;
-		if (currentDate == null) {
-			if (other.currentDate != null)
-				return false;
-		} else if (!currentDate.equals(other.currentDate))
-			return false;
-		if (descriptionTerm == null) {
-			if (other.descriptionTerm != null)
-				return false;
-		} else if (!descriptionTerm.equals(other.descriptionTerm))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (loginUser == null) {
-			if (other.loginUser != null)
-				return false;
-		} else if (!loginUser.equals(other.loginUser))
-			return false;
-		if (status != other.status)
-			return false;
-		if (summaryTerm == null) {
-			if (other.summaryTerm != null)
-				return false;
-		} else if (!summaryTerm.equals(other.summaryTerm))
-			return false;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
-			return false;
-		return true;
+	public void setCurrentDate(Date currentDate) {
+		this.currentDate = currentDate; 
+		
 	}
-
 }

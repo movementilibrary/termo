@@ -10,16 +10,11 @@ public abstract class ApiException extends RuntimeException {
         super(msg, e);
     }
 
-    public ApiException(String msg){
-        super(msg);
-    }
-    public ApiException(Exception e){
-            super(e);
+    public ApiException(){
+        super();
     }
 
-    public ApiException() {
 
-    }
 
     public abstract String getErro();
 }

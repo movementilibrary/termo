@@ -83,6 +83,28 @@ pipeline {
             }
         }
 
+		stage('Deploy Dev') {
+            steps {
+                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
+            }
+        }
+
+        // stage('Accept Test Dev'){
+
+        //     steps{
+        //         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'devops/test/accept_tests']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@bitbucket.org:dasa_desenv_atendimento/automacao_termo_consentimento.git']]])
+        //         sh 'devops-tools/pipeline-shared-librares/regression_tests.sh -e dev -p docker -s "-t @teste_integrado_termo_cadastro_e_aceite"'
+        //     }
+        //     post {
+        //         always {
+        //             cucumber fileIncludePattern: '**/*api-termo.json',
+        //             trendsLimit: 0,
+        //             sortingMethod: 'NATURAL'
+        //         }
+        //     }
+        // }
 
         stage('Deploy Hml') {
             steps {
@@ -92,50 +114,27 @@ pipeline {
             }
         }
 
-		stage('Deploy Dev') {
-            steps {
-                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-dev -r RSG_GLIESE_PRE_ANALYTICS_DEV -e dev -i deploy -d cloud'
-                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e dev'
-                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e dev'
-            }
-        }
-        
-        stage('Accept Test Dev'){
+//         stage('Approved to Prod') {
+//         	when {
+//                branch 'master'
+//             }
+//             options {
+//                 timeout(time: 600, unit: 'SECONDS')
+//             }
+//             steps {
+//                 input(
+//                     id: 'Proceed', message: 'Was this successful?', parameters: [
+//                     [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Package Approved to deploy in Prod ? (Click "Proceed" to continue)']
+//                 ])
+//             }
+//         }
 
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'devops/test/accept_tests']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@bitbucket.org:dasa_desenv_atendimento/automacao_termo_consentimento.git']]])
-                sh 'devops-tools/pipeline-shared-librares/regression_tests.sh -e dev -p docker -s "-t @teste_integrado_termo_cadastro_e_aceite"'
-            }
-            post {
-                always {
-                    cucumber fileIncludePattern: '**/*api-termo.json',
-                    trendsLimit: 0,
-                    sortingMethod: 'NATURAL'
-                }
-            }
-        }
-        
-        stage('Approved to Prod') {
-        	when {
-               branch 'master'
-            }
-            options {
-                timeout(time: 600, unit: 'SECONDS')
-            }
-            steps {
-                input(
-                    id: 'Proceed', message: 'Was this successful?', parameters: [
-                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Package Approved to deploy in Prod ? (Click "Proceed" to continue)']
-                ])
-            }
-        }
-        
-        stage('Deploy Prd') {
-            steps {
-                sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
-                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e prd'
-                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e prd'
-            }
-        }
+//         stage('Deploy Prd') {
+//             steps {
+//                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
+//                 sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e prd'
+//                 sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e prd'
+//             }
+//         }
     }
 }
