@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AceiteTermoJson {
 
-    @JsonProperty("ID_TERMO")
+    @JsonProperty("id_termo")
     private Long idTermo;
-    @JsonProperty("MDM_ID")
+    @JsonProperty("mdm_id")
     private String mdmId;
-    @JsonProperty("CIP")
+    @JsonProperty("cip")
     private Integer cip;
-    @JsonProperty("RESPOSTA_CLIENTE")
+    @JsonProperty("resposta_cliente")
     private boolean respostaCliente;
 
     public AceiteTermoJson() {

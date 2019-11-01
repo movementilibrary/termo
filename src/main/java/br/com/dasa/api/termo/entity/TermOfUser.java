@@ -13,118 +13,114 @@ import java.util.Date;
 public class TermOfUser {
 
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long id;
+    @Column(name = "login_user", nullable = false)
+    private String loginUser;
 
-	@Column(name = "login_user", nullable = false)
-	private String loginUser;
-	
-	@Column(name = "description_term", columnDefinition="TEXT")
-	private String descriptionTerm;
+    @Column(name = "description_term", columnDefinition = "TEXT")
+    private String descriptionTerm;
 
-	@Column(name = "summary_term", columnDefinition="TEXT", nullable = false)
-	private String summaryTerm;
+    @Column(name = "summary_term", columnDefinition = "TEXT", nullable = true)
+    private String summaryTerm;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-	@Column(name = "current_date_term", nullable = false)
-	private Date currentDate = new Date();
-
-
-	@Column(name = "version_term", nullable = false)
-	private String version;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status_term", nullable = false)
-	private StatusTermUse status;
-
-	@Column(name = "flag_atualizacao", nullable = false)
-	private boolean flagAtualizacao;
-	public TermOfUser() {
-	}
-
-	public TermOfUser(Long id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @Column(name = "current_date_term", nullable = false)
+    private Date currentDate = new Date();
 
 
+    @Column(name = "version_term", nullable = false)
+    private String version;
 
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, boolean flagAtualizacao) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_term", nullable = false)
+    private StatusTermUse status = StatusTermUse.ACTIVE;
+
+    @Column(name = "flag_atualizacao", nullable = false)
+    private boolean flagAtualizacao;
+
+    public TermOfUser() {
+    }
+
+    public TermOfUser(Long id) {
+        this.id = id;
+    }
+
+
+	public TermOfUser(String loginUser, String descriptionTerm,
+					  String summaryTerm, boolean flagAtualizacao) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
-		this.status = status;
 		this.flagAtualizacao = flagAtualizacao;
 	}
-
-
-
 
 	public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getLoginUser() {
-		return loginUser;
-	}
+    public String getLoginUser() {
+        return loginUser;
+    }
 
-	public void setLoginUser(String loginUser) {
-		this.loginUser = loginUser;
-	}
+    public void setLoginUser(String loginUser) {
+        this.loginUser = loginUser;
+    }
 
-	public String getDescriptionTerm() {
-		return descriptionTerm;
-	}
+    public String getDescriptionTerm() {
+        return descriptionTerm;
+    }
 
-	public void setDescriptionTerm(String descriptionTerm) {
-		this.descriptionTerm = descriptionTerm;
-	}
+    public void setDescriptionTerm(String descriptionTerm) {
+        this.descriptionTerm = descriptionTerm;
+    }
 
-	public String getSummaryTerm() {
-		return summaryTerm;
-	}
+    public String getSummaryTerm() {
+        return summaryTerm;
+    }
 
-	public void setSummaryTerm(String summaryTerm) {
-		this.summaryTerm = summaryTerm;
-	}
+    public void setSummaryTerm(String summaryTerm) {
+        this.summaryTerm = summaryTerm;
+    }
 
-	public Date getCurrentDate() {
-		return currentDate;
-	}
+    public Date getCurrentDate() {
+        return currentDate;
+    }
 
 
-	public String getVersion() {
-		return version;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public StatusTermUse getStatus() {
-		return status;
-	}
+    public StatusTermUse getStatus() {
+        return status;
+    }
 
-	public void setStatus(StatusTermUse status) {
-		this.status = status;
-	}
+    public void setStatus(StatusTermUse status) {
+        this.status = status;
+    }
 
-	public boolean isFlagAtualizacao() {
-		return flagAtualizacao;
-	}
+    public boolean isFlagAtualizacao() {
+        return flagAtualizacao;
+    }
 
-	public void setFlagAtualizacao(boolean flagAtualizacao) {
-		this.flagAtualizacao = flagAtualizacao;
-	}
+    public void setFlagAtualizacao(boolean flagAtualizacao) {
+        this.flagAtualizacao = flagAtualizacao;
+    }
 
-	public void setCurrentDate(Date currentDate) {
-		this.currentDate = currentDate; 
-		
-	}
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+
+    }
 }

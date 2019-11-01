@@ -2,6 +2,7 @@ package br.com.dasa.api.termo.exceptions;
 
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
+import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 
 public class ValidaExceptions {
@@ -31,6 +32,14 @@ public class ValidaExceptions {
             throw new AceiteExceptions(AceiteTermoEnums.CIP_INVALIDA);
         }
 
+
+    }
+
+    public static void validaStatus(TermOfUser termOfUser){
+
+            if (termOfUser.getStatus().equals(StatusTermUse.INACTIVE)){
+                throw  new AceiteExceptions(AceiteTermoEnums.STATUS_INATIVO);
+            }
     }
 
 

@@ -56,7 +56,7 @@ public class AceiteServiceTest {
 		TermOfUser term = criarTermoVersao("V-1.0", false);
 		criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+			BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
 		assertTrue(json.isTermoAceite());
 

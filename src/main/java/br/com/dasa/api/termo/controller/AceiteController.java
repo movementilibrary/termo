@@ -35,29 +35,29 @@ public class AceiteController {
 
     public ResponseEntity<AceiteTermoJson> salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
         LOGGER.info("Entrando no metodo de aceite de termo");
+        aceiteService.buscaIdTermo(aceiteTermo.getIdTermo());
         try {
+            aceiteService.salvarAceite(aceiteTermo);
+            return new ResponseEntity(aceiteTermo, HttpStatus.OK);
 
-            this.aceiteService.salvarAceite(aceiteTermo);
-            return new ResponseEntity<>(aceiteTermo, HttpStatus.OK);
+        } catch (ApiException e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-		} catch (ApiException e) {
-			LOGGER.error(e.getMessage());
-			return new ResponseEntity<AceiteTermoJson>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	
-	@GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Responsável por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)	
-	public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
-		
-		if((!StringUtils.isEmpty(mdmId)) || (cip !=null && cip > 0)) {
-			BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
-			return new ResponseEntity(json, HttpStatus.OK); 
-		}
-		
-		return new ResponseEntity(HttpStatus.BAD_REQUEST); 
-		
-	}
+
+    @GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Responsável por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
+    public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
+
+        if ((!StringUtils.isEmpty(mdmId)) || (cip != null && cip > 0)) {
+            BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+            return new ResponseEntity(json, HttpStatus.OK);
+        }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+    }
 
 }

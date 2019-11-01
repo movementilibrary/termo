@@ -1,19 +1,24 @@
 package br.com.dasa.api.termo.service;
 
 import br.com.dasa.api.termo.controller.AceiteController;
-import br.com.dasa.api.termo.entity.AceiteTermo;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
+import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.AceiteExceptions;
 import br.com.dasa.api.termo.exceptions.ApiException;
-import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
+import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
+import br.com.dasa.api.termo.service.impl.TermOfUseServiceImpl;
+import io.restassured.RestAssured;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,156 +27,104 @@ import java.util.Date;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = {"test"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AceiteTestUnitarios {
+
+    @Value("${local.server.port}")
+    protected int porta;
 
     @Autowired
     private TermOfUserRepository termOfUserRepository;
     @Autowired
     public AceiteService aceiteService;
     @Autowired
-    public AceiteController aceiteController;
+    private AceiteController aceiteController;
 
-    private TermOfUser termOfUser;
+    @Autowired
+    private TermOfUseServiceImpl termOfUseService;
 
-    private AceiteTermoJson termoJson;
+
+    private TermOfUser term;
+
+    private TermoOfUserJson termoOfUserJson;
+
+    private AceiteTermoJson aceiteTermoJson;
 
 
     @Before
     public void setUp() {
-        aceiteService = new AceiteService();
-        termOfUser = new TermOfUser();
-        termoJson = new AceiteTermoJson();
-    }
-
-
-    @Test
-    public void naoPodeMdmNulo() throws AceiteExceptions {
-        TermOfUser termOfUser = getOfUserEsperado();
-
-        AceiteTermo termo = new AceiteTermo(null, true, termOfUser, 9999);
-
-        AceiteTermoJson aceiteTermoJson = new AceiteTermoJson(1L, termo.getMdmIdCliente(), termo.getCip(),
-                termo.getRespostaCliente());
-
-        Assert.assertNull(null, aceiteTermoJson.getMdmId());
-
-
+        RestAssured.port = porta;
+        term = new TermOfUser();
+        aceiteTermoJson = new AceiteTermoJson();
+        termoOfUserJson = new TermoOfUserJson();
     }
 
     @Test
-    public void validaCipApenasNumero() throws AceiteExceptions {
-        TermOfUser termOfUser = new TermOfUser();
-        termOfUser.setId(1L);
+    public void testSalvaAceite() {
+        Integer cip = 9999;
+        String mdmId = "GLIESE-DEV-01";
 
-        AceiteTermo termo = new AceiteTermo("HYUIII", true, termOfUser, 9999);
+        term = criarTermoVersao("V-1.0", false);
+        AceiteTermoJson termoJson = criaAceiteTermo(1l, cip, mdmId, true);
 
-        AceiteTermoJson aceiteTermoJson = new AceiteTermoJson(1L, termo.getMdmIdCliente(), termo.getCip(),
-                termo.getRespostaCliente());
-
-        Assert.assertEquals(9999, aceiteTermoJson.getCip(), 0.001);
-    }
-
-    @Test
-    public void validaCipSemCaracteres() throws AceiteExceptions {
-        TermOfUser termOfUser = new TermOfUser();
-        termOfUser.setId(1L);
-
-        AceiteTermo termo = new AceiteTermo("HYUIII", true, termOfUser, 9999);
-
-        AceiteTermoJson aceiteTermoJson = new AceiteTermoJson(1L, termo.getMdmIdCliente(), termo.getCip(),
-                termo.getRespostaCliente());
-        boolean cip;
-        try {
-            cip = termo.getCip().toString().matches("[a-z]");
-            Assert.assertFalse(cip);
-        } catch (RuntimeException e) {
-            throw new AceiteExceptions(AceiteTermoEnums.CIP_INVALIDA);
-        }
+        boolean ok = aceiteService.salvarAceite(termoJson);
 
 
     }
-
-    @Test
-    public void verificaRespostaCLienteTrue() {
-        TermOfUser termOfUser = new TermOfUser();
-        termOfUser.setId(1L);
-
-        AceiteTermo termo = new AceiteTermo("HYUIII", true, termOfUser, 9999);
-
-        AceiteTermoJson aceiteTermoJson = new AceiteTermoJson(1L, termo.getMdmIdCliente(), termo.getCip(),
-                termo.getRespostaCliente());
-
-        Assert.assertTrue(termo.getRespostaCliente());
-    }
-
-    @Test
-    public void verificaRespostaCLienteFalse() {
-
-        termOfUser.setId(1L);
-
-        AceiteTermo termo = new AceiteTermo();
-        termo.setRespostaCliente(false);
-
-        AceiteTermoJson aceiteTermoJson = new AceiteTermoJson();
-        aceiteTermoJson.setRespostaCliente(termo.getRespostaCliente());
-
-
-        Assert.assertFalse(termo.getRespostaCliente());
-    }
-
 
 //
-//    private AceiteTermoJson getAceiteTermo() {
+//    @Test
+//    public void testAceiteTermoInactive() throws AceiteExceptions {
 //
-//        termoJson.setRespostaCliente(getEsperado().getRespostaCliente());
-//        termoJson.setIdTermo(getEsperado().getTermOfUser().getId());
-//        termoJson.setCip(getEsperado().getCip());
-//        termoJson.setMdmId(getEsperado().getMdmIdCliente());
-//        return termoJson;
+//
+////        Assert.assertNull(termOfUser.getStatus());
+//
+//
 //    }
 
-    private AceiteTermo getEsperado() {
+    private AceiteTermoJson criaAceiteTermo(Long id, Integer cip, String mdmId, boolean resposta) {
 
-        termOfUser.setId(1L);
-        AceiteTermo esperado = new AceiteTermo();
-        esperado.setRespostaCliente(true);
-        esperado.setMdmIdCliente("99999");
-        esperado.setTermOfUser(termOfUser);
-        esperado.setDataAceite(new Date());
-        esperado.setCip(921222);
-        return esperado;
+        AceiteTermoJson termoJson = new AceiteTermoJson();
+        termoJson.setMdmId(mdmId);
+        termoJson.setCip(cip);
+        termoJson.setRespostaCliente(resposta);
+
+
+        aceiteController.salvarTermoController(termoJson);
+        return termoJson;
     }
 
-    private TermOfUser getOfUserEsperado() {
-        termOfUser.setId(1L);
-        termOfUser.setLoginUser("GLIESE");
-        termOfUser.setStatus(StatusTermUse.ACTIVE);
-        termOfUser.setSummaryTerm("TEST-ESPERADO");
-        termOfUser.setDescriptionTerm("GLIESE TERMO");
-        termOfUser.setVersion("v1");
+    private TermoOfUserJson TermoJson(boolean flag, String user) {
+        TermoOfUserJson termoOfUserJson = new TermoOfUserJson();
+        termoOfUserJson.setDescriptionTerm("GLIESE TERMO");
+        termoOfUserJson.setFlagAtualizacao(flag);
+        termoOfUserJson.setLoginUser(user);
+        termoOfUserJson.setSummaryTerm("TEST DE INTEGRAÇÃO");
 
-        termOfUserRepository.save(termOfUser);
-        return termOfUser;
+        this.termOfUseService.save(termoOfUserJson);
+        return termoOfUserJson;
     }
 
-    @Test
-    public void testIdTermo() throws ApiException {
 
-        TermOfUser termOfUser = new TermOfUser();
-        termOfUser.setId(1L);
+    private TermOfUser criarTermoVersao(String version, boolean flagAtualizacao) {
 
-        Optional<TermOfUser> termOfUserOptional = termOfUserRepository.findById(termOfUser.getId());
-        if (!termOfUserOptional.isEmpty()) {
-            Assert.assertNotNull(termOfUserOptional.isPresent());
+        termoOfUserJson.setSummaryTerm("test");
+        termoOfUserJson.setLoginUser("gliese");
+        termoOfUserJson.setFlagAtualizacao(flagAtualizacao);
+        termoOfUserJson.setDescriptionTerm("termo");
 
-        }
+        term.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
+        term.setSummaryTerm(termoOfUserJson.getSummaryTerm());
+        term.setLoginUser(termoOfUserJson.getLoginUser());
+        term.setFlagAtualizacao(flagAtualizacao);
+        term.setVersion(version);
 
+        termOfUserRepository.save(term);
 
-
-
-
+       return term;
     }
+
 
 }

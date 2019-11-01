@@ -2,7 +2,6 @@ package br.com.dasa.api.termo.controller;
 
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
-import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.TermOfUseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -28,9 +26,6 @@ public class TermOfUserEndPoint {
 
     @Autowired
     private TermOfUseService termOfUseService;
-
-    @Autowired
-    private TermOfUserRepository termOfUserRepository;
 
 
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,21 +61,12 @@ public class TermOfUserEndPoint {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
-    public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
+    public ResponseEntity save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
 
         try {
-
-            TermOfUser termOfUser = new TermOfUser(termoOfUserJson.getLoginUser(), termoOfUserJson.getDescriptionTerm(),
-                    termoOfUserJson.getSummaryTerm(), termoOfUserJson.getStatus(), termoOfUserJson.getFlagAtualizacao());
-
-            this.termOfUseService.save(termOfUser);
-
-            if (StringUtils.isEmpty(termoOfUserJson)) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            LOG.info("Saindo do metodo save");
-            return new ResponseEntity<>(termoOfUserJson, HttpStatus.OK);
+            TermOfUser termOfUser = termOfUseService.save(termoOfUserJson);
+            return new ResponseEntity<>(termOfUser, HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
