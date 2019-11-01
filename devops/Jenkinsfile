@@ -114,9 +114,9 @@ pipeline {
 
         stage('Deploy prod') {
             steps {
-                //sh 'bash -x devops-tools/pipeline-shared-librares/approved.sh -e prd'
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
-                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/api/healthcheck/details -s 200 -t 900 -c 3 -e prd'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/actuator/health -s 200 -t 200 -c 5 -e prd'
+                sh 'bash -x devops-tools/pipeline-shared-librares/sync_subdomains.sh -e prd'
             }
         }
     }
