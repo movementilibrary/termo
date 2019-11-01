@@ -66,9 +66,9 @@ public class TermOfUserEndPoint {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
-    public ResponseEntity<TermOfUser> save(@RequestBody TermoOfUserJson termoOfUserJson) {
+    public ResponseEntity save(@RequestBody TermoOfUserJson termoOfUserJson) {
         TermOfUser termoOfUser = termOfUseService.checkFlagIsMarked(termoOfUserJson);
-        return new ResponseEntity<TermOfUser>(termoOfUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(termoOfUser, HttpStatus.CREATED);
     }
 
 }

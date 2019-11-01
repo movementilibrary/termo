@@ -1,4 +1,5 @@
 package br.com.dasa.api.termo.service.impl;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -7,7 +8,10 @@ import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import br.com.dasa.api.termo.service.SubVersionService;
+import br.com.dasa.api.termo.service.VersionTermService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,25 +24,28 @@ import br.com.dasa.api.termo.service.TermOfUseService;
 @Service
 public class TermOfUseServiceImpl implements TermOfUseService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TermOfUseServiceImpl.class);
+
     @Autowired
     private TermOfUserRepository termOfUserRepository;
 
     @Autowired
-    private VersionTermImpl versionTermImpl;
+    private VersionTermService versionTermService;
 
     @Autowired
-    private SubVersionImpl subVersionImpl;
+    private SubVersionService subVersionService;
 
 
     @Override
     public TermOfUser save(TermOfUser termOfUser) {
         TermOfUser newTermOfUser = null;
         try {
-            termOfUser.setCurrentDate(new Date());
+            LOGGER.info("Salvando termo do usuário");
             newTermOfUser = termOfUserRepository.save(termOfUser);
         } catch (Exception e) {
-            e.getMessage();
+            LOGGER.error("não foi possivel salvar termo do usuário", e.getMessage());
         }
+        LOGGER.info("Termo do usuário salvo com sucesso");
         return newTermOfUser;
     }
 
@@ -48,7 +55,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         String newVersion = null;
         if (termOfUser.isFlagAtualizacao() == true) {
             newVersion = generatedNewVersion();
-
         } else {
             newVersion = generatedNewSubVersion();
         }
@@ -68,17 +74,17 @@ public class TermOfUseServiceImpl implements TermOfUseService {
      */
     public String generatedNewVersion() {
         VersionTerm newVersion = null;
-        VersionTerm currenteVersion = versionTermImpl.findById(1);
+        VersionTerm currenteVersion = versionTermService.findById(1);
         if (currenteVersion == null) {
-            newVersion = versionTermImpl.saveNewVersion(new VersionTerm(1));
+            newVersion = versionTermService.saveNewVersion(new VersionTerm(1));
         } else {
             inativeCurrentTermOfUser();
             currenteVersion.setVersion(currenteVersion.getVersion() + 1);
-            newVersion = versionTermImpl.saveNewVersion(currenteVersion);
+            newVersion = versionTermService.saveNewVersion(currenteVersion);
 
-            SubVersion currentSubVersion = subVersionImpl.findById(1);
+            SubVersion currentSubVersion = subVersionService.findById(1);
             if (currentSubVersion != null) {
-                subVersionImpl.updateSubVersion(currentSubVersion);
+                subVersionService.updateSubVersion(currentSubVersion);
             }
         }
         return "V".concat(newVersion.getVersion().toString());
@@ -94,18 +100,20 @@ public class TermOfUseServiceImpl implements TermOfUseService {
      */
     public String generatedNewSubVersion() {
         SubVersion newSubVersion = null;
-        SubVersion currentSubVersion = subVersionImpl.findById(1);
-        VersionTerm currentVersion = versionTermImpl.findById(1);
+        SubVersion currentSubVersion = subVersionService.findById(1);
+        VersionTerm currentVersion = versionTermService.findById(1);
 
-        if(currentVersion==null){
-            throw new ResourceNotFoundException("Ai não amigão, criar subVersão sem umva versão é mancada");
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException("Ai não amigão, criar su-versão sem uma versão é mancada ");
         }
+
         inativeCurrentTermOfUser();
+
         if (currentSubVersion == null) {
-            newSubVersion = subVersionImpl.saveNewSubVersion(new SubVersion(1));
+            newSubVersion = subVersionService.saveNewSubVersion(new SubVersion(1));
         } else {
             currentSubVersion.setSubVersion(currentSubVersion.getSubVersion() + 1);
-            newSubVersion = subVersionImpl.saveNewSubVersion(currentSubVersion);
+            newSubVersion = subVersionService.saveNewSubVersion(currentSubVersion);
         }
 
         return "V".concat(currentVersion.getVersion().toString()).concat(".").concat(newSubVersion.getSubVersion().toString());
@@ -120,20 +128,22 @@ public class TermOfUseServiceImpl implements TermOfUseService {
      */
     @Override
     public Optional<TermOfUser> findById(long id) {
+        LOGGER.info("Inicinaod busca termo pelo id {}", id);
         Optional<TermOfUser> currentTermOfUser = null;
         try {
             currentTermOfUser = termOfUserRepository.findById(id);
         } catch (Exception e) {
-            e.getMessage();
+            LOGGER.error("Não foi possivel buscar termo pelo id {}", id, e.getMessage());
         }
         return currentTermOfUser;
     }
 
     /**
-     * Metodo responsável por inativar Termo de Usuario atual
+     * Metodo responsável por inativar Termo de Usuario
      */
     public void inativeCurrentTermOfUser() {
         Optional<TermOfUser> currentTermOfUser = null;
+        LOGGER.info("Inativando termo versão anterior");
         try {
             currentTermOfUser = termOfUserRepository.findByStatus(StatusTermUse.ACTIVE);
             if (currentTermOfUser.isPresent()) {
@@ -141,7 +151,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
                 save(currentTermOfUser.get());
             }
         } catch (Exception e) {
-            e.getMessage();
+            LOGGER.info("Não foi possivel encontrar termo do usuário ativo ", e.getMessage());
         }
 
     }
@@ -149,10 +159,12 @@ public class TermOfUseServiceImpl implements TermOfUseService {
 
     /**
      * Metodo responsável por converter TermOfUserJson to TermOfUser
+     *
      * @param termoOfUserJson
      * @return
      */
-    public TermOfUser convertTerOfUserJsonToTermOfUserJson (TermoOfUserJson termoOfUserJson){
+    public TermOfUser convertTerOfUserJsonToTermOfUserJson(TermoOfUserJson termoOfUserJson) {
+        LOGGER.info("Convertendo TermoOfUserJson para TermoOfUser");
         TermOfUser termOfUser = new TermOfUser();
         termOfUser.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
         termOfUser.setLoginUser(termoOfUserJson.getLoginUser());
