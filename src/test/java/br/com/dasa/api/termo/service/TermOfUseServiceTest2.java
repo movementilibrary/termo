@@ -24,7 +24,7 @@ import io.restassured.RestAssured;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = { "test" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TermOfUseServiceTest {
+public class TermOfUseServiceTest2 {
 
 	@Autowired
 	private TermOfUserRepository termOfUserRepository; 

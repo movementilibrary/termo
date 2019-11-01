@@ -92,7 +92,6 @@ pipeline {
         }
 
         // stage('Accept Test Dev'){
-
         //     steps{
         //         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'devops/test/accept_tests']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@bitbucket.org:dasa_desenv_atendimento/automacao_termo_consentimento.git']]])
         //         sh 'devops-tools/pipeline-shared-librares/regression_tests.sh -e dev -p docker -s "-t @teste_integrado_termo_cadastro_e_aceite"'
@@ -114,33 +113,11 @@ pipeline {
             }
         }
 
-        stage('Approved to Prod') {
-
-        	when {
-               branch 'master'
-            }
-
-            options {
-                timeout(time: 600, unit: 'SECONDS')
-            }
-            steps {
-                input(
-                    id: 'Proceed', message: 'Was this successful?', parameters: [
-                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Package Approved to deploy in Prod ? (Click "Proceed" to continue)']
-                ])
-            }
-        }
-
         stage('Deploy prod') {
-
-        	when {
-              branch 'master'
-            }
-
             steps {
-                sh 'bash -x devops-tools/pipeline-shared-librares/approved.sh -e prd'
+                //sh 'bash -x devops-tools/pipeline-shared-librares/approved.sh -e prd'
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
-                 sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/api/healthcheck/details -s 200 -t 900 -c 3 -e prd'
+                sh 'bash -x devops-tools/pipeline-shared-librares/check_upstart_app.sh -u $URL_APP/api/healthcheck/details -s 200 -t 900 -c 3 -e prd'
             }
         }
     }
