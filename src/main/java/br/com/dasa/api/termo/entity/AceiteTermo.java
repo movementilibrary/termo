@@ -33,7 +33,6 @@ public class AceiteTermo {
 	}
 	
 
-
 	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Integer cip) {
 
 		this.mdmIdCliente = mdmIdCliente;
