@@ -115,11 +115,6 @@ pipeline {
         }
 
         stage('Deploy prod') {
-
-        	when {
-              branch 'master'
-            }
-
             steps {
                 //sh 'bash -x devops-tools/pipeline-shared-librares/approved.sh -e prd'
                 sh 'bash -x devops-tools/pipeline-shared-librares/deploy.sh -a api-termo-prd -r RSG_GLIESE_PRE_ANALYTICS_PRD -e prd -i deploy -d cloud'
