@@ -22,6 +22,13 @@ public class TermoOfUserJson {
     TermoOfUserJson() {
     }
 
+    public TermoOfUserJson(String descriptionTerm, String summaryTerm, String loginUser, Boolean flagAtualizacao) {
+        this.descriptionTerm = descriptionTerm;
+        this.summaryTerm = summaryTerm;
+        this.loginUser = loginUser;
+        this.flagAtualizacao = flagAtualizacao;
+    }
+
     public String getDescriptionTerm() {
         return descriptionTerm;
     }

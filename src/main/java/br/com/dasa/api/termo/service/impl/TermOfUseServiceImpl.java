@@ -1,6 +1,8 @@
 package br.com.dasa.api.termo.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import br.com.dasa.api.termo.entity.SubVersion;
@@ -48,6 +50,8 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         LOGGER.info("Termo do usuário salvo com sucesso");
         return newTermOfUser;
     }
+
+
 
     @Override
     public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
@@ -139,16 +143,35 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     }
 
     /**
+     * Metodo responsável por retornar Termo pelo Status
+     * @param status
+     * @return
+     */
+    @Override
+    public List<TermOfUser> findByStatus(StatusTermUse status) {
+        List<TermOfUser> currentTermOfUser = null;
+//        ArrayList<TermOfUser> listTermOfUser = new ArrayList<>();
+        try {
+            LOGGER.info("Iniciando busca pelo status ");
+            currentTermOfUser = termOfUserRepository.findByStatus(status);
+  //          listTermOfUser.
+        }catch (Exception e){
+            LOGGER.error("Não foi possivel buscar termo pelo status", e.getMessage());
+        }
+        return currentTermOfUser;
+    }
+
+    /**
      * Metodo responsável por inativar Termo de Usuario
      */
     public void inativeCurrentTermOfUser() {
-        Optional<TermOfUser> currentTermOfUser = null;
+        List<TermOfUser> currentTermOfUser = null;
         LOGGER.info("Inativando termo versão anterior");
         try {
-            currentTermOfUser = termOfUserRepository.findByStatus(StatusTermUse.ACTIVE);
-            if (currentTermOfUser.isPresent()) {
-                currentTermOfUser.get().setStatus(StatusTermUse.INACTIVE);
-                save(currentTermOfUser.get());
+            currentTermOfUser = findByStatus(StatusTermUse.ACTIVE);
+            if (currentTermOfUser != null) {
+                currentTermOfUser.get(0).setStatus(StatusTermUse.INACTIVE);
+                save(currentTermOfUser.get(0));
             }
         } catch (Exception e) {
             LOGGER.info("Não foi possivel encontrar termo do usuário ativo ", e.getMessage());
