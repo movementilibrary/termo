@@ -46,6 +46,9 @@ public class TermOfUserServiceTest {
     @Autowired
     private TermOfUserEndPoint termOfUserEndPoint;
 
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
+
 
     /**
      * Retorna 404 pois não foi encontrado uma Versão do termo
@@ -105,7 +108,7 @@ public class TermOfUserServiceTest {
     @Test
     public void teste4DeveVerificarSeV2EstaAtivo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
-        assertEquals("V1", byStatus.get(0).getVersion());
+        assertEquals("V-2.0", byStatus.get(0).getVersion());
     }
 
 
@@ -116,7 +119,7 @@ public class TermOfUserServiceTest {
     @Test
     public void teste5DeveVerificarSeV1EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.INACTIVE);
-        assertEquals("v1", byStatus.get(0).getVersion());
+        assertEquals("V-1.0", byStatus.get(0).getVersion());
     }
 
     /**
@@ -144,8 +147,8 @@ public class TermOfUserServiceTest {
     @Test
     public void teste7DeveVerificarSeV2EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.INACTIVE);
-        assertEquals("v1", byStatus.get(0).getVersion());
-        assertEquals("V1", byStatus.get(1).getVersion());
+        assertEquals("V-1.0", byStatus.get(0).getVersion());
+        assertEquals("V-2.0", byStatus.get(1).getVersion());
     }
 
     /**
@@ -154,7 +157,7 @@ public class TermOfUserServiceTest {
     @Test
     public void teste8DeveVerificarSeV1EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
-        assertEquals("V2", byStatus.get(0).getVersion());
+        assertEquals("V-2.1", byStatus.get(0).getVersion());
     }
 
 
