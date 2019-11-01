@@ -163,7 +163,7 @@ public class AceiteTestUnitarios {
         termOfUser.setId(1L);
 
         Optional<TermOfUser> termOfUserOptional = termOfUserRepository.findById(termOfUser.getId());
-        if (!termOfUserOptional.isEmpty()) {
+        if (!termOfUserOptional.isPresent()) {
             Assert.assertNotNull(termOfUserOptional.isPresent());
 
         }

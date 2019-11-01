@@ -12,8 +12,6 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class TermOfUser {
 
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
@@ -42,25 +40,22 @@ public class TermOfUser {
 
 	@Column(name = "flag_atualizacao", nullable = false)
 	private boolean flagAtualizacao;
+
+
 	public TermOfUser() {
 	}
 
-	public TermOfUser(Long id) {
+
+	public TermOfUser(Long id, String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version, StatusTermUse status, boolean flagAtualizacao) {
 		this.id = id;
-	}
-
-
-
-	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, StatusTermUse status, boolean flagAtualizacao) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
+		this.currentDate = currentDate;
+		this.version = version;
 		this.status = status;
 		this.flagAtualizacao = flagAtualizacao;
 	}
-
-
-
 
 	public Long getId() {
 		return id;

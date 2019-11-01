@@ -4,7 +4,7 @@
 
 #Pré-requisites
    It's required a IDE Eclipse or InteliJ.
-   Minimum version required is Java 11.
+   Minimum versionTerm required is Java 11.
    Maven
 
 #Tecnologia
@@ -26,6 +26,14 @@ http://localhost:8090/swagger-ui.html#/api/term/user/{id}
  
 #Payload JSON to insert new term of user
 {
+<<<<<<< HEAD
+	 "loginUser":"t34904918827",
+	 "descriptionTerm":"termo de uso",
+	 "summaryTerm":"sumario",
+	 "versionTerm":"v1",
+	 "status":"ACTIVE"
+	 
+=======
 
 
   "descricao_termo": "string",
@@ -42,6 +50,7 @@ http://localhost:8090/swagger-ui.html#/api/term/user/{id}
   "id_termo": 0,
   "mdm_id": "string",
   "resposta_cliente": true
+>>>>>>> master
 }
 
 #Documentação

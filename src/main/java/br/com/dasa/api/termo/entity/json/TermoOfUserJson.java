@@ -7,22 +7,26 @@ import org.springframework.boot.jackson.JsonComponent;
 @JsonComponent
 public class TermoOfUserJson {
 
-    @JsonProperty("DESCRICAO_TERMO")
+    @JsonProperty("descricao_termo")
     private String descriptionTerm;
 
-    @JsonProperty("RESUMO_TERMO")
+    @JsonProperty("resumo_termo")
     private String summaryTerm;
 
-    @JsonProperty("STATUS")
-    private StatusTermUse status;
-
-    @JsonProperty("USUARIO")
+    @JsonProperty("usuario")
     private String loginUser;
 
-    @JsonProperty("FLAG_ATUALIZACAO")
+    @JsonProperty("flag_atualizacao")
     private Boolean flagAtualizacao;
 
     TermoOfUserJson() {
+    }
+
+    public TermoOfUserJson(String descriptionTerm, String summaryTerm, String loginUser, Boolean flagAtualizacao) {
+        this.descriptionTerm = descriptionTerm;
+        this.summaryTerm = summaryTerm;
+        this.loginUser = loginUser;
+        this.flagAtualizacao = flagAtualizacao;
     }
 
     public String getDescriptionTerm() {
@@ -47,14 +51,6 @@ public class TermoOfUserJson {
 
     public void setSummaryTerm(String summaryTerm) {
         this.summaryTerm = summaryTerm;
-    }
-
-    public StatusTermUse getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusTermUse status) {
-        this.status = status;
     }
 
     public Boolean getFlagAtualizacao() {
