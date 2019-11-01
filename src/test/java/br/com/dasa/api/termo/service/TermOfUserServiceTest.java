@@ -46,6 +46,9 @@ public class TermOfUserServiceTest {
     @Autowired
     private TermOfUserEndPoint termOfUserEndPoint;
 
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
+
 
     /**
      * Retorna 404 pois não foi encontrado uma Versão do termo
@@ -155,6 +158,11 @@ public class TermOfUserServiceTest {
     public void teste8DeveVerificarSeV1EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
         assertEquals("V2.1", byStatus.get(0).getVersion());
+    }
+
+    @Test
+    public void teste9DeveDeletarTermoBanco(){
+        termOfUserRepository.deleteAll();
     }
 
 

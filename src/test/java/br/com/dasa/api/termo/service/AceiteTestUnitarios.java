@@ -11,8 +11,10 @@ import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles(value = {"test"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AceiteTestUnitarios {
 
     @Autowired
@@ -47,7 +50,7 @@ public class AceiteTestUnitarios {
 
 
     @Test
-    public void naoPodeMdmNulo() throws AceiteExceptions {
+    public void teste1NaoPodeMdmNulo() throws AceiteExceptions {
         TermOfUser termOfUser = getOfUserEsperado();
 
         AceiteTermo termo = new AceiteTermo(null, true, termOfUser, 9999);
@@ -61,7 +64,7 @@ public class AceiteTestUnitarios {
     }
 
     @Test
-    public void validaCipApenasNumero() throws AceiteExceptions {
+    public void teste2ValidaCipApenasNumero() throws AceiteExceptions {
         TermOfUser termOfUser = new TermOfUser();
         termOfUser.setId(1L);
 
@@ -74,7 +77,7 @@ public class AceiteTestUnitarios {
     }
 
     @Test
-    public void validaCipSemCaracteres() throws AceiteExceptions {
+    public void teste3ValidaCipSemCaracteres() throws AceiteExceptions {
         TermOfUser termOfUser = new TermOfUser();
         termOfUser.setId(1L);
 
@@ -94,7 +97,7 @@ public class AceiteTestUnitarios {
     }
 
     @Test
-    public void verificaRespostaCLienteTrue() {
+    public void teste4VerificaRespostaCLienteTrue() {
         TermOfUser termOfUser = new TermOfUser();
         termOfUser.setId(1L);
 
@@ -107,7 +110,7 @@ public class AceiteTestUnitarios {
     }
 
     @Test
-    public void verificaRespostaCLienteFalse() {
+    public void teste5VerificaRespostaCLienteFalse() {
 
         termOfUser.setId(1L);
 
@@ -157,7 +160,7 @@ public class AceiteTestUnitarios {
     }
 
     @Test
-    public void testIdTermo() throws ApiException {
+    public void teste6TestIdTermo() throws ApiException {
 
         TermOfUser termOfUser = new TermOfUser();
         termOfUser.setId(1L);
@@ -168,10 +171,11 @@ public class AceiteTestUnitarios {
 
         }
 
+    }
 
-
-
-
+    @Test
+    public void teste7DeveDeletarTermoBanco(){
+        termOfUserRepository.deleteAll();
     }
 
 }
