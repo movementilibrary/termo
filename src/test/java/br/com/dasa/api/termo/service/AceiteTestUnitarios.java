@@ -66,33 +66,37 @@ public class AceiteTestUnitarios {
         Integer cip = 9999;
         String mdmId = "GLIESE-DEV-01";
 
-        term = criarTermoVersao("V-1.0", false);
-        AceiteTermoJson termoJson = criaAceiteTermo(1l, cip, mdmId, true);
+        term = criarTermoVersao(true, StatusTermUse.ACTIVE);
+        AceiteTermoJson termoJson = criaAceiteTermo(term.getId(), cip, mdmId, true);
 
         boolean ok = aceiteService.salvarAceite(termoJson);
+
+        Assert.assertTrue(ok);
 
 
     }
 
-//
-//    @Test
-//    public void testAceiteTermoInactive() throws AceiteExceptions {
-//
-//
-////        Assert.assertNull(termOfUser.getStatus());
-//
-//
-//    }
+    @Test
+    public void testaAceiteComStatusInativo() throws AceiteExceptions {
+        Integer cip = 9999;
+        String mdmId = "GLIESE-DEV-01";
+
+        term = criarTermoVersao(true, StatusTermUse.INACTIVE);
+        AceiteTermoJson termoJson = criaAceiteTermo(term.getId(), cip, mdmId, true);
+
+        Assert.assertEquals(StatusTermUse.INACTIVE, term.getStatus());
+
+    }
 
     private AceiteTermoJson criaAceiteTermo(Long id, Integer cip, String mdmId, boolean resposta) {
 
         AceiteTermoJson termoJson = new AceiteTermoJson();
+        termoJson.setIdTermo(id);
         termoJson.setMdmId(mdmId);
         termoJson.setCip(cip);
         termoJson.setRespostaCliente(resposta);
 
 
-        aceiteController.salvarTermoController(termoJson);
         return termoJson;
     }
 
@@ -108,7 +112,7 @@ public class AceiteTestUnitarios {
     }
 
 
-    private TermOfUser criarTermoVersao(String version, boolean flagAtualizacao) {
+    private TermOfUser criarTermoVersao(boolean flagAtualizacao, StatusTermUse status) {
 
         termoOfUserJson.setSummaryTerm("test");
         termoOfUserJson.setLoginUser("gliese");
@@ -119,11 +123,12 @@ public class AceiteTestUnitarios {
         term.setSummaryTerm(termoOfUserJson.getSummaryTerm());
         term.setLoginUser(termoOfUserJson.getLoginUser());
         term.setFlagAtualizacao(flagAtualizacao);
-        term.setVersion(version);
+        term.setStatus(status);
+        term.setVersion("v1");
 
         termOfUserRepository.save(term);
 
-       return term;
+        return term;
     }
 
 
