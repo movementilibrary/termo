@@ -2,20 +2,20 @@ package br.com.dasa.api.termo.exceptions;
 
 import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 
-public class AceiteExceptions extends RuntimeException {
+public class AceiteException extends RuntimeException {
 
     private final AceiteTermoEnums termoEnums;
 
-    public AceiteExceptions() {
+    public AceiteException() {
         termoEnums = null;
     }
 
-    public AceiteExceptions(AceiteTermoEnums aceiteTermoEnums) {
+    public AceiteException(AceiteTermoEnums aceiteTermoEnums) {
 
       this.termoEnums = aceiteTermoEnums;
     }
 
-    public AceiteExceptions(String message) {
+    public AceiteException(String message) {
         termoEnums = null;
     }
 
