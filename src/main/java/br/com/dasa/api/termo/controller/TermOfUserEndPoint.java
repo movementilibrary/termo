@@ -41,14 +41,16 @@ public class TermOfUserEndPoint {
     public ResponseEntity<TermOfUser> findById(@PathVariable long id) {
         LOG.info("Entrado no metodo findById");
         try {
+            LOG.info("Buscando termo com ID: " + id);
             Optional<TermOfUser> optional = this.termOfUseService.findById(id);
             if (optional.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
+            LOG.info("Termo encontrado com sucesso ");
             return new ResponseEntity<>(optional.get(), HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -63,14 +65,15 @@ public class TermOfUserEndPoint {
     })
     public ResponseEntity save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
-
         try {
-            TermOfUser termOfUser = termOfUseService.save(termoOfUserJson);
-            return new ResponseEntity<>(termOfUser, HttpStatus.OK);
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            TermOfUser termoOfUser = termOfUseService.checkFlagIsMarked(termoOfUserJson);
+            LOG.info("Termo salvo com sucesso");
+            return new ResponseEntity<>(termoOfUser, HttpStatus.CREATED);
+        }catch (Exception e){
+            LOG.info(e.getMessage());
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
     }
 
 

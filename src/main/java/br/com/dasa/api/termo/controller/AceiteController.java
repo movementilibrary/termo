@@ -33,17 +33,20 @@ public class AceiteController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")})
 
-    public ResponseEntity<AceiteTermoJson> salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
+    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
         LOGGER.info("Entrando no metodo de aceite de termo");
-        aceiteService.buscaIdTermo(aceiteTermo.getIdTermo());
+
         try {
             aceiteService.salvarAceite(aceiteTermo);
+            LOGGER.info("Termo aceito com sucesso");
             return new ResponseEntity(aceiteTermo, HttpStatus.OK);
-
-        } catch (ApiException e) {
+        }catch (Exception e){
             LOGGER.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
+
+
     }
 
 

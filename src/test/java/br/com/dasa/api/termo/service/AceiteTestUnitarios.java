@@ -1,6 +1,7 @@
 package br.com.dasa.api.termo.service;
 
 import br.com.dasa.api.termo.controller.AceiteController;
+import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
@@ -38,7 +39,7 @@ public class AceiteTestUnitarios {
     private AceiteController aceiteController;
 
     @Autowired
-    private TermOfUseServiceImpl termOfUseService;
+    private TermOfUserEndPoint termOfUserEndPoint;
 
 
     private TermOfUser term;
@@ -51,6 +52,7 @@ public class AceiteTestUnitarios {
     @Before
     public void setUp() {
         RestAssured.port = porta;
+        termOfUserRepository.deleteAll();
         term = new TermOfUser();
         aceiteTermoJson = new AceiteTermoJson();
         termoOfUserJson = new TermoOfUserJson();
@@ -81,7 +83,6 @@ public class AceiteTestUnitarios {
         criaAceiteTermo(term.getId(), cip, mdmId, true);
 
 
-
     }
 
     private AceiteTermoJson criaAceiteTermo(Long id, Integer cip, String mdmId, boolean resposta) {
@@ -103,7 +104,7 @@ public class AceiteTestUnitarios {
         termoOfUserJson.setLoginUser(user);
         termoOfUserJson.setSummaryTerm("TEST DE INTEGRAÇÃO");
 
-        this.termOfUseService.save(termoOfUserJson);
+        this.termOfUserEndPoint.save(termoOfUserJson);
         return termoOfUserJson;
     }
 

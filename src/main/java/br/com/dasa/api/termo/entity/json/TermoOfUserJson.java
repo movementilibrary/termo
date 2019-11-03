@@ -18,7 +18,16 @@ public class TermoOfUserJson {
     @JsonProperty("flag_atualizacao")
     private Boolean flagAtualizacao;
 
+    public TermoOfUserJson(String descriptionTerm, String summaryTerm, String loginUser, Boolean flagAtualizacao) {
+        this.descriptionTerm = descriptionTerm;
+        this.summaryTerm = summaryTerm;
+        this.loginUser = loginUser;
+        this.flagAtualizacao = flagAtualizacao;
+    }
 
+    public TermoOfUserJson() {
+
+    }
 
     public String getDescriptionTerm() {
         return descriptionTerm;
