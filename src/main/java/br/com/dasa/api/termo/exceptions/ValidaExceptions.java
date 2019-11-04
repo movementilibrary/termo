@@ -12,7 +12,7 @@ public class ValidaExceptions {
     }
 
     public static void validaAceiteId(Long idTermo) {
-        if (idTermo == null || idTermo.toString().trim().isEmpty()) {
+        if (idTermo.toString().trim().isEmpty()) {
             throw new AceiteException(AceiteTermoEnums.ID_NULL);
         }
         if (idTermo <= 0) {
@@ -23,6 +23,9 @@ public class ValidaExceptions {
     public static void validaTermo(AceiteTermoJson aceiteTermoJson) {
         if (aceiteTermoJson == null) {
             throw new AceiteException(AceiteTermoEnums.TERMO_NULLO);
+        }
+        if (StringUtils.isBlank(aceiteTermoJson.getIdTermo().toString())){
+            throw  new AceiteException(AceiteTermoEnums.ID_TERMO_NULLO);
         }
         if (StringUtils.isBlank(aceiteTermoJson.getMdmId())) {
             throw new AceiteException(AceiteTermoEnums.MDM_ID_NULLO);

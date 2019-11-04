@@ -26,24 +26,24 @@ public class AceiteController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AceiteController.class);
 
     @PostMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = "application/json")
-    @ApiOperation(httpMethod = "POST", value = "Respons vel por fazer o aceite do termo")
+    @ApiOperation(httpMethod = "POST", value = "Responsï¿½vel por fazer o aceite do termo", response = AceiteTermoJson.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Sucesso"),
             @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")})
-    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo ) {
+    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
         LOGGER.info("Entrando no metodo de aceite de termo");
         try {
             aceiteService.salvarAceite(aceiteTermo);
             return new ResponseEntity(aceiteTermo, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Respons vel por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
+    @ApiOperation(value = "Responsï¿½vel por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
     public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
         if ((!StringUtils.isEmpty(mdmId)) || (cip != null && cip > 0)) {
             BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);

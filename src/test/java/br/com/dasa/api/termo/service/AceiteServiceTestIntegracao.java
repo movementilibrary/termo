@@ -19,13 +19,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = {"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AceiteTestUnitarios {
+public class AceiteServiceTestIntegracao {
 
 
     @Autowired
@@ -52,6 +51,7 @@ public class AceiteTestUnitarios {
     public void setUp() {
         RestAssured.port = porta;
         term = new TermOfUser();
+        aceiteTermo = new AceiteTermo();
         term = criarTermoVersao(true, StatusTermUse.ACTIVE);
         termOfUserRepository.save(term);
     }
@@ -62,28 +62,22 @@ public class AceiteTestUnitarios {
         aceiteRepository.deleteAll();
     }
 
+//
 //    @Test
-//    public void validaExistsById() {
-//        Optional<TermOfUser> termOfUser = termOfUserRepository.findById(term.getId());
-//        System.out.println(termOfUser.get().getId());
-//        if (termOfUser.isPresent()) {
-//            Assert.assertTrue(termOfUser.isPresent());
+//    public void salvarAceiteTermo() {
+//        TermOfUser term = criarTermoVersao(true, StatusTermUse.ACTIVE);
+//        aceiteTermo = getEsperado();
+//        aceiteRepository.save(aceiteTermo);
+//        Optional<AceiteTermo> byId = aceiteRepository.findById(1l);
+//        System.out.println(aceiteTermo.getId());
+//        if (byId.isPresent()) {
+//            Assert.assertTrue(byId.isPresent());
 //        } else {
-//            Assert.fail();
+//            Assert.fail("Codigo não encontrado");
 //        }
 //
+//
 //    }
-
-    @Test
-    public void findFirstByNome() {
-        Optional<TermOfUser> termOfUser = this.termOfUserRepository.findFirstByLoginUser("t34945589810");
-        if (termOfUser.isPresent()) {
-            Assert.assertTrue(termOfUser.isPresent());
-        }
-       else Assert.fail("USUARIO NÃO ENCONTRADO");
-
-
-    }
 
     @Test(expected = AceiteException.class)
     public void naoDeixaSalvarComStatusInativoAceiteTermo() {
@@ -128,6 +122,15 @@ public class AceiteTestUnitarios {
         termOfUserRepository.save(term);
 
         return term;
+    }
+
+    private AceiteTermo getEsperado() {
+        aceiteTermo.setCip(9999);
+        aceiteTermo.setDataAceite(new Date());
+        aceiteTermo.setTermOfUser(term);
+        aceiteTermo.setMdmIdCliente("8585");
+        aceiteTermo.setRespostaCliente(true);
+        return aceiteTermo;
     }
 
 
