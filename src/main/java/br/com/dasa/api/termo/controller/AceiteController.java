@@ -3,7 +3,6 @@ package br.com.dasa.api.termo.controller;
 
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.entity.json.BuscaAceiteTermoJson;
-import br.com.dasa.api.termo.exceptions.ApiException;
 import br.com.dasa.api.termo.service.AceiteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -33,7 +32,7 @@ public class AceiteController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")})
 
-    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo) {
+    public ResponseEntity salvarTermoController(@RequestBody AceiteTermoJson aceiteTermo ) {
         LOGGER.info("Entrando no metodo de aceite de termo");
 
         try {

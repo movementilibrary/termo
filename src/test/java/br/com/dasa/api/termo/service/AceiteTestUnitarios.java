@@ -79,9 +79,9 @@ public class AceiteTestUnitarios {
         Optional<TermOfUser> termOfUser = this.termOfUserRepository.findFirstByLoginUser("t34945589810");
         if (termOfUser.isPresent()) {
             Assert.assertTrue(termOfUser.isPresent());
-        } else {
-            Assert.fail("USUARIO NÃO ENCONTRADO");
         }
+       else Assert.fail("USUARIO NÃO ENCONTRADO");
+
 
     }
 
@@ -89,13 +89,24 @@ public class AceiteTestUnitarios {
     public void naoDeixaSalvarComStatusInativoAceiteTermo() {
         TermOfUser term = criarTermoVersao(true, StatusTermUse.INACTIVE);
 
-        AceiteTermoJson json =  salvarAceiteTermo("15", true, term.getId(), 9999);
+        AceiteTermoJson json = salvarAceiteTermo("15", true, term.getId(), 9999);
 
 
         aceiteService.salvarAceite(json);
 
 
     }
+
+    @Test(expected = AceiteException.class)
+    public void naoPodeSalvarComMdmIdNullo() {
+        TermOfUser term = criarTermoVersao(true, StatusTermUse.ACTIVE);
+
+        AceiteTermoJson json = salvarAceiteTermo(null, true, term.getId(), 9999);
+        Assert.assertNull(json.getMdmId());
+
+        aceiteService.salvarAceite(json);
+    }
+
 
     private AceiteTermoJson salvarAceiteTermo(String mdmId, boolean resposta, Long id, Integer cip) {
         AceiteTermoJson json = new AceiteTermoJson();
