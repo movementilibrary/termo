@@ -41,6 +41,7 @@ public class AceiteService {
 
     public AceiteTermo salvarAceite(AceiteTermoJson aceiteTermoJson) {
         Optional<TermOfUser> termOfUser = buscaIdTermo(aceiteTermoJson.getIdTermo());
+
         ValidaExceptions.validaAceiteId(aceiteTermoJson.getIdTermo());
         ValidaExceptions.validaTermo(aceiteTermoJson);
         ValidaExceptions.validaStatus(termOfUser.get());

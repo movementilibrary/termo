@@ -37,7 +37,7 @@ public class AceiteController {
 
         try {
             aceiteService.salvarAceite(aceiteTermo);
-            LOGGER.info("Termo aceito com sucesso");
+
             return new ResponseEntity(aceiteTermo, HttpStatus.OK);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
