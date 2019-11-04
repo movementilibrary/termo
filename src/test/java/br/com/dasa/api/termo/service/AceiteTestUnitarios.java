@@ -1,26 +1,27 @@
 package br.com.dasa.api.termo.service;
 
-import br.com.dasa.api.termo.controller.AceiteController;
-import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
+import br.com.dasa.api.termo.entity.AceiteTermo;
 import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.json.AceiteTermoJson;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.AceiteException;
+import br.com.dasa.api.termo.exceptions.ValidaExceptions;
+import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
-import br.com.dasa.api.termo.service.impl.TermOfUseServiceImpl;
 import io.restassured.RestAssured;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,101 +29,93 @@ import org.springframework.test.context.junit4.SpringRunner;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AceiteTestUnitarios {
 
-    @Value("${local.server.port}")
-    protected int porta;
 
     @Autowired
     private TermOfUserRepository termOfUserRepository;
-    @Autowired
-    public AceiteService aceiteService;
-    @Autowired
-    private AceiteController aceiteController;
 
     @Autowired
-    private TermOfUserEndPoint termOfUserEndPoint;
+    private AceiteRepository aceiteRepository;
 
+    @Autowired
+    private AceiteService aceiteService;
 
     private TermOfUser term;
 
     private TermoOfUserJson termoOfUserJson;
 
+    private AceiteTermo aceiteTermo;
+
     private AceiteTermoJson aceiteTermoJson;
+    @Value("${local.server.port}")
+    protected int porta;
 
 
     @Before
     public void setUp() {
         RestAssured.port = porta;
-        termOfUserRepository.deleteAll();
         term = new TermOfUser();
-        aceiteTermoJson = new AceiteTermoJson();
-        termoOfUserJson = new TermoOfUserJson();
+        term = criarTermoVersao(true, StatusTermUse.ACTIVE);
+        termOfUserRepository.save(term);
     }
+
+    @After
+    public void before() {
+        termOfUserRepository.deleteAll();
+        aceiteRepository.deleteAll();
+    }
+
+//    @Test
+//    public void validaExistsById() {
+//        Optional<TermOfUser> termOfUser = termOfUserRepository.findById(term.getId());
+//        System.out.println(termOfUser.get().getId());
+//        if (termOfUser.isPresent()) {
+//            Assert.assertTrue(termOfUser.isPresent());
+//        } else {
+//            Assert.fail();
+//        }
+//
+//    }
 
     @Test
-    public void testSalvaAceite() {
-        Integer cip = 9999;
-        String mdmId = "GLIESE-DEV-01";
+    public void findFirstByNome() {
+        Optional<TermOfUser> termOfUser = this.termOfUserRepository.findFirstByLoginUser("t34945589810");
+        if (termOfUser.isPresent()) {
+            Assert.assertTrue(termOfUser.isPresent());
+        } else {
+            Assert.fail("USUARIO NÃO ENCONTRADO");
+        }
 
-        term = criarTermo(true, StatusTermUse.ACTIVE);
-        AceiteTermoJson termoJson = criaAceiteTermo(term.getId(), cip, mdmId, true);
+    }
 
-        aceiteService.salvarAceite(termoJson);
+    @Test(expected = AceiteException.class)
+    public void naoDeixaSalvarComStatusInativoAceiteTermo() {
+        TermOfUser term = criarTermoVersao(true, StatusTermUse.INACTIVE);
 
-//        Assert.assertTrue(term.isFlagAtualizacao());
+        AceiteTermoJson json =  salvarAceiteTermo("15", true, term.getId(), 9999);
+
+
+        aceiteService.salvarAceite(json);
 
 
     }
 
-    @Test
-    public void testaAceiteComStatusInativo() throws AceiteException {
-        Integer cip = 9999;
-        String mdmId = "GLIESE-DEV-01";
-
-        term = criarTermo(true, StatusTermUse.ACTIVE);
-
-        criaAceiteTermo(term.getId(), cip, mdmId, true);
-
-
+    private AceiteTermoJson salvarAceiteTermo(String mdmId, boolean resposta, Long id, Integer cip) {
+        AceiteTermoJson json = new AceiteTermoJson();
+        json.setIdTermo(id);
+        json.setRespostaCliente(resposta);
+        json.setCip(cip);
+        json.setMdmId(mdmId);
+        return json;
     }
 
-    private AceiteTermoJson criaAceiteTermo(Long id, Integer cip, String mdmId, boolean resposta) {
-
-        AceiteTermoJson termoJson = new AceiteTermoJson();
-        termoJson.setIdTermo(id);
-        termoJson.setMdmId(mdmId);
-        termoJson.setCip(cip);
-        termoJson.setRespostaCliente(resposta);
-
-
-        return termoJson;
-    }
-
-    private TermoOfUserJson TermoJson(boolean flag, String user) {
-        TermoOfUserJson termoOfUserJson = new TermoOfUserJson();
-        termoOfUserJson.setDescriptionTerm("GLIESE TERMO");
-        termoOfUserJson.setFlagAtualizacao(flag);
-        termoOfUserJson.setLoginUser(user);
-        termoOfUserJson.setSummaryTerm("TEST DE INTEGRAÇÃO");
-
-        this.termOfUserEndPoint.save(termoOfUserJson);
-        return termoOfUserJson;
-    }
-
-
-    private TermOfUser criarTermo(boolean flagAtualizacao, StatusTermUse status) {
-
-        termoOfUserJson.setSummaryTerm("test");
-        termoOfUserJson.setLoginUser("gliese");
-        termoOfUserJson.setFlagAtualizacao(flagAtualizacao);
-        termoOfUserJson.setDescriptionTerm("termo");
-
-        term.setDescriptionTerm(termoOfUserJson.getDescriptionTerm());
-        term.setSummaryTerm(termoOfUserJson.getSummaryTerm());
-        term.setLoginUser(termoOfUserJson.getLoginUser());
+    private TermOfUser criarTermoVersao(boolean flagAtualizacao, StatusTermUse statusTermUse) {
+        term.setCurrentDate(new Date());
+        term.setDescriptionTerm("teste");
         term.setFlagAtualizacao(flagAtualizacao);
-        term.setStatus(status);
-        term.setVersion("v1");
-
+        term.setLoginUser("t34945589810");
+        term.setStatus(StatusTermUse.ACTIVE);
+        term.setSummaryTerm("teste");
+        term.setVersion("v-1");
         termOfUserRepository.save(term);
 
         return term;

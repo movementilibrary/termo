@@ -1,26 +1,22 @@
 package br.com.dasa.api.termo.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import br.com.dasa.api.termo.entity.SubVersion;
+import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.SubVersionService;
+import br.com.dasa.api.termo.service.TermOfUseService;
 import br.com.dasa.api.termo.service.VersionTermService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.dasa.api.termo.entity.TermOfUser;
-
-import br.com.dasa.api.termo.repository.TermOfUserRepository;
-import br.com.dasa.api.termo.service.TermOfUseService;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -132,7 +128,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
      */
     @Override
     public Optional<TermOfUser> findById(long id) {
-        LOGGER.info("Inicinaod busca termo pelo id {}", id);
+        LOGGER.info("Iniciando busca termo pelo id {}", id);
         Optional<TermOfUser> currentTermOfUser = null;
         try {
             currentTermOfUser = termOfUserRepository.findById(id);

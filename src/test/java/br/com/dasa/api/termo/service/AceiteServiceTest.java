@@ -40,6 +40,7 @@ public class AceiteServiceTest {
     @Autowired
     private TermOfUserRepository termOfUserRepository;
 
+
     @Before
     public void setUp() throws Exception {
         RestAssured.port = porta;

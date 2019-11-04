@@ -13,6 +13,9 @@ import java.util.Optional;
 @Repository
 public interface TermOfUserRepository extends JpaRepository<TermOfUser, Long>, TermoDAO {
 
+    Optional<TermOfUser> findFirstByLoginUser(String user);
+
     List<TermOfUser> findByStatus(StatusTermUse status);
+
 
 }
