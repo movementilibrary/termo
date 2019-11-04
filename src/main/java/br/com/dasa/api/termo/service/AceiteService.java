@@ -26,23 +26,23 @@ public class AceiteService {
     @Autowired
     private TermOfUserRepository termOfUserRepository;
 
-    public Optional<TermOfUser> buscaIdTermo(Long id) {
+    public TermOfUser buscaIdTermo(Long id) {
         Optional<TermOfUser> term = this.termOfUserRepository.findById(id);
         if (term.isPresent()) {
-            return term;
+            return term.get();
 
         }
         throw new AceiteException(AceiteTermoEnums.ID_NAO_ENCONTRADO);
     }
 
     public AceiteTermo salvarAceite(AceiteTermoJson aceiteTermoJson) {
-        Optional<TermOfUser> termOfUser = buscaIdTermo(aceiteTermoJson.getIdTermo());
-        ValidaExceptions.validaAceiteId(aceiteTermoJson.getIdTermo());
+        TermOfUser termOfUser = buscaIdTermo(aceiteTermoJson.getIdTermo());
+        ValidaExceptions.validaAceiteId(termOfUser.getId());
         ValidaExceptions.validaTermo(aceiteTermoJson);
-        ValidaExceptions.validaStatus(termOfUser.get());
+        ValidaExceptions.validaStatus(termOfUser);
         try {
             AceiteTermo termo = new AceiteTermo(aceiteTermoJson.getMdmId(),
-                    aceiteTermoJson.isRespostaCliente(), termOfUser.get(), aceiteTermoJson.getCip());
+                    aceiteTermoJson.isRespostaCliente(), termOfUser, aceiteTermoJson.getCip());
             this.aceiteRepository.save(termo);
             return termo;
         } catch (Exception e) {
