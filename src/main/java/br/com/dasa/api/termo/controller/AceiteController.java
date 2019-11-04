@@ -26,7 +26,7 @@ public class AceiteController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AceiteController.class);
 
     @PostMapping(value = "/aceite-termo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = "application/json")
-    @ApiOperation(httpMethod = "POST", value = "ResponsÃ¡vel por fazer o aceite do termo")
+    @ApiOperation(httpMethod = "POST", value = "Respons vel por fazer o aceite do termo")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Sucesso"),
             @ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -43,7 +43,7 @@ public class AceiteController {
     }
 
     @GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "ResponsÃ¡vel por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
+    @ApiOperation(value = "Respons vel por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
     public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
         if ((!StringUtils.isEmpty(mdmId)) || (cip != null && cip > 0)) {
             BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
