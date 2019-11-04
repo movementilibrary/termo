@@ -26,7 +26,7 @@ public class AceiteService {
     @Autowired
     private TermOfUserRepository termOfUserRepository;
 
-    public Optional buscaIdTermo(Long id) {
+    public Optional<TermOfUser> buscaIdTermo(Long id) {
         Optional<TermOfUser> term = this.termOfUserRepository.findById(id);
         if (term.isPresent()) {
             return term;
