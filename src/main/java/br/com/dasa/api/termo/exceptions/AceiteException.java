@@ -4,7 +4,8 @@ import br.com.dasa.api.termo.exceptions.enums.AceiteTermoEnums;
 
 public class AceiteException extends RuntimeException {
 
-    private final AceiteTermoEnums termoEnums;
+	private static final long serialVersionUID = 1L;
+	private final AceiteTermoEnums termoEnums;
 
     public AceiteException() {
         termoEnums = null;
@@ -24,5 +25,5 @@ public class AceiteException extends RuntimeException {
         assert termoEnums != null;
         return termoEnums.getMsg();
     }
+    
 }
-

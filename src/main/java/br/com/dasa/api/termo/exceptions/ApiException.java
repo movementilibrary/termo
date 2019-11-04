@@ -14,7 +14,5 @@ public abstract class ApiException extends RuntimeException {
         super();
     }
 
-
-
     public abstract String getErro();
 }

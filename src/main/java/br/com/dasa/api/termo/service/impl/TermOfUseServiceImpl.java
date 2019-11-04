@@ -33,7 +33,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Autowired
     private SubVersionService subVersionService;
 
-
     @Override
     public TermOfUser save(TermOfUser termOfUser) {
         TermOfUser newTermOfUser = null;
@@ -47,8 +46,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         return newTermOfUser;
     }
 
-
-
     @Override
     public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
         TermOfUser termOfUser = convertTerOfUserJsonToTermOfUserJson(termoOfUserJson);
@@ -60,10 +57,8 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         }
         termOfUser.setVersion(newVersion);
         save(termOfUser);
-
         return termOfUser;
     }
-
 
     /**
      * Metodo responsável por vertificar se Flag is marcada, caso esteja marcada gera Versao Grande
@@ -88,7 +83,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
             }
         }
         return "V".concat(newVersion.getVersion().toString());
-
     }
 
 
@@ -146,11 +140,9 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Override
     public List<TermOfUser> findByStatus(StatusTermUse status) {
         List<TermOfUser> currentTermOfUser = null;
-//        ArrayList<TermOfUser> listTermOfUser = new ArrayList<>();
         try {
             LOGGER.info("Iniciando busca pelo status ");
             currentTermOfUser = termOfUserRepository.findByStatus(status);
-  //          listTermOfUser.
         }catch (Exception e){
             LOGGER.error("Não foi possivel buscar termo pelo status", e.getMessage());
         }
@@ -172,9 +164,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         } catch (Exception e) {
             LOGGER.info("Não foi possivel encontrar termo do usuário ativo ", e.getMessage());
         }
-
     }
-
 
     /**
      * Metodo responsável por converter TermOfUserJson to TermOfUser
@@ -192,7 +182,5 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         termOfUser.setStatus(StatusTermUse.ACTIVE);
         return termOfUser;
     }
-
-
 }
 

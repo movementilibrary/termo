@@ -56,4 +56,5 @@ public class AceiteTermoJson {
 	public void setRespostaCliente(boolean respostaCliente) {
         this.respostaCliente = respostaCliente;
     }
+	
 }

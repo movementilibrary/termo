@@ -16,17 +16,14 @@ public enum  AceiteTermoEnums {
 
     STATUS_INATIVO("NÃO PODE ACEITAR UM TERMO INATIVO ");
 
-
     private final String msg;
 
-
     AceiteTermoEnums( String msg) {
-
         this.msg = msg;
     }
-
 
     public String getMsg() {
         return msg;
     }
+    
 }

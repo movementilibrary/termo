@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface VersionTermRepository extends JpaRepository<VersionTerm, Integer> {
 
       Optional<VersionTerm> findById(Integer id);
+      
 }

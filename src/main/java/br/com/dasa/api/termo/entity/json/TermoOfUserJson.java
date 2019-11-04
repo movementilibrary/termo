@@ -53,7 +53,6 @@ public class TermoOfUserJson {
         this.summaryTerm = summaryTerm;
     }
 
-
     public Boolean getFlagAtualizacao() {
         return flagAtualizacao;
     }
@@ -61,4 +60,5 @@ public class TermoOfUserJson {
     public void setFlagAtualizacao(Boolean flagAtualizacao) {
         this.flagAtualizacao = flagAtualizacao;
     }
+    
 }

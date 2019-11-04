@@ -17,5 +17,4 @@ public interface TermOfUserRepository extends JpaRepository<TermOfUser, Long>, T
 
     List<TermOfUser> findByStatus(StatusTermUse status);
 
-
 }

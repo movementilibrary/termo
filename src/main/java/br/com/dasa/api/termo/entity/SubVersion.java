@@ -5,12 +5,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sub_version")
 public class SubVersion {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private  Integer subVersion;
-
 
     public SubVersion() {
     }

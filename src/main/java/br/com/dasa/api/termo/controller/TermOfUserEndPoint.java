@@ -27,7 +27,6 @@ public class TermOfUserEndPoint {
     @Autowired
     private TermOfUseService termOfUseService;
 
-
     @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "GET", value = "Responsável por encontrar os termos de uso")
     @ApiResponses(value = {
@@ -46,14 +45,12 @@ public class TermOfUserEndPoint {
                 LOG.info("Termo com o ID " + id + " nao encontrado na base de dados ");
                 return new ResponseEntity("Termo com o ID " + id + " nao encontrado na base de dados ",
                         HttpStatus.BAD_REQUEST);
-
             }
             return new ResponseEntity<>(optional.get(), HttpStatus.OK);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @PostMapping(value = "/user/registry", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,18 +62,16 @@ public class TermOfUserEndPoint {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Um erro interno foi detectado")
     })
-    public ResponseEntity save(@RequestBody TermoOfUserJson termoOfUserJson) {
+    public ResponseEntity<TermoOfUserJson> save(@RequestBody TermoOfUserJson termoOfUserJson) {
         LOG.info("Entrado no metodo save");
         try {
             TermOfUser termoOfUser = termOfUseService.checkFlagIsMarked(termoOfUserJson);
             LOG.info("Termo salvo com sucesso");
-            return new ResponseEntity<>(termoOfUser, HttpStatus.CREATED);
+            return new ResponseEntity(termoOfUser, HttpStatus.CREATED);
         } catch (Exception e) {
             LOG.info(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
-
 
 }
