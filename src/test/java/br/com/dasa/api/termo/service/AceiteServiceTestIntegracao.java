@@ -54,14 +54,14 @@ public class AceiteServiceTestIntegracao {
         aceiteTermo = new AceiteTermo();
         term = criarTermoVersao(true, StatusTermUse.ACTIVE);
         termOfUserRepository.save(term);
-        termOfUserRepository.deleteAll();
         aceiteRepository.deleteAll();
+        termOfUserRepository.deleteAll();
     }
 
     @After
-    public void before() {
-        termOfUserRepository.deleteAll();
+    public void delete() {
         aceiteRepository.deleteAll();
+        termOfUserRepository.deleteAll();
     }
 
 //
@@ -134,6 +134,8 @@ public class AceiteServiceTestIntegracao {
         aceiteTermo.setRespostaCliente(true);
         return aceiteTermo;
     }
+
+
 
 
 }
