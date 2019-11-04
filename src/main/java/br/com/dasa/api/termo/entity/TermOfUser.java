@@ -35,7 +35,7 @@ public class TermOfUser {
 	@Column(name = "status_term", nullable = false)
 	private StatusTermUse status;
 
-	@Column(name = "flag_atualizacao", nullable = false)
+	@Column(name = "flag_atualizacao", nullable = true)
 	private boolean flagAtualizacao;
 
 	public TermOfUser() {
