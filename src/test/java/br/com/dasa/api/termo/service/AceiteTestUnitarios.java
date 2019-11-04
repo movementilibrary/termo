@@ -111,7 +111,7 @@ public class AceiteTestUnitarios {
         term.setDescriptionTerm("teste");
         term.setFlagAtualizacao(flagAtualizacao);
         term.setLoginUser("t34945589810");
-        term.setStatus(StatusTermUse.ACTIVE);
+        term.setStatus(statusTermUse);
         term.setSummaryTerm("teste");
         term.setVersion("v-1");
         termOfUserRepository.save(term);
