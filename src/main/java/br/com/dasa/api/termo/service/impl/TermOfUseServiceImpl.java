@@ -1,26 +1,22 @@
 package br.com.dasa.api.termo.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import br.com.dasa.api.termo.entity.SubVersion;
+import br.com.dasa.api.termo.entity.TermOfUser;
 import br.com.dasa.api.termo.entity.VersionTerm;
 import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
 import br.com.dasa.api.termo.enumeration.StatusTermUse;
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.SubVersionService;
+import br.com.dasa.api.termo.service.TermOfUseService;
 import br.com.dasa.api.termo.service.VersionTermService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.dasa.api.termo.entity.TermOfUser;
-
-import br.com.dasa.api.termo.repository.TermOfUserRepository;
-import br.com.dasa.api.termo.service.TermOfUseService;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -37,7 +33,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Autowired
     private SubVersionService subVersionService;
 
-
     @Override
     public TermOfUser save(TermOfUser termOfUser) {
         TermOfUser newTermOfUser = null;
@@ -51,8 +46,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         return newTermOfUser;
     }
 
-
-
     @Override
     public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
         TermOfUser termOfUser = convertTerOfUserJsonToTermOfUserJson(termoOfUserJson);
@@ -64,10 +57,8 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         }
         termOfUser.setVersion(newVersion);
         save(termOfUser);
-
         return termOfUser;
     }
-
 
     /**
      * Metodo responsável por vertificar se Flag is marcada, caso esteja marcada gera Versao Grande
@@ -92,7 +83,6 @@ public class TermOfUseServiceImpl implements TermOfUseService {
             }
         }
         return "V".concat(newVersion.getVersion().toString());
-
     }
 
 
@@ -132,7 +122,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
      */
     @Override
     public Optional<TermOfUser> findById(long id) {
-        LOGGER.info("Inicinaod busca termo pelo id {}", id);
+        LOGGER.info("Iniciando busca termo pelo id {}", id);
         Optional<TermOfUser> currentTermOfUser = null;
         try {
             currentTermOfUser = termOfUserRepository.findById(id);
@@ -150,11 +140,9 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Override
     public List<TermOfUser> findByStatus(StatusTermUse status) {
         List<TermOfUser> currentTermOfUser = null;
-//        ArrayList<TermOfUser> listTermOfUser = new ArrayList<>();
         try {
             LOGGER.info("Iniciando busca pelo status ");
             currentTermOfUser = termOfUserRepository.findByStatus(status);
-  //          listTermOfUser.
         }catch (Exception e){
             LOGGER.error("Não foi possivel buscar termo pelo status", e.getMessage());
         }
@@ -176,9 +164,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         } catch (Exception e) {
             LOGGER.info("Não foi possivel encontrar termo do usuário ativo ", e.getMessage());
         }
-
     }
-
 
     /**
      * Metodo responsável por converter TermOfUserJson to TermOfUser
@@ -196,7 +182,5 @@ public class TermOfUseServiceImpl implements TermOfUseService {
         termOfUser.setStatus(StatusTermUse.ACTIVE);
         return termOfUser;
     }
-
-
 }
 

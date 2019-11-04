@@ -24,4 +24,5 @@ public class BuscaAceiteTermoJson implements Serializable{
 	public void setTermoAceite(boolean termoAceite) {
 		this.termoAceite = termoAceite;
 	}
+	
 }

@@ -6,10 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
 @Table(name = "term_of_user")
-@SuppressWarnings("serial")
 public class TermOfUser {
 
 	@Id
@@ -18,18 +16,17 @@ public class TermOfUser {
 
 	@Column(name = "login_user", nullable = false)
 	private String loginUser;
-	
-	@Column(name = "description_term", columnDefinition="TEXT")
+
+	@Column(name = "description_term", columnDefinition = "TEXT")
 	private String descriptionTerm;
 
-	@Column(name = "summary_term", columnDefinition="TEXT", nullable = false)
+	@Column(name = "summary_term", columnDefinition = "TEXT", nullable = false)
 	private String summaryTerm;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	@Column(name = "current_date_term", nullable = false)
 	private Date currentDate = new Date();
-
 
 	@Column(name = "version_term", nullable = false)
 	private String version;
@@ -41,13 +38,11 @@ public class TermOfUser {
 	@Column(name = "flag_atualizacao", nullable = false)
 	private boolean flagAtualizacao;
 
-
 	public TermOfUser() {
 	}
 
-
-	public TermOfUser(Long id, String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version, StatusTermUse status, boolean flagAtualizacao) {
-		this.id = id;
+	public TermOfUser(String loginUser, String descriptionTerm, String summaryTerm, Date currentDate, String version,
+			StatusTermUse status, boolean flagAtualizacao) {
 		this.loginUser = loginUser;
 		this.descriptionTerm = descriptionTerm;
 		this.summaryTerm = summaryTerm;
@@ -93,7 +88,6 @@ public class TermOfUser {
 		return currentDate;
 	}
 
-
 	public String getVersion() {
 		return version;
 	}
@@ -119,7 +113,7 @@ public class TermOfUser {
 	}
 
 	public void setCurrentDate(Date currentDate) {
-		this.currentDate = currentDate; 
-		
+		this.currentDate = currentDate;
+
 	}
 }

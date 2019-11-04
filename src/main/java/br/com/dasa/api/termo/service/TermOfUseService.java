@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface TermOfUseService {
 
-
     Optional<TermOfUser> findById(long id);
 
     TermOfUser checkFlagIsMarked(TermoOfUserJson termOfUserJson);
@@ -17,7 +16,5 @@ public interface TermOfUseService {
     TermOfUser save(TermOfUser termOfUser);
 
     List<TermOfUser> findByStatus(StatusTermUse status);
-
-
 
 }

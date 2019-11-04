@@ -18,13 +18,11 @@ public class VersionTermService {
     @Autowired
     private VersionTermRepository versionTermRepository;
 
-
     /**
      * Metodo responsável por retornar nova Versao
      * @param versionTerm
      * @return
      */
-
     public VersionTerm saveNewVersion(VersionTerm versionTerm) {
         VersionTerm currentVersion = null;
         try {
@@ -35,7 +33,6 @@ public class VersionTermService {
         }
       return currentVersion;
     }
-
 
     /**
      * Metodo responsável por buscar Verso do Termo pelo Id
@@ -53,6 +50,4 @@ public class VersionTermService {
         }
         return  currentVersionTerm.orElse(null);
     }
-
-
 }

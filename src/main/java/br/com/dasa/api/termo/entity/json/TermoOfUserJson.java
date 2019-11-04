@@ -1,10 +1,9 @@
 package br.com.dasa.api.termo.entity.json;
 
-import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.jackson.JsonComponent;
 
-@JsonComponent
+@JsonIgnoreProperties
 public class TermoOfUserJson {
 
     @JsonProperty("descricao_termo")
@@ -19,14 +18,15 @@ public class TermoOfUserJson {
     @JsonProperty("flag_atualizacao")
     private Boolean flagAtualizacao;
 
-    TermoOfUserJson() {
-    }
-
     public TermoOfUserJson(String descriptionTerm, String summaryTerm, String loginUser, Boolean flagAtualizacao) {
         this.descriptionTerm = descriptionTerm;
         this.summaryTerm = summaryTerm;
         this.loginUser = loginUser;
         this.flagAtualizacao = flagAtualizacao;
+    }
+
+    public TermoOfUserJson() {
+
     }
 
     public String getDescriptionTerm() {
@@ -60,4 +60,5 @@ public class TermoOfUserJson {
     public void setFlagAtualizacao(Boolean flagAtualizacao) {
         this.flagAtualizacao = flagAtualizacao;
     }
+    
 }

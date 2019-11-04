@@ -1,12 +1,21 @@
 package br.com.dasa.api.termo.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedDate;
+
 @Entity
-@SuppressWarnings("serial")
 public class AceiteTermo {
 
 	@Id
@@ -28,13 +37,9 @@ public class AceiteTermo {
 	private TermOfUser termOfUser;
 
 	public AceiteTermo() {
-
-		
 	}
-	
 
 	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Integer cip) {
-
 		this.mdmIdCliente = mdmIdCliente;
 		this.respostaCliente = respostaCliente;
 		this.termOfUser = termOfUser;
