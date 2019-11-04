@@ -12,7 +12,7 @@ public class ValidaExceptions {
     }
 
     public static void validaAceiteId(Long idTermo) {
-        if (idTermo.toString().trim().isEmpty()) {
+        if (idTermo == null || idTermo.toString().trim().isEmpty()) {
             throw new AceiteException(AceiteTermoEnums.ID_NULL);
         }
         if (idTermo <= 0) {
