@@ -54,6 +54,8 @@ public class AceiteServiceTestIntegracao {
         aceiteTermo = new AceiteTermo();
         term = criarTermoVersao(true, StatusTermUse.ACTIVE);
         termOfUserRepository.save(term);
+        termOfUserRepository.deleteAll();
+        aceiteRepository.deleteAll();
     }
 
     @After
