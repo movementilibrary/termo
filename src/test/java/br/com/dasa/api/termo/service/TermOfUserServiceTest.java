@@ -36,6 +36,8 @@ public class TermOfUserServiceTest {
     @Before
     public void setup() {
         RestAssured.port = port;
+        termOfUserRepository.deleteAll();
+
     }
 
     @Autowired
