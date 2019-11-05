@@ -36,6 +36,7 @@ public class AceiteService {
     }
 
     public AceiteTermo salvarAceite(AceiteTermoJson aceiteTermoJson) {
+
         TermOfUser termOfUser = buscaIdTermo(aceiteTermoJson.getIdTermo());
         ValidaExceptions.validaAceiteId(termOfUser.getId());
         ValidaExceptions.validaTermo(aceiteTermoJson);
@@ -51,7 +52,7 @@ public class AceiteService {
         }
     }
 
-    public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, Integer cip) {
+    public BuscaAceiteTermoJson buscarAceiteTermo(String mdmId, Long cip) {
         Optional<TermOfUser> optionalTerm = termOfUserRepository.buscarUltimoTermoObrigatorio();
         ArrayList<Long> ids = new ArrayList<>();
         if (optionalTerm.isPresent()) {

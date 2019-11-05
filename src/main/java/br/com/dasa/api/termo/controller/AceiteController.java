@@ -44,7 +44,7 @@ public class AceiteController {
 
     @GetMapping(value = "/aceite-termo/busca", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Respons�vel por buscar aceite de termo passando o MDM ID ou a CIP", response = BuscaAceiteTermoJson.class)
-    public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Integer cip) {
+    public ResponseEntity buscarAceiteTermo(@RequestParam(required = false) String mdmId, @RequestParam(required = false) Long cip) {
         if ((!StringUtils.isEmpty(mdmId)) || (cip != null && cip > 0)) {
             BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
             return new ResponseEntity(json, HttpStatus.OK);

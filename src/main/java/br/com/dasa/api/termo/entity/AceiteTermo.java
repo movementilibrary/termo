@@ -30,7 +30,7 @@ public class AceiteTermo {
 
 	private Boolean respostaCliente;
 
-	private Integer cip;
+	private Long cip;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
@@ -39,7 +39,7 @@ public class AceiteTermo {
 	public AceiteTermo() {
 	}
 
-	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Integer cip) {
+	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Long cip) {
 		this.mdmIdCliente = mdmIdCliente;
 		this.respostaCliente = respostaCliente;
 		this.termOfUser = termOfUser;
@@ -82,11 +82,11 @@ public class AceiteTermo {
 		return termOfUser;
 	}
 
-	public Integer getCip() {
+	public Long getCip() {
 		return cip;
 	}
 
-	public void setCip(Integer cip) {
+	public void setCip(Long cip) {
 		this.cip = cip;
 	}
 
