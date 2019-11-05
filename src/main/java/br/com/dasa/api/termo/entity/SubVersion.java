@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "sub_version")
 public class SubVersion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private  Integer subVersion;
 

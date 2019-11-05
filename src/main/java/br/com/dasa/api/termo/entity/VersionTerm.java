@@ -6,14 +6,14 @@ import javax.persistence.*;
 @Table(name = "version")
 public class VersionTerm {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private Integer version;
 
     public VersionTerm() {
     }
 
-    public VersionTerm( Integer version) {
+    public VersionTerm(Integer version) {
         this.version = version;
     }
 
