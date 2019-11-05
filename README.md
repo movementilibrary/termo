@@ -50,7 +50,7 @@ http://localhost:8090/swagger-ui.html#/api/term/user/{id}
   "id_termo": 0,
   "mdm_id": "string",
   "resposta_cliente": true
->>>>>>> master
+
 }
 
 #Documentação
