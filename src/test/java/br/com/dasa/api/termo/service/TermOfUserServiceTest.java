@@ -152,7 +152,7 @@ public class TermOfUserServiceTest {
     public void teste7DeveVerificarSeV2EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.INACTIVE);
         assertEquals("V-1.0", byStatus.get(0).getVersion());
-        assertEquals("V2", byStatus.get(1).getVersion());
+        assertEquals("V-2.0", byStatus.get(1).getVersion());
     }
 
     /**
