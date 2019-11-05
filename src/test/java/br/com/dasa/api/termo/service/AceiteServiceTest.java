@@ -51,7 +51,7 @@ public class AceiteServiceTest {
     @Test
     public void testBuscarTermoUsuarioRespondidoSim() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         TermOfUser term = criarTermoVersao("V-1.0", false);
@@ -66,7 +66,7 @@ public class AceiteServiceTest {
     @Test
     public void testApenasTermoV1RespondidoV2NaoRespondido() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         TermOfUser term = criarTermoVersao("V-1.0", false);
@@ -82,7 +82,7 @@ public class AceiteServiceTest {
     @Test
     public void testApenasRespondidoV2NaoComoReposta() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         criarTermoVersao("V-1.0", false);
@@ -97,7 +97,7 @@ public class AceiteServiceTest {
 
     @Test
     public void testAceitarTermoObrigatorioENaoAceitarTermoNaoObrigatorio() {
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         criarTermoVersao("V-1.0", false);
@@ -113,7 +113,7 @@ public class AceiteServiceTest {
     @Test
     public void testNaoAceitarNenhumTermoAnteriorEaceitarUltimoTermoNaoObrigatorio() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         criarTermoVersao("V-1.0", false);
@@ -129,7 +129,7 @@ public class AceiteServiceTest {
     @Test
     public void testNaoAceitarNenhumTermoAnteriorEaceitarPenultimoTermoNaoObrigatorio() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         criarTermoVersao("V-1.0", false);
@@ -147,7 +147,7 @@ public class AceiteServiceTest {
     @Test
     public void testAceitarTermosNaoObrigatoriosAnteriroresENaoAceitarObrigatorio() {
 
-        Integer cip = 34445;
+        Long cip = 34445l;
         String mdmId = "12345";
 
         criarTermoVersao("V-1.0", false);
@@ -178,7 +178,7 @@ public class AceiteServiceTest {
         return term;
     }
 
-    private void criarAceiteTermo(Long idTermo, Integer cip, String mdmId, boolean respostaCliente) {
+    private void criarAceiteTermo(Long idTermo, Long cip, String mdmId, boolean respostaCliente) {
 
         AceiteTermoJson json = new AceiteTermoJson();
         json.setCip(cip);

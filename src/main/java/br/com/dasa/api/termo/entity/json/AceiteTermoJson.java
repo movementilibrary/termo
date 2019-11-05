@@ -10,7 +10,7 @@ public class AceiteTermoJson {
     @JsonProperty("mdm_id")
     private String mdmId;
     @JsonProperty("cip")
-    private Integer cip;
+    private Long cip;
     @JsonProperty("resposta_cliente")
     private boolean respostaCliente;
 
@@ -18,7 +18,7 @@ public class AceiteTermoJson {
 
     }
 
-    public AceiteTermoJson(Long idTermo, String mdmId, Integer cip, boolean respostaCliente) {
+    public AceiteTermoJson(Long idTermo, String mdmId, Long cip, boolean respostaCliente) {
         this.idTermo = idTermo;
         this.mdmId = mdmId;
         this.cip = cip;
@@ -45,11 +45,11 @@ public class AceiteTermoJson {
         return respostaCliente;
     }
 
-	public Integer getCip() {
+	public Long getCip() {
 		return cip;
 	}
 
-	public void setCip(Integer cip) {
+	public void setCip(Long cip) {
 		this.cip = cip;
 	}
 

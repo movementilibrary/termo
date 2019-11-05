@@ -49,7 +49,7 @@ public class TermOfUseServiceImpl implements TermOfUseService {
     @Override
     public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
         TermOfUser termOfUser = convertTerOfUserJsonToTermOfUserJson(termoOfUserJson);
-        String newVersion = null;
+        String newVersion;
         if (termOfUser.isFlagAtualizacao() == true) {
             newVersion = generatedNewVersion();
         } else {

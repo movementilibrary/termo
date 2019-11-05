@@ -85,7 +85,7 @@ public class AceiteServiceTestIntegracao {
     public void naoDeixaSalvarComStatusInativoAceiteTermo() {
         TermOfUser term = criarTermoVersao(true, StatusTermUse.INACTIVE);
 
-        AceiteTermoJson json = salvarAceiteTermo("15", true, term.getId(), 9999);
+        AceiteTermoJson json = salvarAceiteTermo("15", true, term.getId(), 9999l);
 
 
         aceiteService.salvarAceite(json);
@@ -97,14 +97,14 @@ public class AceiteServiceTestIntegracao {
     public void naoPodeSalvarComMdmIdNullo() {
         TermOfUser term = criarTermoVersao(true, StatusTermUse.ACTIVE);
 
-        AceiteTermoJson json = salvarAceiteTermo(null, true, term.getId(), 9999);
+        AceiteTermoJson json = salvarAceiteTermo(null, true, term.getId(), 9999l);
         Assert.assertNull(json.getMdmId());
 
         aceiteService.salvarAceite(json);
     }
 
 
-    private AceiteTermoJson salvarAceiteTermo(String mdmId, boolean resposta, Long id, Integer cip) {
+    private AceiteTermoJson salvarAceiteTermo(String mdmId, boolean resposta, Long id, Long cip) {
         AceiteTermoJson json = new AceiteTermoJson();
         json.setIdTermo(id);
         json.setRespostaCliente(resposta);
@@ -127,7 +127,7 @@ public class AceiteServiceTestIntegracao {
     }
 
     private AceiteTermo getEsperado() {
-        aceiteTermo.setCip(9999);
+        aceiteTermo.setCip(9999l);
         aceiteTermo.setDataAceite(new Date());
         aceiteTermo.setTermOfUser(term);
         aceiteTermo.setMdmIdCliente("8585");
