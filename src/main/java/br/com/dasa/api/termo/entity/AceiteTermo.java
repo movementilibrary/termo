@@ -1,12 +1,21 @@
 package br.com.dasa.api.termo.entity;
 
-import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.*;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedDate;
+
 @Entity
-@SuppressWarnings("serial")
 public class AceiteTermo {
 
 	@Id
@@ -21,20 +30,16 @@ public class AceiteTermo {
 
 	private Boolean respostaCliente;
 
-	private Integer cip;
+	private Long cip;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(foreignKey = @ForeignKey(name = "FK_ID_TERMO"), nullable = false)
 	private TermOfUser termOfUser;
 
 	public AceiteTermo() {
-
-		
 	}
-	
 
-	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Integer cip) {
-
+	public AceiteTermo(String mdmIdCliente, Boolean respostaCliente, TermOfUser termOfUser, Long cip) {
 		this.mdmIdCliente = mdmIdCliente;
 		this.respostaCliente = respostaCliente;
 		this.termOfUser = termOfUser;
@@ -77,11 +82,11 @@ public class AceiteTermo {
 		return termOfUser;
 	}
 
-	public Integer getCip() {
+	public Long getCip() {
 		return cip;
 	}
 
-	public void setCip(Integer cip) {
+	public void setCip(Long cip) {
 		this.cip = cip;
 	}
 

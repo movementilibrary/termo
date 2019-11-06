@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AceiteTermoJson {
 
-    @JsonProperty("ID_TERMO")
+    @JsonProperty("id_termo")
     private Long idTermo;
-    @JsonProperty("MDM_ID")
+    @JsonProperty("mdm_id")
     private String mdmId;
-    @JsonProperty("CIP")
-    private Integer cip;
-    @JsonProperty("RESPOSTA_CLIENTE")
+    @JsonProperty("cip")
+    private Long cip;
+    @JsonProperty("resposta_cliente")
     private boolean respostaCliente;
 
     public AceiteTermoJson() {
 
     }
 
-    public AceiteTermoJson(Long idTermo, String mdmId, Integer cip, boolean respostaCliente) {
+    public AceiteTermoJson(Long idTermo, String mdmId, Long cip, boolean respostaCliente) {
         this.idTermo = idTermo;
         this.mdmId = mdmId;
         this.cip = cip;
@@ -45,15 +45,16 @@ public class AceiteTermoJson {
         return respostaCliente;
     }
 
-	public Integer getCip() {
+	public Long getCip() {
 		return cip;
 	}
 
-	public void setCip(Integer cip) {
+	public void setCip(Long cip) {
 		this.cip = cip;
 	}
 
 	public void setRespostaCliente(boolean respostaCliente) {
         this.respostaCliente = respostaCliente;
     }
+	
 }

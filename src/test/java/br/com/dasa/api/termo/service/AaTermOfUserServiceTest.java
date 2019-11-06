@@ -4,6 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+<<<<<<< HEAD:src/test/java/br/com/dasa/api/termo/service/TermOfUserServiceTest.java
+=======
+import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
+import br.com.dasa.api.termo.repository.AceiteRepository;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
+import br.com.dasa.api.termo.service.impl.TermOfUseServiceImpl;
+import io.restassured.RestAssured;
+import org.junit.After;
+>>>>>>> master:src/test/java/br/com/dasa/api/termo/service/AaTermOfUserServiceTest.java
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -26,16 +35,16 @@ import io.restassured.RestAssured;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = {"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TermOfUserServiceTest {
+public class AaTermOfUserServiceTest {
 
     @LocalServerPort
     int port;
 
+    @Autowired
+    private AceiteRepository aceiteRepository;
 
-    @Before
-    public void setup() {
-        RestAssured.port = port;
-    }
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
 
     @Autowired
     private TermOfUseService termOfUseService;
@@ -45,13 +54,20 @@ public class TermOfUserServiceTest {
     private TermOfUserEndPoint termOfUserEndPoint;
 
 
+    @Before
+    public void setup() {
+        RestAssured.port = port;
+    }
+
+
+
     /**
      * Retorna 404 pois não foi encontrado uma Versão do termo
      * O teste está criando uma versão v1.1 sem existeir uma V1
      */
-    @Test(expected = ResourceNotFoundException.class)
-    public void teste1DeveRetornar404() {
-        termOfUserEndPoint.save(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", false));
+//    @Test(expected = ResourceNotFoundException.class)
+//    public void teste1DeveRetornar404() {
+//        termOfUserEndPoint.save(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", false));
 //        given()
 //                .contentType("application/json")
 //                .body(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", false))
@@ -59,14 +75,14 @@ public class TermOfUserServiceTest {
 //                .post("/api/term/user/registry")
 //                .then()
 //                .statusCode(404);
-    }
+//    }
 
     /**
      * O teste deve criar uma versão e retornar V1
      */
     @Test
-    public void teste2DeveCriarVersaoV1() {
-        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", true));
+    public void teste1DeveCriarVersaoV1() {
+        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 1", "sumario", "f32201635803", true));
         assertEquals("V1", termOfUser.getVersion());
         //        given()
 //                .contentType("application/json")
@@ -82,9 +98,9 @@ public class TermOfUserServiceTest {
      * O teste deve criar uma nova versão e retornar V2
      */
     @Test
-    public void teste3DeveCriarVersaoV2() {
+    public void teste2DeveCriarVersaoV2() {
 
-        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", true));
+        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 2", "sumario 2", "f32201635802", true));
         assertEquals("V2", termOfUser.getVersion());
 
 //        given()
@@ -101,7 +117,7 @@ public class TermOfUserServiceTest {
      * O teste deve verificar se a V2 está ativa
      */
     @Test
-    public void teste4DeveVerificarSeV2EstaAtivo() {
+    public void teste3DeveVerificarSeV2EstaAtivo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
         assertEquals("V2", byStatus.get(0).getVersion());
     }
@@ -112,7 +128,7 @@ public class TermOfUserServiceTest {
      * sempre ficara Inativo
      */
     @Test
-    public void teste5DeveVerificarSeV1EstaInativo() {
+    public void teste4DeveVerificarSeV1EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.INACTIVE);
         assertEquals("V1", byStatus.get(0).getVersion());
     }
@@ -122,7 +138,7 @@ public class TermOfUserServiceTest {
      * Ex> atual = V1, o teste cria V1.1
      */
     @Test
-    public void teste6DeveCriarUmaSubVersao() {
+    public void teste5DeveCriarUmaSubVersao() {
         TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", false));
         assertEquals("V2.1", termOfUser.getVersion());
 //        given()
@@ -140,7 +156,7 @@ public class TermOfUserServiceTest {
      * sempre ficara Inativo
      */
     @Test
-    public void teste7DeveVerificarSeV2EstaInativo() {
+    public void teste6DeveVerificarSeV2EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.INACTIVE);
         assertEquals("V1", byStatus.get(0).getVersion());
         assertEquals("V2", byStatus.get(1).getVersion());
@@ -150,7 +166,7 @@ public class TermOfUserServiceTest {
      * O teste deve verificar se V2.1 está ativo
      */
     @Test
-    public void teste8DeveVerificarSeV1EstaInativo() {
+    public void teste7DeveVerificarSeV1EstaInativo() {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
         assertEquals("V2.1", byStatus.get(0).getVersion());
     }

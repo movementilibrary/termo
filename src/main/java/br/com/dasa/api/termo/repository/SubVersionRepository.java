@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubVersionRepository extends JpaRepository <SubVersion, Integer> {
+	
 }

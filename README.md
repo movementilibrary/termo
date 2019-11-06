@@ -50,10 +50,10 @@ http://localhost:8090/swagger-ui.html#/api/term/user/{id}
   "id_termo": 0,
   "mdm_id": "string",
   "resposta_cliente": true
->>>>>>> master
+
 }
 
-#Documentação
+#Documentaçao
 https://jiradasa.atlassian.net/wiki/spaces/AT/pages/892634187/Documenta+o+Api-Termo
 
 

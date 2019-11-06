@@ -19,7 +19,6 @@ public class BaseDAO {
 		}
 	}
 	
-	
 	protected void setarParametros(HashSet<ParametroQuery> parametros, Query query) {
 		parametros.forEach(p -> query.setParameter(p.getKey(), p.getValue()));
 	}

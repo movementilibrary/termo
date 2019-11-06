@@ -26,165 +26,167 @@ import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles(value = { "test" })
+@ActiveProfiles(value = {"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AceiteServiceTest {
 
-	@Value("${local.server.port}")
-	protected int porta;
+    @Value("${local.server.port}")
+    protected int porta;
 
-	@Autowired
-	private AceiteService aceiteService;
-	@Autowired
-	private AceiteRepository aceiteRepository;
-	@Autowired
-	private TermOfUserRepository termOfUserRepository;
+    @Autowired
+    private AceiteService aceiteService;
+    @Autowired
+    private AceiteRepository aceiteRepository;
+    @Autowired
+    private TermOfUserRepository termOfUserRepository;
 
-	@Before
-	public void setUp() throws Exception {
-		RestAssured.port = porta;
-		aceiteRepository.deleteAll();
-		termOfUserRepository.deleteAll();
-	}
 
-	@Test
-	public void testBuscarTermoUsuarioRespondidoSim() {
+    @Before
+    public void setUp() throws Exception {
+        RestAssured.port = porta;
+        aceiteRepository.deleteAll();
+        termOfUserRepository.deleteAll();
+    }
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+    @Test
+    public void testBuscarTermoUsuarioRespondidoSim() {
 
-		TermOfUser term = criarTermoVersao("V-1.0", false);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        TermOfUser term = criarTermoVersao("V-1.0", false);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		assertTrue(json.isTermoAceite());
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-	}
+        assertTrue(json.isTermoAceite());
 
-	@Test
-	public void testApenasTermoV1RespondidoV2NaoRespondido() {
+    }
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+    @Test
+    public void testApenasTermoV1RespondidoV2NaoRespondido() {
 
-		TermOfUser term = criarTermoVersao("V-1.0", false);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
-		criarTermoVersao("V-2.0", false);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        TermOfUser term = criarTermoVersao("V-1.0", false);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
+        criarTermoVersao("V-2.0", false);
 
-		assertFalse(json.isTermoAceite());
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-	}
+        assertFalse(json.isTermoAceite());
 
-	@Test
-	public void testApenasRespondidoV2NaoComoReposta() {
+    }
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+    @Test
+    public void testApenasRespondidoV2NaoComoReposta() {
 
-		criarTermoVersao("V-1.0", false);
-		TermOfUser term = criarTermoVersao("V-2.0", false);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        criarTermoVersao("V-1.0", false);
+        TermOfUser term = criarTermoVersao("V-2.0", false);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		assertTrue(json.isTermoAceite());
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-	}
+        assertTrue(json.isTermoAceite());
 
-	@Test
-	public void testAceitarTermoObrigatorioENaoAceitarTermoNaoObrigatorio() {
-		Integer cip = 34445;
-		String mdmId = "12345";
+    }
 
-		criarTermoVersao("V-1.0", false);
-		TermOfUser term = criarTermoVersao("V-2.0", false);
-		criarTermoVersao("V-2.1", true);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
+    @Test
+    public void testAceitarTermoObrigatorioENaoAceitarTermoNaoObrigatorio() {
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        criarTermoVersao("V-1.0", false);
+        TermOfUser term = criarTermoVersao("V-2.0", false);
+        criarTermoVersao("V-2.1", true);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		assertTrue(json.isTermoAceite());
-	}
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-	@Test
-	public void testNaoAceitarNenhumTermoAnteriorEaceitarUltimoTermoNaoObrigatorio() {
+        assertTrue(json.isTermoAceite());
+    }
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+    @Test
+    public void testNaoAceitarNenhumTermoAnteriorEaceitarUltimoTermoNaoObrigatorio() {
 
-		criarTermoVersao("V-1.0", false);
-		criarTermoVersao("V-2.0", false);
-		TermOfUser term = criarTermoVersao("V-2.1", true);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        criarTermoVersao("V-1.0", false);
+        criarTermoVersao("V-2.0", false);
+        TermOfUser term = criarTermoVersao("V-2.1", true);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		assertTrue(json.isTermoAceite());
-	}
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-	@Test
-	public void testNaoAceitarNenhumTermoAnteriorEaceitarPenultimoTermoNaoObrigatorio() {
+        assertTrue(json.isTermoAceite());
+    }
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+    @Test
+    public void testNaoAceitarNenhumTermoAnteriorEaceitarPenultimoTermoNaoObrigatorio() {
 
-		criarTermoVersao("V-1.0", false);
-		criarTermoVersao("V-2.0", false);
-		criarTermoVersao("V-2.1", true);
-		TermOfUser term = criarTermoVersao("V-2.2", true);
-		criarTermoVersao("V-2.3", true);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        criarTermoVersao("V-1.0", false);
+        criarTermoVersao("V-2.0", false);
+        criarTermoVersao("V-2.1", true);
+        TermOfUser term = criarTermoVersao("V-2.2", true);
+        criarTermoVersao("V-2.3", true);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
 
-		assertTrue(json.isTermoAceite());
-	}
-	
-	@Test
-	public void testAceitarTermosNaoObrigatoriosAnteriroresENaoAceitarObrigatorio() {
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-		Integer cip = 34445;
-		String mdmId = "12345";
+        assertTrue(json.isTermoAceite());
+    }
 
-		criarTermoVersao("V-1.0", false);
-		criarTermoVersao("V-2.0", false);
-		criarTermoVersao("V-2.1", true);
-		TermOfUser term = criarTermoVersao("V-2.2", true);
-		criarTermoVersao("V-2.3", true);
-		criarAceiteTermo(term.getId(), cip, mdmId, true);
-		criarTermoVersao("V-3.0", false);
+    @Test
+    public void testAceitarTermosNaoObrigatoriosAnteriroresENaoAceitarObrigatorio() {
 
-		BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
+        Long cip = 34445l;
+        String mdmId = "12345";
 
-		assertFalse(json.isTermoAceite());
-	}
+        criarTermoVersao("V-1.0", false);
+        criarTermoVersao("V-2.0", false);
+        criarTermoVersao("V-2.1", true);
+        TermOfUser term = criarTermoVersao("V-2.2", true);
+        criarTermoVersao("V-2.3", true);
+        criarAceiteTermo(term.getId(), cip, mdmId, true);
+        criarTermoVersao("V-3.0", false);
 
-	private TermOfUser criarTermoVersao(String version, boolean flagAtualizacao) {
-		TermOfUser term = new TermOfUser();
-		term.setCurrentDate(new Date());
-		term.setDescriptionTerm("teste");
-		term.setFlagAtualizacao(flagAtualizacao);
-		term.setLoginUser("t34945589810");
-		term.setStatus(StatusTermUse.ACTIVE);
-		term.setSummaryTerm("teste");
-		term.setVersion(version);
+        BuscaAceiteTermoJson json = aceiteService.buscarAceiteTermo(mdmId, cip);
 
-		termOfUserRepository.save(term);
+        assertFalse(json.isTermoAceite());
+    }
 
-		return term;
-	}
+    private TermOfUser criarTermoVersao(String version, boolean flagAtualizacao) {
+        TermOfUser term = new TermOfUser();
+        term.setCurrentDate(new Date());
+        term.setDescriptionTerm("teste");
+        term.setFlagAtualizacao(flagAtualizacao);
+        term.setLoginUser("t34945589810");
+        term.setStatus(StatusTermUse.ACTIVE);
+        term.setSummaryTerm("teste");
+        term.setVersion(version);
 
-	private void criarAceiteTermo(Long idTermo, Integer cip, String mdmId, boolean respostaCliente) {
+        termOfUserRepository.save(term);
 
-		AceiteTermoJson json = new AceiteTermoJson();
-		json.setCip(cip);
-		json.setIdTermo(idTermo);
-		json.setRespostaCliente(respostaCliente);
-		json.setMdmId(mdmId);
-		aceiteService.salvarAceite(json);
-	}
+        return term;
+    }
+
+    private void criarAceiteTermo(Long idTermo, Long cip, String mdmId, boolean respostaCliente) {
+
+        AceiteTermoJson json = new AceiteTermoJson();
+        json.setCip(cip);
+        json.setIdTermo(idTermo);
+        json.setRespostaCliente(respostaCliente);
+        json.setMdmId(mdmId);
+        aceiteService.salvarAceite(json);
+    }
+
 
 }
