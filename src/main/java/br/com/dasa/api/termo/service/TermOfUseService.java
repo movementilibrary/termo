@@ -47,7 +47,7 @@ public class TermOfUseService {
     public TermOfUser checkFlagIsMarked(TermoOfUserJson termoOfUserJson) {
         TermOfUser termOfUser = convertTerOfUserJsonToTermOfUserJson(termoOfUserJson);
         String newVersion;
-        if (termOfUser.isFlagAtualizacao() == true) {
+        if (!termOfUser.isFlagAtualizacao()) {
             newVersion = generatedNewVersion();
         } else {
             newVersion = generatedNewSubVersion();
