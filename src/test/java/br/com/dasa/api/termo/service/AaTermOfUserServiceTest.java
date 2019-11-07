@@ -1,16 +1,18 @@
 package br.com.dasa.api.termo.service;
 
-import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
-import br.com.dasa.api.termo.entity.TermOfUser;
-import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
-import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+<<<<<<< HEAD:src/test/java/br/com/dasa/api/termo/service/TermOfUserServiceTest.java
+=======
 import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
 import br.com.dasa.api.termo.repository.AceiteRepository;
 import br.com.dasa.api.termo.repository.TermOfUserRepository;
 import br.com.dasa.api.termo.service.impl.TermOfUseServiceImpl;
 import io.restassured.RestAssured;
 import org.junit.After;
+>>>>>>> master:src/test/java/br/com/dasa/api/termo/service/AaTermOfUserServiceTest.java
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,9 +24,12 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
+import br.com.dasa.api.termo.entity.TermOfUser;
+import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
+import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
+import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +47,7 @@ public class AaTermOfUserServiceTest {
     private TermOfUserRepository termOfUserRepository;
 
     @Autowired
-    private TermOfUseServiceImpl termOfUseService;
+    private TermOfUseService termOfUseService;
 
 
     @Autowired

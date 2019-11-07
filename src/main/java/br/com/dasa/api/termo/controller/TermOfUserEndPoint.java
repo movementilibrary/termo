@@ -73,5 +73,24 @@ public class TermOfUserEndPoint {
             return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    
+    @GetMapping(value = "/last", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "busca o ultimo termo valido", response = TermOfUser.class)
+    public ResponseEntity buscarUltimoTermo() {
+    	try {
+    		
+    		TermOfUser termOfUser = termOfUseService.buscarUltimoTermo(); 
+    		
+    		if(termOfUser != null) {
+    			return new ResponseEntity(termOfUser, HttpStatus.OK); 
+    		}
+    		
+    		return new ResponseEntity(HttpStatus.NO_CONTENT); 
+    		
+    	}catch(Exception e) {
+    		LOG.error(e.getMessage(), e);
+    		return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR); 
+    	}
+    }
 
 }
