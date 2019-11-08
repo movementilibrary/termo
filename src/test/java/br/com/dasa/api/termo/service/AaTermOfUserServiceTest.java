@@ -1,16 +1,9 @@
 package br.com.dasa.api.termo.service;
 
-import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
-import br.com.dasa.api.termo.entity.TermOfUser;
-import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
-import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import static org.junit.Assert.assertEquals;
 
-import br.com.dasa.api.termo.exceptions.ResourceNotFoundException;
-import br.com.dasa.api.termo.repository.AceiteRepository;
-import br.com.dasa.api.termo.repository.TermOfUserRepository;
-import br.com.dasa.api.termo.service.impl.TermOfUseServiceImpl;
-import io.restassured.RestAssured;
-import org.junit.After;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,9 +15,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import br.com.dasa.api.termo.controller.TermOfUserEndPoint;
+import br.com.dasa.api.termo.entity.TermOfUser;
+import br.com.dasa.api.termo.entity.json.TermoOfUserJson;
+import br.com.dasa.api.termo.enumeration.StatusTermUse;
+import br.com.dasa.api.termo.repository.AceiteRepository;
+import br.com.dasa.api.termo.repository.TermOfUserRepository;
+import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +39,7 @@ public class AaTermOfUserServiceTest {
     private TermOfUserRepository termOfUserRepository;
 
     @Autowired
-    private TermOfUseServiceImpl termOfUseService;
+    private TermOfUseService termOfUseService;
 
 
     @Autowired
@@ -77,7 +74,7 @@ public class AaTermOfUserServiceTest {
      */
     @Test
     public void teste1DeveCriarVersaoV1() {
-        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 1", "sumario", "f32201635803", true));
+        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 1", "sumario", "f32201635803", false));
         assertEquals("V1", termOfUser.getVersion());
         //        given()
 //                .contentType("application/json")
@@ -95,7 +92,7 @@ public class AaTermOfUserServiceTest {
     @Test
     public void teste2DeveCriarVersaoV2() {
 
-        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 2", "sumario 2", "f32201635802", true));
+        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo 2", "sumario 2", "f32201635802", false));
         assertEquals("V2", termOfUser.getVersion());
 
 //        given()
@@ -134,7 +131,7 @@ public class AaTermOfUserServiceTest {
      */
     @Test
     public void teste5DeveCriarUmaSubVersao() {
-        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", false));
+        TermOfUser termOfUser = termOfUseService.checkFlagIsMarked(new TermoOfUserJson("Termo em uso", "sumario", "f32201635803", true));
         assertEquals("V2.1", termOfUser.getVersion());
 //        given()
 //                .contentType("application/json")

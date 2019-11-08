@@ -10,4 +10,6 @@ public interface TermoDAO {
 	Optional<TermOfUser> buscarUltimoTermoObrigatorio(); 
 	
 	List<TermOfUser> buscarTermosUltimosTermosNaoObrigatorios(Long idUltimoTermo); 
+	
+	TermOfUser buscarUltimoTermoAtivo(); 
 }
