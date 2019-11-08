@@ -24,7 +24,7 @@ import java.util.Date;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = {"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AceiteServiceTestIntegracao {
+public class AceiteServiceTestIntegracaoTest {
 
 
     @Autowired
