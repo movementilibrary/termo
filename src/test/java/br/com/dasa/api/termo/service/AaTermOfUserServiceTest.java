@@ -2,6 +2,7 @@ package br.com.dasa.api.termo.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -162,6 +163,7 @@ public class AaTermOfUserServiceTest {
         List<TermOfUser> byStatus = termOfUseService.findByStatus(StatusTermUse.ACTIVE);
         assertEquals("V2.1", byStatus.get(0).getVersion());
     }
+
 
 
 }

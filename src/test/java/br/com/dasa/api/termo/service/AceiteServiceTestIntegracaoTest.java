@@ -57,12 +57,12 @@ public class AceiteServiceTestIntegracaoTest {
         aceiteRepository.deleteAll();
         termOfUserRepository.deleteAll();
     }
-
-    @After
-    public void delete() {
-        aceiteRepository.deleteAll();
-        termOfUserRepository.deleteAll();
-    }
+//
+//    @After
+//    public void delete() {
+//        aceiteRepository.deleteAll();
+//        termOfUserRepository.deleteAll();
+//    }
 
 //
 //    @Test
